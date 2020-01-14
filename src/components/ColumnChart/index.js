@@ -1,7 +1,7 @@
 import fetchJson from '../../lib/fetchJson.js';
 import formatDate from '../../helpers/formatDate.js';
 import escapeHTML from '../../helpers/escapeHTML.js';
- // extends HTMLElement
+import formatTotal from '../../helpers/formatTotal.js';
 
 const today = new Date();
 const monthAgo = new Date();
@@ -19,19 +19,6 @@ export default class ColumnChart extends HTMLElement {
     this.listMouseOver = this.listMouseOver.bind(this);
     this.listMouseOut = this.listMouseOut.bind(this);
 
-    const type = 'orders';
-    const params = {
-      url: `https://course-js.javascript.ru/api/dashboard/${type}?from=${dates.from}&to=${dates.to}`,
-      title: `Total ${type}`,
-      type
-    }
-
-    const {url, title, formatTotal} = params;
-
-    this.url = url;
-    this.type = type;
-    this.title = title;
-    this.formatTotal = formatTotal;
     this.cls = {
       elem: 'column-chart',
       header: 'column-chart__header',
@@ -44,12 +31,19 @@ export default class ColumnChart extends HTMLElement {
       tooltipDate: 'column-chart__tooltip-date',
       tooltipQuantity: 'column-chart__tooltip-quantity',
     };
+
     this.elem = document.createElement('div');
-    this.elem.classList.add(this.cls.elem, `${this.cls.elem}--${type}`);
   }
 
   async connectedCallback() {
-    console.log(this)
+    const {type, isMoney} = this.dataset;
+    this.type = type;
+    this.formatTotal = isMoney ? formatTotal : null;
+    this.elem.classList.add(this.cls.elem, `${this.cls.elem}--${type}`);
+    this.title = `Total ${type}`;
+    this.url = `https://course-js.javascript.ru/api/dashboard/${type}?from=${dates.from}&to=${dates.to}`;
+
+
     const elem = await this.render();
     console.log('elem', elem);
     this.append(this.elem);
