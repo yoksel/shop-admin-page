@@ -1,0 +1,37 @@
+HTML {
+  font-size: 16px;
+}
+
+BODY {
+  display: flex;
+  min-height: 100vh;
+  margin: 0;
+  background: #FFF;
+  font: 1rem/1.4 Trebuchet MS, Verdana, sans-serif;
+  color: #000;
+}
+
+H1, H2, H3 {
+  margin-top: 0;
+  font-weight: normal;
+}
+
+H1 {
+  margin: 0 0 1em;
+  font-size: 2.75rem;
+}
+
+A,
+A:visited,
+A:hover {
+  color: inherit;
+}
+
+A:hover {
+  text-decoration: none;
+}
+
+.page-layout {
+  display: flex;
+  width: 100%;
+}

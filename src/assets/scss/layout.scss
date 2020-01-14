@@ -1,0 +1,30 @@
+.page {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.page__main,
+.page__aside,
+.page__footer {
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.page__main {
+  flex-grow: 1;
+}
+
+.page__aside {
+  min-width: 250px;
+  background: #EEE;
+}
+
+.page__footer {
+  flex-basis: 100%;
+  display: flex;
+
+  A + A {
+    margin-left: 1rem;
+  }
+}
