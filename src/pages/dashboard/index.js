@@ -1,58 +1,41 @@
 import createElement from '../../helpers/createElement.js';
-// import ColumnChart from '../../components/ColumnChart/index.js';
 import formatTotal from '../../helpers/formatTotal.js';
 
-const chartsList = [
-  {
-    type: 'orders',
-  },
-  {
-    type: 'sales',
-    formatTotal
-  },
-  {
-    type: 'customers',
-  }
-];
+const from = new Date();
+from.setMonth(from.getMonth() - 1);
+const to = new Date().toLocaleString({
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric'
+});
 
-
-
-
-// new ColumnChart({
-//       url: `https://course-js.javascript.ru/api/dashboard/${type}?from=${dates.from}&to=${dates.to}`,
-//       title: `Total ${type}`,
-//       type,
-//       formatTotal
-//     }
-
-
-// (async() => {
-//   // Add charts
-//   const promisesList = chartsList.map(({type, formatTotal}) => {
-//     // Use promises to keep order of charts
-//     return new Promise((resolve, reject) => {
-//       const chart = new ColumnChart({
-//       url: `https://course-js.javascript.ru/api/dashboard/${type}?from=${dates.from}&to=${dates.to}`,
-//       title: `Total ${type}`,
-//       type,
-//       formatTotal
-//     });
-
-//     chart.render();
-//     resolve(chart.elem);
-//     })
-//   });
-
-//   const chartElems = await Promise.all(promisesList);
-//   chartElems.forEach(chart => document.body.append(chart));
-// })();
+const dates = {
+  from: from.toLocaleString({
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric'
+    }),
+  to: to.toLocaleString({
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  })
+};
 
 export default class {
   async render() {
     return createElement(`<div>
         <h1>Dashboard</h1>
-        <p>Hello</p>
-        <column-chart type="orders"/>
+
+        <section class="column-charts">
+          <column-chart data-type="orders" data-from="${dates.from}"  data-to="${dates.to}"></column-chart>
+          <column-chart data-type="sales" data-is-money="true"></column-chart>
+          <column-chart data-type="customers"></column-chart>
+        </section>
+
+        <section class="best-cellers">
+          best-sellers
+        </section>
       </div>`
     );
   }
