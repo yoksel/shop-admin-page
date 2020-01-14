@@ -1,7 +1,9 @@
 .page {
-  display: flex;
-  flex-wrap: wrap;
   width: 100%;
+}
+
+.page__container {
+  display: flex;
 }
 
 .page__main,

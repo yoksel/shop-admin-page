@@ -7,14 +7,15 @@ export default class Layout extends HTMLElement  {
 
   render() {
     return createElement(`<div class="page">
-      <aside class="page__aside">
-        (navigation will be here)
-      </aside>
+      <div class="page__container">
+        <aside class="page__aside">
+          (navigation will be here)
+        </aside>
 
-      <main class="page__main" id="content">
-        main content here
-      </main>
-
+        <main class="page__main" id="content">
+          main content here
+        </main>
+      </div>
       <footer class="page__footer">
         <a href="/products">test link</a>
         <a href="/dashboard">test link</a>
