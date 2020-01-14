@@ -1,4 +1,5 @@
 import Layout from './components/Layout/index.js';
+import ColumnChart from './components/ColumnChart/index.js';
 import Router from './lib/Router.js';
 
 import './assets/scss/styles.scss';
@@ -15,3 +16,4 @@ router
 
 // Init custom elements
 window.customElements.define('page-layout', Layout);
+window.customElements.define('column-chart', ColumnChart);
