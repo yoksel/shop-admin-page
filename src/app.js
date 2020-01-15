@@ -11,7 +11,6 @@ let router = Router.instance();
 router
   .addRoute(/^$/, 'dashboard')
   .addRoute(/^products$/, 'products')
-  .addRoute(/^dashboard$/, 'dashboard')
   .setNotFoundPage('error404')
   .addListener();
 
