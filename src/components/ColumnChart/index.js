@@ -1,18 +1,13 @@
 import fetchJson from '../../lib/fetchJson.js';
+import fillTemplate from '../../helpers/fillTemplate.js';
 import formatDate from '../../helpers/formatDate.js';
 import escapeHTML from '../../helpers/escapeHTML.js';
 import formatTotal from '../../helpers/formatTotal.js';
+import getDateFromString from '../../helpers/getDateFromString.js';
+import cls from './classes.js';
+import templates from './templates.js';
 
 import './styles.scss';
-
-const today = new Date();
-const monthAgo = new Date();
-monthAgo.setMonth(monthAgo.getMonth() - 1);
-
-const dates = {
-  from: monthAgo.toISOString(),
-  to: today.toISOString()
-};
 
 export default class ColumnChart extends HTMLElement {
   constructor() {
@@ -21,37 +16,28 @@ export default class ColumnChart extends HTMLElement {
     this.listMouseOver = this.listMouseOver.bind(this);
     this.listMouseOut = this.listMouseOut.bind(this);
 
-    this.cls = {
-      elem: 'column-chart',
-      header: 'column-chart__header',
-      title: 'column-chart__title',
-      total: 'column-chart__total',
-      list: 'column-chart__list',
-      listFaded: 'column-chart__list--faded',
-      item: 'column-chart__item',
-      tooltip: 'column-chart__tooltip',
-      tooltipDate: 'column-chart__tooltip-date',
-      tooltipQuantity: 'column-chart__tooltip-quantity',
-    };
-
     this.elem = document.createElement('div');
   }
 
   async connectedCallback() {
-    const {type, isMoney} = this.dataset;
+    const {type, isMoney, from, to} = this.dataset;
+
+    this.dates = {
+      from: getDateFromString(from),
+      to: getDateFromString(to)
+    };
+
     this.type = type;
     this.formatTotal = isMoney ? formatTotal : null;
-    this.elem.classList.add(this.cls.elem, `${this.cls.elem}--${type}`);
+    this.elem.classList.add(cls.elem, `${cls.elem}--${type}`);
     this.title = `Total ${type}`;
-    this.url = `https://course-js.javascript.ru/api/dashboard/${type}?from=${dates.from}&to=${dates.to}`;
+    this.url = `https://course-js.javascript.ru/api/dashboard/${type}?from=${this.dates.from}&to=${this.dates.to}`;
 
     const elem = await this.render();
-    console.log('elem', elem);
     this.append(this.elem);
   }
 
   async getData() {
-    console.log('this.url', this.url)
     try {
       return await fetchJson(this.url);
     }
@@ -63,8 +49,6 @@ export default class ColumnChart extends HTMLElement {
   async render() {
     this.data = await this.getData();
 
-    console.log('this.data', this.data);
-
     if(!this.data) {
       this.elem.insertAdjacentHTML('beforeEnd', 'No data for this chart');
       return;
@@ -74,9 +58,8 @@ export default class ColumnChart extends HTMLElement {
 
     const headerStr = this.getHeaderStr();
     const listStr = this.getListStr();
-    const toolTipStr = this.getToolTipStr();
 
-    this.elem.insertAdjacentHTML('beforeEnd', headerStr + listStr + toolTipStr);
+    this.elem.insertAdjacentHTML('beforeEnd', headerStr + listStr + templates.toolTip);
 
     this.addActions();
   }
@@ -88,10 +71,10 @@ export default class ColumnChart extends HTMLElement {
     }
     let chartStr = '';
 
-    return `<header class="${this.cls.header}">
-      <h3 class="${this.cls.title}">${this.title}</h3>
-      <div class="${this.cls.total}">${this.total}</div>
-    </header>`;
+    return fillTemplate({
+      tmpl: templates.header,
+      data: this
+    });
   }
 
   getListStr() {
@@ -107,24 +90,24 @@ export default class ColumnChart extends HTMLElement {
         value = this.formatTotal(value);
       }
 
-      const tootipContent = `<small class="${this.cls.tooltipDate}">${date}</small><div class="${this.cls.tooltipQuantity}">${value}</div>`;
+      const tootipContent = `<small class="${cls.tooltipDate}">${date}</small><div class="${cls.tooltipQuantity}">${value}</div>`;
 
-      chartStr += `<li
-        class="${this.cls.item}"
-        data-content="${escapeHTML(tootipContent)}"
-        style="height: ${height}"></li>`
+      chartStr += fillTemplate({
+        tmpl: templates.chartItem,
+        data: {
+          ...this,
+          height,
+          tootipContent: escapeHTML(tootipContent)
+        }
+      });
     }
 
-    return `<ul class="${this.cls.list}">${chartStr}</ul>`;
-  }
-
-  getToolTipStr() {
-    return `<div class="${this.cls.tooltip}"></div>`
+    return `<ul class="${cls.list}">${chartStr}</ul>`;
   }
 
   addActions(){
-    this.list = this.elem.querySelector(`.${this.cls.list}`);
-    this.tooltip = this.elem.querySelector(`.${this.cls.tooltip}`);
+    this.list = this.elem.querySelector(`.${cls.list}`);
+    this.tooltip = this.elem.querySelector(`.${cls.tooltip}`);
 
     this.list.addEventListener('mouseover', this.listMouseOver);
     this.list.addEventListener('mouseout', this.listMouseOut);
@@ -133,7 +116,7 @@ export default class ColumnChart extends HTMLElement {
   listMouseOver() {
     if(event.target.tagName !== 'LI') {
       this.tooltip.dataset.visible = 0;
-      this.list.classList.remove(this.cls.listFaded);
+      this.list.classList.remove(cls.listFaded);
       return;
     }
 
@@ -148,13 +131,13 @@ export default class ColumnChart extends HTMLElement {
     const {content} = event.target.dataset;
     this.tooltip.innerHTML = content;
     this.tooltip.dataset.visible = 1;
-    this.list.classList.add(this.cls.listFaded);
+    this.list.classList.add(cls.listFaded);
   }
 
   listMouseOut() {
     if(event.target.tagName !== 'UL' || event.target.tagName !== 'LI') {
       this.tooltip.dataset.visible = 0;
-      this.list.classList.remove(this.cls.listFaded);
+      this.list.classList.remove(cls.listFaded);
       return;
     }
   }

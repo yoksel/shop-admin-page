@@ -24,13 +24,29 @@ export default class {
         <range-picker
           class="range-picker"
           data-from="${dates.from}"
-          data-to="${dates.to}"></range-picker>
+          data-to="${dates.to}"
+        ></range-picker>
       </header>
 
         <section class="column-charts">
-          <column-chart data-type="orders"></column-chart>
-          <column-chart data-type="sales" data-is-money="true"></column-chart>
-          <column-chart data-type="customers"></column-chart>
+          <column-chart
+            data-type="orders"
+            data-from="${dates.from}"
+            data-to="${dates.to}"
+          ></column-chart>
+
+          <column-chart
+            data-type="sales"
+            data-is-money="true"
+            data-from="${dates.from}"
+            data-to="${dates.to}"
+          ></column-chart>
+
+          <column-chart
+            data-type="customers"
+            data-from="${dates.from}"
+            data-to="${dates.to}"
+          ></column-chart>
         </section>
 
         <section class="best-cellers">
