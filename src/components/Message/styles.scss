@@ -1,0 +1,23 @@
+/* Message */
+.message {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: lightgoldenrodyellow;
+  border-radius: var(--radius);
+}
+
+.message--error {
+  background: mistyrose;
+}
+
+.message__error {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #FFF;
+  border-radius: var(--radius);
+}
+
+.message__error-text {
+  font-family: 'Courier New', Courier, monospace;
+}
