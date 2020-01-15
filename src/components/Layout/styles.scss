@@ -35,3 +35,16 @@
   display: flex;
   justify-content: space-between;
 }
+
+.page-section {
+  display: flex;
+  flex-wrap: wrap;
+
+  & + & {
+    margin-top: 2rem;
+  }
+}
+
+.page-section__title {
+  flex-basis: 100%;
+}
