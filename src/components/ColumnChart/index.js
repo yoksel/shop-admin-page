@@ -1,5 +1,4 @@
-import fetchJson from '../../lib/fetchJson.js';
-import {fillTemplate, formatDate, escapeHTML, formatTotal, getDateFromString} from '../../helpers/index.js';
+import {fillTemplate, formatDate, escapeHTML, formatTotal, getDateFromString, fetchJson} from '../../helpers/index.js';
 import cls from './classes.js';
 import templates from './templates.js';
 
