@@ -14,9 +14,10 @@ export default class Layout extends HTMLElement  {
         </aside>
 
         <main class="page-main" id="content">
-          main content here
+          <!-- main content will be here -->
         </main>
       </div>
+
       <footer class="page-footer">
         <a href="/products">test link</a>
         <a href="/dashboard">test link</a>
