@@ -2,25 +2,11 @@ import fillTemplate from '../../helpers/fillTemplate.js';
 import getWeekDays from '../../helpers/getWeekDays.js';
 import getDateFromString from '../../helpers/getDateFromString.js';
 import templates from './templates.js';
+import cls from './classes.js';
 
 import './styles.scss';
 import './arrow-icon.svg';
 import './calendar-icon.svg';
-
-const cls = {
-  elem: 'rangepicker',
-  elemOpen: 'rangepicker--open',
-  input: 'rangepicker__input',
-  from: 'rangepicker__from',
-  to: 'rangepicker__to',
-  selector: 'rangepicker__selector',
-  calendars: 'rangepicker__calendars',
-  calendar: 'rangepicker__calendar',
-  cell: 'rangepicker__cell',
-  selectedFrom: 'rangepicker__selected-from',
-  selectedBetween: 'rangepicker__selected-between',
-  selectedTo: 'rangepicker__selected-to',
-};
 
 export default class RangePicker extends HTMLElement {
   constructor() {
@@ -36,9 +22,11 @@ export default class RangePicker extends HTMLElement {
   }
 
   async connectedCallback() {
+    const {from, to} = this.dataset;
+
     this.dates = {
-      from: getDateFromString(this.dataset.from),
-      to: getDateFromString(this.dataset.to)
+      from: getDateFromString(from),
+      to: getDateFromString(to)
     };
 
     this.monthes = this.getDisplayedMonthes();

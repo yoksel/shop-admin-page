@@ -1,46 +1,48 @@
-export const input = `<button class="rangepicker__input" data-elem="input" type="button">
+import cls from './classes.js';
+
+export const input = `<button class="${cls.input}" data-elem="input" type="button">
   <span
-    class="rangepicker__from"
+    class="${cls.from}"
     data-elem="from">{from}</span> -
   <span
-    class="rangepicker__to"
+    class="${cls.to}"
     data-elem="to"
     >{to}</span>
 </button>`;
 
 export const selector = `
-<div class="rangepicker__selector" data-elem="selector">
-  <div class="rangepicker__selector-arrow"></div>
+<div class="${cls.selector}" data-elem="selector">
+  <div class="${cls.selectorArrow}"></div>
   <button
     type="button"
-    class="rangepicker__selector-control rangepicker__selector-control--left"
+    class="${cls.selectorControl} ${cls.selectorControl}--left"
     data-direction="prev"
   ></button>
   <button
     type="button"
-    class="rangepicker__selector-control rangepicker__selector-control--right"
+    class="${cls.selectorControl} ${cls.selectorControl}--right"
     data-direction="next"
   ></button>
-  <div class="rangepicker__calendars"></div>
+  <div class="${cls.calendars}"></div>
 </div>
 `;
 
 export const calendar = `
-<div class="rangepicker__calendar">
-  <div class="rangepicker__month-indicator">
-    <time datetime="November">{month}</time>
+<div class="${cls.calendar}">
+  <div class="${cls.monthIndicator}">
+    <time datetime="{month}">{month}</time>
   </div>
-  <div class="rangepicker__day-of-week">
+  <div class="${cls.dayOfWeek}">
     {weekdays}
   </div>
-  <div class="rangepicker__date-grid">
+  <div class="${cls.dateGrid}">
     {days}
   </div>
 </div>
 `;
 
 export const day = `
-<button type="button" class="rangepicker__cell {mod}" data-value="{dateTime}" style="{style}">{dateNum}</button>
+<button type="button" class="${cls.cell} {mod}" data-value="{dateTime}" style="{style}">{dateNum}</button>
 `;
 
 export default {
