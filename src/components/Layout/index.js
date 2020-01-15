@@ -1,4 +1,4 @@
-import createElement from '../../helpers/createElement.js';
+import {createElement} from '../../helpers/index.js';
 import './styles.scss';
 
 export default class Layout extends HTMLElement  {

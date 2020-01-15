@@ -1,4 +1,4 @@
-import createElement from '../../helpers/createElement.js';
+import {createElement} from '../../helpers/index.js';
 
 export default class {
   async render() {

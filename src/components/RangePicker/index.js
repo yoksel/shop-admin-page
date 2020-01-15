@@ -1,6 +1,4 @@
-import fillTemplate from '../../helpers/fillTemplate.js';
-import getWeekDays from '../../helpers/getWeekDays.js';
-import getDateFromString from '../../helpers/getDateFromString.js';
+import {fillTemplate, getWeekDays, getDateFromString} from '../../helpers/index.js';
 import templates from './templates.js';
 import cls from './classes.js';
 

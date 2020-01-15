@@ -1,5 +1,4 @@
-import createElement from '../../helpers/createElement.js';
-import formatTotal from '../../helpers/formatTotal.js';
+import {createElement} from '../../helpers/index.js';
 
 const from = new Date();
 from.setMonth(from.getMonth() - 1);
