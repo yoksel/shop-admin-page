@@ -48,8 +48,16 @@ export default class {
           ></column-chart>
         </section>
 
-        <section class="best-cellers">
-          best-sellers
+        <section class="page-section page-section--best-cellers">
+          <h2 class="page-section__title">Best sellers</h2>
+
+          <sortable-table
+            data-url="https://course-js.javascript.ru/api/rest/products?_embed=subcategory.category",
+            data-is-dynamic="1"
+            data-fields-list="['images', 'title', 'subcategory', 'quantity', 'price', 'status']"
+            data-order-field='title',
+            data-order-direction="1"
+            ></sortable-table>
         </section>
       </div>`
     );
