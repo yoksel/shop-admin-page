@@ -45,10 +45,11 @@ export default async function fetchJSON(url) {
 }
 
 class FetchError extends Error {
-  // name = 'FetchError';
 
   constructor(response, body, message) {
     super(message);
+    this.name = 'FetchError';
+
     this.response = response;
     this.body = body;
   }
