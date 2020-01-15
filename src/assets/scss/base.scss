@@ -15,6 +15,11 @@
   --grey-extra-light: #eff1f4;
   --grey-skeleton: #f5f6f8;
   --white: #ffffff;
+  --radius: 4px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 HTML {
@@ -26,17 +31,18 @@ BODY {
   min-height: 100vh;
   margin: 0;
   background: #FFF;
+  // font-family: "Source Sans Pro", sans-serif;
   font: 1rem/1.4 Trebuchet MS, Verdana, sans-serif;
   color: #000;
 }
 
-H1, H2, H3 {
+H1, H2, H3, H4 {
   margin-top: 0;
+  margin-bottom: .5em;
   font-weight: normal;
 }
 
 H1 {
-  margin: 0 0 1em;
   font-size: 2.75rem;
 }
 
@@ -48,6 +54,10 @@ A:hover {
 
 A:hover {
   text-decoration: none;
+}
+
+BUTTON, INPUT, TEXTAREA {
+  font: inherit;
 }
 
 .page-layout {

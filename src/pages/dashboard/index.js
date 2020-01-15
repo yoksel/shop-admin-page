@@ -27,7 +27,7 @@ export default class {
         ></range-picker>
       </header>
 
-        <section class="column-charts">
+        <section class="page-section page-section--column-charts">
           <column-chart
             data-type="orders"
             data-from="${dates.from}"
