@@ -1,4 +1,5 @@
 import createElement from '../../helpers/createElement.js';
+import './styles.scss';
 
 export default class Layout extends HTMLElement  {
   connectedCallback() {

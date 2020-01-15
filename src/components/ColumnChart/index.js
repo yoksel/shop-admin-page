@@ -3,6 +3,8 @@ import formatDate from '../../helpers/formatDate.js';
 import escapeHTML from '../../helpers/escapeHTML.js';
 import formatTotal from '../../helpers/formatTotal.js';
 
+import './styles.scss';
+
 const today = new Date();
 const monthAgo = new Date();
 monthAgo.setMonth(monthAgo.getMonth() - 1);
@@ -42,7 +44,6 @@ export default class ColumnChart extends HTMLElement {
     this.elem.classList.add(this.cls.elem, `${this.cls.elem}--${type}`);
     this.title = `Total ${type}`;
     this.url = `https://course-js.javascript.ru/api/dashboard/${type}?from=${dates.from}&to=${dates.to}`;
-
 
     const elem = await this.render();
     console.log('elem', elem);
