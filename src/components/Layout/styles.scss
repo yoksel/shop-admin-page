@@ -2,31 +2,36 @@
   width: 100%;
 }
 
-.page__container {
+.page-container {
   display: flex;
 }
 
-.page__main,
-.page__aside,
-.page__footer {
+.page-main,
+.page-aside,
+.page-footer {
   padding: 1rem;
   box-sizing: border-box;
 }
 
-.page__main {
+.page-main {
   flex-grow: 1;
 }
 
-.page__aside {
+.page-aside {
   min-width: 250px;
   background: #EEE;
 }
 
-.page__footer {
+.page-footer {
   flex-basis: 100%;
   display: flex;
 
   A + A {
     margin-left: 1rem;
   }
+}
+
+.page-content__header {
+  display: flex;
+  justify-content: space-between;
 }
