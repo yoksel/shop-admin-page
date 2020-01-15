@@ -1,0 +1,55 @@
+.spinner {
+  display: none;
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  width: 4rem;
+  height: 4rem;
+  margin: auto;
+  background: var(--white);
+  box-shadow: 0 0 .5rem currentColor;
+  border-radius: 50%;
+  color: var(--grey-light);
+}
+
+[data-loading = "1"] .spinner {
+  display: block;
+}
+
+.spinner::before,
+.spinner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  box-sizing: border-box;
+  border: 3px solid;
+  border-color: currentColor transparent;
+  border-radius: 50%;
+  animation: rotate 2.1s linear infinite;
+}
+
+.spinner::before {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.spinner::after {
+  width: 1.25rem;
+  height: 1.25rem;
+  animation-duration: 1.3s;
+  animation-direction: reverse;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

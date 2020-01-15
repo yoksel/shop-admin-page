@@ -125,9 +125,7 @@ export default class SortableTable extends HTMLElement {
     this.elem.classList.add(cls.table);
     this.tBody = document.createElement('tbody');
     this.elem.append(this.tBody);
-    this.tFooter = document.createElement('tfooter');
-    this.elem.append(this.tFooter);
-    this.elem.insertAdjacentHTML('afterBegin', `<tfoot><tr><td colspan="${this.fieldsList.length}"><div class="spinner"></div></td></tr></tfoot>`);
+    this.elem.insertAdjacentHTML('beforeEnd', `<tfoot><tr><td colspan="${this.fieldsList.length}"><div class="spinner"></div></td></tr></tfoot>`);
 
     this.append(this.elem);
   }
@@ -234,7 +232,7 @@ export default class SortableTable extends HTMLElement {
     const htmlCoords = document.documentElement.getBoundingClientRect();
     let scrollDelta = htmlCoords.bottom - window.innerHeight;
 
-    if (scrollDelta < 200) {
+    if (scrollDelta < 100) {
       this.page.current++;
       this.fetchUrl = this.getFetchUrl();
       this.fillTBody();

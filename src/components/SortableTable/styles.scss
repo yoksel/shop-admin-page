@@ -1,8 +1,10 @@
 .sortable-table {
-  background-color: var(--white);
+  position: relative;
   width: 100%;
   max-width: 100%;
+  min-height: 200px;
   margin-bottom: 40px;
+  background-color: var(--white);
 }
 
 .sortable-table__table {
