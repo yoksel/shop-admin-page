@@ -42,3 +42,10 @@ export const calendar = `
 export const day = `
 <button type="button" class="rangepicker__cell {mod}" data-value="{dateTime}" style="{style}">{dateNum}</button>
 `;
+
+export default {
+  input,
+  selector,
+  calendar,
+  day
+};

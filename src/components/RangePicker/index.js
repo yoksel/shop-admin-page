@@ -1,9 +1,29 @@
-import fillTemplate from './helpers/fillTemplate.js';
-import getWeekDays from './helpers/getWeekDays.js';
-import {input, selector, calendar,day}  from './templates.js';
+import fillTemplate from '../../helpers/fillTemplate.js';
+import getWeekDays from '../../helpers/getWeekDays.js';
+import templates from './templates.js';
 
-export default class RangePicker {
-  constructor({dates}) {
+import './styles.scss';
+import './arrow-icon.svg';
+import './calendar-icon.svg';
+
+const cls = {
+  elem: 'rangepicker',
+  elemOpen: 'rangepicker--open',
+  input: 'rangepicker__input',
+  from: 'rangepicker__from',
+  to: 'rangepicker__to',
+  selector: 'rangepicker__selector',
+  calendars: 'rangepicker__calendars',
+  calendar: 'rangepicker__calendar',
+  cell: 'rangepicker__cell',
+  selectedFrom: 'rangepicker__selected-from',
+  selectedBetween: 'rangepicker__selected-between',
+  selectedTo: 'rangepicker__selected-to',
+};
+
+export default class RangePicker extends HTMLElement {
+  constructor() {
+    super();
     this.togglePicker = this.togglePicker.bind(this);
     this.selectorOnClick = this.selectorOnClick.bind(this);
     this.bodyOnClick = this.bodyOnClick.bind(this);
@@ -12,33 +32,26 @@ export default class RangePicker {
     this.isOpened = false;
     this.elem = document.createElement('div');
     this.elem.classList.add('rangepicker');
-    this.templates = getTemplates([
-      'rangepicker-input',
-      'rangepicker-selector',
-      'rangepicker-calendar',
-      'rangepicker-day'
-    ]);
-    this.dates = dates;
+  }
+
+  async connectedCallback() {
+    this.dates = {
+      from: this.getDateFromString(this.dataset.from),
+      to: this.getDateFromString(this.dataset.to)
+    };
+
     this.monthes = this.getDisplayedMonthes();
     this.newDates = [];
 
-    this.cls = {
-      elem: 'rangepicker',
-      elemOpen: 'rangepicker--open',
-      input: 'rangepicker__input',
-      from: 'rangepicker__from',
-      to: 'rangepicker__to',
-      selector: 'rangepicker__selector',
-      calendars: 'rangepicker__calendars',
-      calendar: 'rangepicker__calendar',
-      cell: 'rangepicker__cell',
-      selectedFrom: 'rangepicker__selected-from',
-      selectedBetween: 'rangepicker__selected-between',
-      selectedTo: 'rangepicker__selected-to',
-    };
-
     this.addInput();
     this.elem.addEventListener('updateRange', this.updateRange);
+
+    this.append(this.elem);
+  }
+
+  getDateFromString(str) {
+    const [day, month, year] = str.split('/');
+    return new Date(year, month - 1, day);
   }
 
   getDisplayedMonthes() {
@@ -61,16 +74,16 @@ export default class RangePicker {
       from: this.dates.from.toLocaleDateString(),
       to: this.dates.to.toLocaleDateString()
     }
-    const tmpl = this.templates['rangepicker-input'];
+    const tmpl = templates['input'];
     const inputStr = fillTemplate({
       tmpl,
       data
     });
 
     this.elem.insertAdjacentHTML('afterBegin', inputStr);
-    this.input = this.elem.querySelector(`.${this.cls.input}`);
-    this.inputFrom = this.input.querySelector(`.${this.cls.from}`);
-    this.inputTo = this.input.querySelector(`.${this.cls.to}`);
+    this.input = this.elem.querySelector(`.${cls.input}`);
+    this.inputFrom = this.input.querySelector(`.${cls.from}`);
+    this.inputTo = this.input.querySelector(`.${cls.to}`);
 
     this.input.addEventListener('pointerdown', this.togglePicker);
     // capture: true reverses order of events
@@ -79,7 +92,7 @@ export default class RangePicker {
   }
 
   bodyOnClick() {
-    const parentRangePicker = event.target.closest(`.${this.cls.elem}`);
+    const parentRangePicker = event.target.closest(`.${cls.elem}`);
 
     if(!parentRangePicker && this.isOpened) {
       this.hidePicker();
@@ -119,8 +132,8 @@ export default class RangePicker {
     if(!this.selector) {
       this.addSelector();
 
-      this.selector = this.elem.querySelector(`.${this.cls.selector}`);
-      this.calendars = this.elem.querySelector(`.${this.cls.calendars}`);
+      this.selector = this.elem.querySelector(`.${cls.selector}`);
+      this.calendars = this.elem.querySelector(`.${cls.calendars}`);
 
       this.selector.addEventListener('click', this.selectorOnClick)
     }
@@ -129,17 +142,17 @@ export default class RangePicker {
     }
 
     this.addCalendars();
-    this.elem.classList.add(this.cls.elemOpen);
+    this.elem.classList.add(cls.elemOpen);
   }
 
   hidePicker() {
-    this.elem.classList.remove(this.cls.elemOpen);
+    this.elem.classList.remove(cls.elemOpen);
     this.isOpened = false;
     this.newDates = [];
   }
 
   addSelector() {
-    const selectorStr = this.templates['rangepicker-selector'];
+    const selectorStr = templates['selector'];
     this.elem.insertAdjacentHTML('beforeEnd', selectorStr);
   }
 
@@ -193,18 +206,18 @@ export default class RangePicker {
   }
 
   updateSelected(elem) {
-    const cells = this.elem.querySelectorAll(`.${this.cls.cell}`);
+    const cells = this.elem.querySelectorAll(`.${cls.cell}`);
     const classes = [
-      this.cls.selectedBetween,
-      this.cls.selectedFrom,
-      this.cls.selectedTo
+      cls.selectedBetween,
+      cls.selectedFrom,
+      cls.selectedTo
     ];
 
     cells.forEach(cell => {
       cell.classList.remove(...classes);
     });
 
-    elem.classList.add(this.cls.selectedFrom);
+    elem.classList.add(cls.selectedFrom);
   }
 
   getCalendar(date) {
@@ -214,7 +227,7 @@ export default class RangePicker {
       days: this.getCells(date)
     };
 
-    const tmpl = this.templates['rangepicker-calendar'];
+    const tmpl = templates['calendar'];
     const calendarStr = fillTemplate({
       tmpl,
       data
@@ -224,7 +237,7 @@ export default class RangePicker {
   }
 
   getCells(date) {
-    const tmpl = this.templates['rangepicker-day'];
+    const tmpl = templates['day'];
     const currentDate = new Date(date);
     let month = currentDate.getMonth();
     let currentDay = 1;
@@ -281,13 +294,13 @@ export default class RangePicker {
     const dateToMs = this.dates.to.valueOf();
 
     if(dateMs > dateFromMs && dateMs < dateToMs){
-      mod = this.cls.selectedBetween;
+      mod = cls.selectedBetween;
     }
     else if(dateMs === dateFromMs) {
-      mod = this.cls.selectedFrom;
+      mod = cls.selectedFrom;
     }
     else if(dateMs === dateToMs) {
-      mod = this.cls.selectedTo;
+      mod = cls.selectedTo;
     }
 
     return mod;
