@@ -31,7 +31,7 @@ export default class RangePicker extends HTMLElement {
     this.newDates = [];
 
     this.addInput();
-    this.elem.addEventListener('updateRange', this.updateRange);
+    document.addEventListener('changeDate', this.updateRange);
 
     this.append(this.elem);
   }
@@ -87,13 +87,6 @@ export default class RangePicker extends HTMLElement {
   }
 
   updateRange() {
-    this.newDates.sort((a, b) => {
-      return a.valueOf() - b.valueOf()
-    });
-    this.dates = {
-      from: this.newDates[0],
-      to: this.newDates[1]
-    }
     this.monthes = this.getDisplayedMonthes();
     this.newDates = [];
     this.updateInput();
@@ -158,7 +151,20 @@ export default class RangePicker extends HTMLElement {
     }
 
     this.newDates.push(new Date(date));
-    this.elem.dispatchEvent(new CustomEvent('updateRange'));
+
+    this.newDates.sort((a, b) => {
+      return a.valueOf() - b.valueOf()
+    });
+    this.dates = {
+      from: this.newDates[0],
+      to: this.newDates[1]
+    };
+
+    document.dispatchEvent(new CustomEvent('changeDate', {
+      detail: {
+        dates: this.dates
+      }
+    }));
   }
 
   moveMonth(direction) {

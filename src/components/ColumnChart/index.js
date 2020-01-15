@@ -27,10 +27,26 @@ export default class ColumnChart extends HTMLElement {
     this.classList.add(cls.elem, `${cls.elem}--${type}`);
     this.elem.classList.add(cls.content);
     this.title = `Total ${type}`;
-    this.url = `https://course-js.javascript.ru/api/dashboard/${type}?from=${this.dates.from}&to=${this.dates.to}`;
+    this.url = this.getUrl();
 
-    const elem = await this.render();
+    await this.render();
     this.append(this.elem);
+
+    document.addEventListener('changeDate', async (event) => {
+      if(!event.detail || !event.detail.dates) {
+        return;
+      }
+
+      this.dates = event.detail.dates;
+      this.url = this.getUrl();
+      this.elem.innerHTML = '';
+      await this.render();
+      this.append(this.elem);
+    })
+  }
+
+  getUrl() {
+    return `https://course-js.javascript.ru/api/dashboard/${this.type}?from=${this.dates.from}&to=${this.dates.to}`;
   }
 
   async getData() {
@@ -52,19 +68,27 @@ export default class ColumnChart extends HTMLElement {
 
     this.values = Object.values(this.data);
 
-    const headerStr = this.getHeaderStr();
-    const listStr = this.getListStr();
+    if(this.values.length === 0) {
+      this.values.push('No data');
+    }
 
+    const headerStr = this.getHeaderStr();
+
+    let listStr = this.getListStr();
     this.elem.insertAdjacentHTML('beforeEnd', headerStr + listStr + templates.toolTip);
 
     this.addActions();
   }
 
   getHeaderStr() {
-    this.total = this.values.reduce((prev, current) => prev + current);
+    this.total = this.values.reduce(
+      (prev, current) => prev + current,
+    0);
+
     if(this.formatTotal) {
       this.total = this.formatTotal(this.total);
     }
+
     let chartStr = '';
 
     return fillTemplate({
