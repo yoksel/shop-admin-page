@@ -1,5 +1,6 @@
 import fillTemplate from '../../helpers/fillTemplate.js';
 import getWeekDays from '../../helpers/getWeekDays.js';
+import getDateFromString from '../../helpers/getDateFromString.js';
 import templates from './templates.js';
 
 import './styles.scss';
@@ -36,8 +37,8 @@ export default class RangePicker extends HTMLElement {
 
   async connectedCallback() {
     this.dates = {
-      from: this.getDateFromString(this.dataset.from),
-      to: this.getDateFromString(this.dataset.to)
+      from: getDateFromString(this.dataset.from),
+      to: getDateFromString(this.dataset.to)
     };
 
     this.monthes = this.getDisplayedMonthes();
@@ -47,11 +48,6 @@ export default class RangePicker extends HTMLElement {
     this.elem.addEventListener('updateRange', this.updateRange);
 
     this.append(this.elem);
-  }
-
-  getDateFromString(str) {
-    const [day, month, year] = str.split('/');
-    return new Date(year, month - 1, day);
   }
 
   getDisplayedMonthes() {
