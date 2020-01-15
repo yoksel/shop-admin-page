@@ -24,7 +24,8 @@ export default class ColumnChart extends HTMLElement {
 
     this.type = type;
     this.formatTotal = isMoney ? formatTotal : null;
-    this.elem.classList.add(cls.elem, `${cls.elem}--${type}`);
+    this.classList.add(cls.elem, `${cls.elem}--${type}`);
+    this.elem.classList.add(cls.content);
     this.title = `Total ${type}`;
     this.url = `https://course-js.javascript.ru/api/dashboard/${type}?from=${this.dates.from}&to=${this.dates.to}`;
 

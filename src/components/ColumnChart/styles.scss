@@ -1,17 +1,18 @@
-.column-charts {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .column-chart {
   position: relative;
-  width: 320px;
-  margin: 0 .5rem .5rem 0;
+  min-width: 180px;
+  flex-basis: calc((100% - 2rem) / 3);
+  max-width: 300px;
+  margin: 0 0 .5rem 0;
   padding: 20px;
   border: 1px solid #DDD;
   border-left: 5px solid #DDD;
   border-radius: 5px;
   box-sizing: border-box;
+}
+
+.column-chart + .column-chart {
+  margin-left: 1rem;
 }
 
 .column-chart__title {
