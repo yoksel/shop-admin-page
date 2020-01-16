@@ -50,19 +50,20 @@ export default class SortableTable extends HTMLElement {
 
   async loadData() {
     this.isLoading = true;
-    this.elem.dataset.loading = 1;
+    this.table.dataset.loading = 1;
 
     return new Promise(async (resolve, reject) => {
       try {
         let tableData = await fetchJson(this.fetchUrl);
 
         this.isLoading = false;
-        this.elem.dataset.loading = 0;
+        this.table.dataset.loading = 0;
 
         resolve(tableData);
       } catch (error) {
         // Show error message to user
         const message = new Message({error});
+        this.table.dataset.loading = 0;
 
         this.elem = message.elem;
         this.tBody.insertAdjacentHTML(
@@ -123,13 +124,13 @@ export default class SortableTable extends HTMLElement {
 
   createLayout() {
     this.classList.add(cls.elem);
-    this.elem = document.createElement('table');
-    this.elem.classList.add(cls.table);
+    this.table = document.createElement('table');
+    this.table.classList.add(cls.table);
     this.tBody = document.createElement('tbody');
-    this.elem.append(this.tBody);
-    this.elem.insertAdjacentHTML('beforeEnd', `<tfoot><tr><td colspan="${this.fieldsList.length}"><div class="spinner"></div></td></tr></tfoot>`);
+    this.table.append(this.tBody);
+    this.table.insertAdjacentHTML('beforeEnd', `<tfoot><tr><td colspan="${this.fieldsList.length}"><div class="spinner"></div></td></tr></tfoot>`);
 
-    this.append(this.elem);
+    this.append(this.table);
   }
 
   // Fill table header with content
@@ -161,9 +162,9 @@ export default class SortableTable extends HTMLElement {
       ${headerContent}
     </tr></thead>`;
 
-    this.elem.insertAdjacentHTML('afterBegin', theadStr);
+    this.table.insertAdjacentHTML('afterBegin', theadStr);
 
-    this.sorting.current = this.elem.querySelector(`[data-sort-direction]`);
+    this.sorting.current = this.table.querySelector(`[data-sort-direction]`);
   }
 
   // Sorter
@@ -214,7 +215,7 @@ export default class SortableTable extends HTMLElement {
 
   // Adding delegated events to table
   addTableEvents() {
-    this.elem.addEventListener('click', this);
+    this.table.addEventListener('click', this);
     window.addEventListener('scroll', this.onBodyScrollThrottle);
   }
 
