@@ -18,6 +18,9 @@ export default class Layout extends HTMLElement  {
             <li>
               <a href="/products">Products</a>
             </li>
+            <li>
+              <a href="/categories">Categories</a>
+            </li>
           </ul>
         </nav>
       </aside>
