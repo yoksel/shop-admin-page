@@ -8,8 +8,8 @@
   margin: 0 0 .5rem 0;
   padding: 20px;
   box-sizing: border-box;
-  border: 1px solid #DDD;
-  border-left: 5px solid #DDD;
+  border: 1px solid var(--grey-light);
+  border-left: 5px solid var(--grey-light);
   border-radius: 5px;
   box-sizing: border-box;
 }
@@ -29,7 +29,7 @@
   line-height: 1;
   font-weight: normal;
   font-size: 1em;
-  color: #999;
+  color: var(--grey);
 }
 
 .column-chart__total {
@@ -52,7 +52,7 @@
 .column-chart__item {
   flex-grow: 1;
   margin-left: 1px;
-  background: #DDD;
+  background: var(--grey-light);
   cursor: pointer;
   transition: opacity .1s;
 }
