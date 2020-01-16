@@ -12,6 +12,7 @@ export default class ColumnChart extends HTMLElement {
     this.listMouseOut = this.listMouseOut.bind(this);
 
     this.elem = document.createElement('div');
+    this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
   }
 
   async connectedCallback() {
@@ -46,7 +47,7 @@ export default class ColumnChart extends HTMLElement {
   }
 
   getUrl() {
-    return `https://course-js.javascript.ru/api/dashboard/${this.type}?from=${this.dates.from}&to=${this.dates.to}`;
+    return `${this.apiUrl}/api/dashboard/${this.type}?from=${this.dates.from}&to=${this.dates.to}`;
   }
 
   async getData() {

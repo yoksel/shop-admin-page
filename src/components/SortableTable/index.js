@@ -20,12 +20,14 @@ export default class SortableTable extends HTMLElement {
       current: 0,
       isDataEnded: false
     };
+
+    this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
   }
 
   async connectedCallback() {
     const {url, fieldsList, orderField, orderDirection, isDynamic} = this.dataset;
 
-    this.url = url;
+    this.url = this.apiUrl + url;
     this.fieldsList = JSON.parse(fieldsList.replace(/'/g,'"'));
     this.isDynamic = +isDynamic;
     this.order =  {
