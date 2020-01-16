@@ -158,7 +158,7 @@ export default class SortableTable extends HTMLElement {
         >${fields[field].title}</th>`;
     });
 
-    const theadStr = `<thead><tr class="${cls.header} ${cls.row}">
+    const theadStr = `<thead class="${cls.thead}"><tr class="${cls.header} ${cls.row}">
       ${headerContent}
     </tr></thead>`;
 
