@@ -32,8 +32,6 @@ export default class RangePicker extends HTMLElement {
 
     this.addInput();
     document.addEventListener('changeDate', this.updateRange);
-
-    this.append(this.elem);
   }
 
   getDisplayedMonthes() {
