@@ -15,7 +15,7 @@ export default class RangePicker extends HTMLElement {
     this.updateRange = this.updateRange.bind(this);
 
     this.isOpened = false;
-    this.elem = document.createElement('div');
+    this.elem = this;
     this.elem.classList.add('rangepicker');
   }
 

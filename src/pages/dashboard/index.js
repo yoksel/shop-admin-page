@@ -21,7 +21,6 @@ export default class {
         <h1 class="page-content__title">Dashboard</h1>
 
         <range-picker
-          class="range-picker"
           data-from="${dates.from}"
           data-to="${dates.to}"
         ></range-picker>
@@ -48,7 +47,7 @@ export default class {
           ></column-chart>
         </section>
 
-        <section class="page-section page-section--best-cellers">
+        <section class="page-section">
           <h2 class="page-section__title">Best sellers</h2>
 
           <sortable-table
