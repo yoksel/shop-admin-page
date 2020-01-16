@@ -1,0 +1,38 @@
+.draggable-list {
+  display: block;
+}
+
+.draggable-list__items {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+
+.draggable-list__item {
+  display: flex;
+  align-items: center;
+  padding: .8rem;
+  border: 1px solid var(--grey-light);
+  border-radius: var(--radius);
+  cursor: grab;
+
+  & + & {
+    margin-top: .5rem;
+  }
+
+  &::before {
+    content: url("./grab-icon.svg");
+    display: block;
+    height: 18px;
+    margin-right: 1rem;
+  }
+}
+
+.draggable-list__item-title {
+  margin-bottom: 0;
+}
+
+.draggable-list__item-counter {
+  margin-left: auto;
+}
