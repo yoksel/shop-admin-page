@@ -8,18 +8,18 @@
   height: 4rem;
   margin: auto;
   background: var(--white);
-  box-shadow: 0 0 .5rem currentColor;
+  box-shadow: 0 0 0.5rem currentColor;
   border-radius: 50%;
   color: var(--grey-light);
 }
 
-[data-loading = "1"] .spinner {
+[data-loading='1'] .spinner {
   display: block;
 }
 
 .spinner::before,
 .spinner::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   right: 0;
@@ -49,6 +49,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

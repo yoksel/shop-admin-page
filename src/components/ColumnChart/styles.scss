@@ -5,13 +5,12 @@
   flex-basis: calc((100% - 2rem) / 3);
   max-width: 300px;
   min-height: 150px;
-  margin: 0 0 .5rem 0;
+  margin: 0 0 0.5rem 0;
   padding: 20px;
   box-sizing: border-box;
   border: 1px solid var(--grey-light);
   border-left: 5px solid var(--grey-light);
   border-radius: 5px;
-  box-sizing: border-box;
 }
 
 .column-chart + .column-chart {
@@ -44,7 +43,7 @@
   width: 100%;
   height: 50px;
   margin: 0;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   padding: 0;
   list-style: none;
 }
@@ -54,15 +53,11 @@
   margin-left: 1px;
   background: var(--grey-light);
   cursor: pointer;
-  transition: opacity .1s;
+  transition: opacity 0.1s;
 }
 
 .column-chart__item:first-child {
   margin-left: 0;
-}
-
-.column-chart__list--faded .column-chart__item:not(:hover) {
-  opacity: .5;
 }
 
 .column-chart__tooltip {
@@ -70,37 +65,38 @@
   z-index: 1;
   left: 0;
   top: 0;
-  margin: .25rem .5rem 0 0;
-  padding: .5rem;
-  background: #EEE;
-  box-shadow: 0 0 5px rgba(0,0,0,.25);
+  margin: 0.25rem 0.5rem 0 0;
+  padding: 0.5rem;
+  background: #eee;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
   border-radius: 3px;
   line-height: 1;
   color: #555;
-  transform: translate(0,0);
+  transform: translate(0, 0);
   opacity: 0;
-  transition: .1s;
+  transition: 0.1s;
   transition-property: opacity, transform;
   pointer-events: none;
 }
 
 .column-chart__tooltip-date {
-  font-size: .9em;
+  font-size: 0.9em;
 }
+
 .column-chart__tooltip-quantity {
-  margin-top: .25em;
+  margin-top: 0.25em;
   font-size: 1.1em;
 }
 
-
-.column-chart__tooltip[data-visible="1"] {
+.column-chart__tooltip[data-visible='1'] {
   opacity: 1;
 }
-
 /* Mods */
+
 .column-chart--customers {
   border-left-color: gold;
 }
+
 .column-chart--customers .column-chart__item {
   background: gold;
 }
@@ -108,6 +104,7 @@
 .column-chart--orders {
   border-left-color: turquoise;
 }
+
 .column-chart--orders .column-chart__item {
   background: turquoise;
 }
@@ -115,6 +112,11 @@
 .column-chart--sales {
   border-left-color: yellowgreen;
 }
+
 .column-chart--sales .column-chart__item {
   background: yellowgreen;
+}
+
+.column-chart__list--faded .column-chart__item:not(:hover) {
+  opacity: 0.5;
 }

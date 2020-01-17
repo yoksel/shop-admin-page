@@ -13,7 +13,8 @@
     "deploy": "npm run build && gh-pages -d dist",
     "lint": "eslint src",
     "js:lint": "eslint src",
-    "css:lint": "stylelint src/**/*.scss"
+    "css:lint": "stylelint src/**/*.scss",
+    "css:fix": "stylelint src/**/*.scss --fix"
   },
   "keywords": [],
   "author": "",

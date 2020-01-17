@@ -11,11 +11,11 @@
   font-weight: normal;
   font-size: 16px;
   line-height: 20px;
-  background-color: var(--white);
   border: 1px solid var(--grey-light);
   border-radius: 4px;
   outline: none;
-  background: var(--white) url("./calendar-icon.svg") 16px center no-repeat;
+  background: var(--white) url('./calendar-icon.svg') 16px center no-repeat;
+  background-color: var(--white);
   background-size: 18px 18px;
 }
 
@@ -62,8 +62,8 @@
   overflow: hidden;
 }
 
-.rangepicker__selector-arrow:after {
-  content: "";
+.rangepicker__selector-arrow::after {
+  content: '';
   position: absolute;
   width: 12px;
   height: 12px;
@@ -76,10 +76,6 @@
 
 .rangepicker__calendars {
   display: flex;
-}
-
-.rangepicker__cell {
-  cursor: pointer;
 }
 
 .rangepicker__calendar {
@@ -109,7 +105,7 @@
   justify-content: center;
   cursor: pointer;
   transition: 0.3s all;
-  background: url("./arrow-icon.svg") left center no-repeat;
+  background: url('./arrow-icon.svg') left center no-repeat;
   background-size: 9px 13px;
   border: 0;
 }
@@ -141,7 +137,6 @@
   color: var(--grey);
   text-align: center;
 }
-
 /* Dates */
 .rangepicker__date-grid {
   margin-top: 16px;
@@ -157,6 +152,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
+  cursor: pointer;
 }
 
 .rangepicker__cell:active,

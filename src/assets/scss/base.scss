@@ -14,7 +14,7 @@
   --grey-light: #c2cfe0;
   --grey-extra-light: #eff1f4;
   --grey-skeleton: #f5f6f8;
-  --white: #ffffff;
+  --white: #fff;
   --radius: 4px;
 }
 
@@ -22,41 +22,45 @@
   box-sizing: border-box;
 }
 
-HTML {
+html {
   font-size: 16px;
 }
 
-BODY {
+body {
   display: flex;
   min-height: 100vh;
   margin: 0;
-  background: #FFF;
-  // font-family: "Source Sans Pro", sans-serif;
+  background: #fff;
   font: 1rem/1.4 Trebuchet MS, Verdana, sans-serif;
   color: #000;
 }
 
-H1, H2, H3, H4 {
+h1,
+h2,
+h3,
+h4 {
   margin-top: 0;
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
   font-weight: normal;
 }
 
-H1 {
+h1 {
   font-size: 2.75rem;
 }
 
-A,
-A:visited,
-A:hover {
+a,
+a:visited,
+a:hover {
   color: inherit;
 }
 
-A:hover {
+a:hover {
   text-decoration: none;
 }
 
-BUTTON, INPUT, TEXTAREA {
+button,
+input,
+textarea {
   font: inherit;
 }
 
