@@ -1,4 +1,4 @@
-import {createElement} from '../../helpers/index.js';
+import { createElement } from '../../helpers/index.js'
 
 export default class {
   async render() {
@@ -18,8 +18,6 @@ export default class {
           data-order-direction="1"
           ></sortable-table>
       </section>
-    </div>`
-    );
+    </div>`)
   }
-};
-
+}

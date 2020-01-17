@@ -15,5 +15,5 @@ export default {
   selectedTo: 'rangepicker__selected-to',
   monthIndicator: 'rangepicker__month-indicator',
   dayOfWeek: 'rangepicker__day-of-week',
-  dateGrid: 'rangepicker__date-grid',
-};
+  dateGrid: 'rangepicker__date-grid'
+}

@@ -1,10 +1,10 @@
-import {createElement} from '../../helpers/index.js';
-import './styles.scss';
+import { createElement } from '../../helpers/index.js'
+import './styles.scss'
 
-export default class Layout extends HTMLElement  {
+export default class Layout extends HTMLElement {
   connectedCallback() {
-    this.append(this.render());
-    this.classList.add('page');
+    this.append(this.render())
+    this.classList.add('page')
   }
 
   render() {
@@ -28,6 +28,6 @@ export default class Layout extends HTMLElement  {
       <main class="page-main" id="content">
         <!-- main content will be here -->
       </main>
-    </div>`);
+    </div>`)
   }
-};
+}

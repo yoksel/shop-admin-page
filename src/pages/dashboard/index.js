@@ -1,18 +1,18 @@
-import {createElement} from '../../helpers/index.js';
+import { createElement } from '../../helpers/index.js'
 
-const from = new Date();
-from.setMonth(from.getMonth() - 1);
-const to = new Date();
+const from = new Date()
+from.setMonth(from.getMonth() - 1)
+const to = new Date()
 const dateOptions = {
   year: 'numeric',
   month: 'numeric',
   day: 'numeric'
-};
+}
 
 const dates = {
   from: from.toLocaleString('en-GB', dateOptions),
   to: to.toLocaleString('en-GB', dateOptions)
-};
+}
 
 export default class {
   async render() {
@@ -50,11 +50,9 @@ export default class {
         <draggable-list
           data-url="/api/rest/subcategories?_embed=subcategory.category"
           ></draggable-list>
-      </div>`
-    );
+      </div>`)
   }
-};
-
+}
 
 // <section class="page-section">
 //           <h2 class="page-section__title">Best sellers</h2>

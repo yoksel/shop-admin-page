@@ -1,5 +1,5 @@
-import directions from './directions.js';
+import directions from './directions.js'
 
-export const getDirectionText = (isAsc) => {
-  return directions[+isAsc];
+export const getDirectionText = isAsc => {
+  return directions[+isAsc]
 }

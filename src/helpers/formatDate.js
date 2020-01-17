@@ -1,9 +1,9 @@
 export default function formatDate(str) {
-  const date = new Date(str).toDateString();
-  const dataParts = date.split(' ');
-  const month = dataParts[1];
-  const day = dataParts[2];
-  const year = dataParts[3];
+  const date = new Date(str).toDateString()
+  const dataParts = date.split(' ')
+  const month = dataParts[1]
+  const day = dataParts[2]
+  const year = dataParts[3]
 
-  return `${month} ${day}, ${year}`;
+  return `${month} ${day}, ${year}`
 }

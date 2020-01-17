@@ -9,5 +9,5 @@ export default {
   item: 'column-chart__item',
   tooltip: 'column-chart__tooltip',
   tooltipDate: 'column-chart__tooltip-date',
-  tooltipQuantity: 'column-chart__tooltip-quantity',
-};
+  tooltipQuantity: 'column-chart__tooltip-quantity'
+}
