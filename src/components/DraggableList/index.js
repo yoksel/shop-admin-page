@@ -67,17 +67,25 @@ export default class DraggableList extends HTMLElement {
     console.log('Start');
     this.addEventListener('pointermove', this.move);
 
-    const itemElem = event.target.closest(`.${cls.item}`);
+    this.currentElem = event.target.closest(`.${cls.item}`);
 
-    itemElem.replaceWith(this.placeholder);
-    this.list.append(itemElem);
+    this.currentElem.replaceWith(this.placeholder);
+    this.list.append(this.currentElem);
 
-    itemElem.classList.add(cls.dragging);
-    itemElem.style.top = `${event.clientX}px`;
+    this.currentElem.classList.add(cls.dragging);
+
   }
 
-  move () {
+  move (event) {
     console.log('— Move');
+    console.log(event);
+
+    const {top} = this.getBoundingClientRect();
+    const elemTop = event.clientX - top;
+    console.log('- event.clientX', event.clientX);
+    console.log('- top', top);
+    console.log('- elemTop', elemTop);
+    this.currentElem.style.top = `${elemTop}px`;
   }
 
   stopDrag () {
