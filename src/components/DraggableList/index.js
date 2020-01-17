@@ -73,14 +73,13 @@ export default class DraggableList extends HTMLElement {
     this.list.append(this.currentElem);
 
     this.currentElem.classList.add(cls.dragging);
-
   }
 
   move (event) {
     console.log('— Move');
     console.log(event);
 
-    const {top} = this.getBoundingClientRect();
+    const { top } = this.getBoundingClientRect();
     const elemTop = event.clientX - top;
     console.log('- event.clientX', event.clientX);
     console.log('- top', top);
