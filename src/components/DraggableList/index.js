@@ -3,19 +3,30 @@ import { fetchJson } from '../../helpers/index.js';
 import './styles.scss';
 import './grab-icon.svg';
 
+const cls = {
+  elem: 'draggable-list',
+  items: 'draggable-list__items',
+  item: 'draggable-list__item',
+  dragging: 'draggable-list__item--dragging',
+  itemTitle: 'draggable-list__item-title',
+  itemTitle: 'draggable-list__item-title',
+  itemCounter: 'draggable-list__item-counter',
+  placeholder: 'draggable-list__item--placeholder',
+}
+
 export default class DraggableList extends HTMLElement {
   constructor () {
     super();
 
     this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
 
-    this.classList.add('draggable-list');
+    this.classList.add(cls.elem);
     this.list = document.createElement('ul');
-    this.list.classList.add('draggable-list__list');
+    this.list.classList.add(cls.items);
     this.placeholder = document.createElement('li');
     this.placeholder.classList.add(
-      'draggable-list__item',
-      'draggable-list__item--placeholder'
+      cls.item,
+      cls.placeholder
     );
     this.append(this.list);
 
@@ -57,9 +68,13 @@ export default class DraggableList extends HTMLElement {
     console.log('Start');
     this.addEventListener('pointermove', this.move);
 
-    const itemElem = event.target.closest('.draggable-list__item');
+    const itemElem = event.target.closest(`.${cls.item}`);
 
     itemElem.replaceWith(this.placeholder);
+    this.list.append(itemElem);
+
+    itemElem.classList.add(cls.dragging);
+    itemElem.style.top = `${event.clientX}px`;
   }
 
   move () {
@@ -73,17 +88,15 @@ export default class DraggableList extends HTMLElement {
 
   getItemsStr () {
     const items = this.data.map(item => {
-      return `<li class="draggable-list__item">
-          <h3 class="draggable-list__item-title">
-            ${item.title}
-          </h3>
+      return `<li class="${cls.item}">
+          <h3 class="${cls.itemTitle}">${item.title}</h3>
 
-          <span class="draggable-list__item-counter">
+          <span class="${cls.itemCounter}">
             ${item.count} items
           </span>
         </li>`;
     });
 
-    return `<ul class="draggable-list__items">${items.join('')}</ul>`;
+    return items.join('');
   }
 }

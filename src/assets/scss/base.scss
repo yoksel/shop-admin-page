@@ -1,20 +1,20 @@
 :root {
-  --blue: #109cf1;
-  --dark-blue: #334d6e;
-  --light-blue: #cfebfc;
-  --middle-blue: #9fd7f9;
-  --yellow: #ffb946;
-  --red: #f7685b;
-  --green: #2ed47a;
-  --purple: #885af8;
-  --black: #192a3e;
-  --table-black: #323c47;
+  --blue: #109CF1;
+  --dark-blue: #334D6E;
+  --light-blue: #CFEBFC;
+  --middle-blue: #9FD7F9;
+  --yellow: #FFB946;
+  --red: #F7685B;
+  --green: #2ED47A;
+  --purple: #885AF8;
+  --black: #192A3E;
+  --table-black: #323C47;
   --table-grey: #707683;
-  --grey: #90a0b7;
-  --grey-light: #c2cfe0;
-  --grey-extra-light: #eff1f4;
-  --grey-skeleton: #f5f6f8;
-  --white: #fff;
+  --grey: #90A0B7;
+  --grey-light: #C2CFE0;
+  --grey-extra-light: #EFF1F4;
+  --grey-skeleton: #F5F6F8;
+  --white: #FFF;
   --radius: 4px;
 }
 
@@ -22,45 +22,45 @@
   box-sizing: border-box;
 }
 
-html {
+HTML {
   font-size: 16px;
 }
 
-body {
+BODY {
   display: flex;
   min-height: 100vh;
   margin: 0;
-  background: #fff;
+  background: #FFF;
   font: 1rem/1.4 Trebuchet MS, Verdana, sans-serif;
   color: #000;
 }
 
-h1,
-h2,
-h3,
-h4 {
+H1,
+H2,
+H3,
+H4 {
   margin-top: 0;
-  margin-bottom: 0.5em;
+  margin-bottom: .5em;
   font-weight: normal;
 }
 
-h1 {
+H1 {
   font-size: 2.75rem;
 }
 
-a,
-a:visited,
-a:hover {
+A,
+A:visited,
+A:hover {
   color: inherit;
 }
 
-a:hover {
+A:hover {
   text-decoration: none;
 }
 
-button,
-input,
-textarea {
+BUTTON,
+INPUT,
+TEXTAREA {
   font: inherit;
 }
 

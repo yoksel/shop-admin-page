@@ -14,7 +14,7 @@
   border: 1px solid var(--grey-light);
   border-radius: 4px;
   outline: none;
-  background: var(--white) url('./calendar-icon.svg') 16px center no-repeat;
+  background: var(--white) url("./calendar-icon.svg") 16px center no-repeat;
   background-color: var(--white);
   background-size: 18px 18px;
 }
@@ -25,12 +25,12 @@
   border-color: var(--blue);
 }
 
-.rangepicker__input > span {
+.rangepicker__input > SPAN {
   display: inline-flex;
   margin: 0 4px;
 }
 
-.rangepicker__input > span:last-child {
+.rangepicker__input > SPAN:last-child {
   margin-right: 0;
 }
 
@@ -39,7 +39,7 @@
   background-color: var(--white);
   padding: 32px 26px;
   border-radius: 6px;
-  box-shadow: 0 4px 29px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 4px 29px rgba(0, 0, 0, .09);
   flex-direction: row;
   justify-content: space-between;
   flex: 1 0 auto;
@@ -63,7 +63,7 @@
 }
 
 .rangepicker__selector-arrow::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 12px;
   height: 12px;
@@ -71,7 +71,7 @@
   transform: translateX(-50%) translateY(-50%) rotate(45deg);
   top: 100%;
   left: 50%;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 1px 10px rgba(0, 0, 0, .09);
 }
 
 .rangepicker__calendars {
@@ -104,14 +104,14 @@
   flex-direction: column;
   justify-content: center;
   cursor: pointer;
-  transition: 0.3s all;
-  background: url('./arrow-icon.svg') left center no-repeat;
+  transition: .3s all;
+  background: url("./arrow-icon.svg") left center no-repeat;
   background-size: 9px 13px;
   border: 0;
 }
 
 .rangepicker__selector-control:hover {
-  opacity: 0.8;
+  opacity: .8;
 }
 
 .rangepicker__selector-control--left {
@@ -168,7 +168,7 @@
   outline: none;
   background-color: var(--light-blue);
   color: var(--dark-blue-text);
-  transition: 0.2s all;
+  transition: .2s all;
 }
 
 .rangepicker__cell.rangepicker__selected:hover,

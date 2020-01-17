@@ -5,7 +5,7 @@
   flex-basis: calc((100% - 2rem) / 3);
   max-width: 300px;
   min-height: 150px;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 .5rem 0;
   padding: 20px;
   box-sizing: border-box;
   border: 1px solid var(--grey-light);
@@ -43,7 +43,7 @@
   width: 100%;
   height: 50px;
   margin: 0;
-  margin-top: 0.5rem;
+  margin-top: .5rem;
   padding: 0;
   list-style: none;
 }
@@ -53,7 +53,7 @@
   margin-left: 1px;
   background: var(--grey-light);
   cursor: pointer;
-  transition: opacity 0.1s;
+  transition: opacity .1s;
 }
 
 .column-chart__item:first-child {
@@ -65,30 +65,30 @@
   z-index: 1;
   left: 0;
   top: 0;
-  margin: 0.25rem 0.5rem 0 0;
-  padding: 0.5rem;
-  background: #eee;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+  margin: .25rem .5rem 0 0;
+  padding: .5rem;
+  background: #EEE;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .25);
   border-radius: 3px;
   line-height: 1;
   color: #555;
   transform: translate(0, 0);
   opacity: 0;
-  transition: 0.1s;
+  transition: .1s;
   transition-property: opacity, transform;
   pointer-events: none;
 }
 
 .column-chart__tooltip-date {
-  font-size: 0.9em;
+  font-size: .9em;
 }
 
 .column-chart__tooltip-quantity {
-  margin-top: 0.25em;
+  margin-top: .25em;
   font-size: 1.1em;
 }
 
-.column-chart__tooltip[data-visible='1'] {
+.column-chart__tooltip[data-visible="1"] {
   opacity: 1;
 }
 /* Mods */
@@ -118,5 +118,5 @@
 }
 
 .column-chart__list--faded .column-chart__item:not(:hover) {
-  opacity: 0.5;
+  opacity: .5;
 }
