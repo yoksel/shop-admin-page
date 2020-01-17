@@ -1,7 +1,7 @@
-import { createElement } from '../../helpers/index.js'
+import { createElement } from '../../helpers/index.js';
 
 export default class {
-  async render() {
+  async render () {
     return createElement(`<div class="page-content">
       <header class="page-content__header">
         <h1 class="page-content__title">Dashboard/Categories</h1>
@@ -16,6 +16,6 @@ export default class {
           data-url="/api/rest/subcategories?_embed=subcategory.category"
           ></draggable-list>
       </section>
-    </div>`)
+    </div>`);
   }
 }

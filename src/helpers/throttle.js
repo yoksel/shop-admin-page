@@ -1,23 +1,23 @@
-export default function throttle(func, context, timeout) {
-  let args
-  let isWaiting = false
-  let isFirstCall = true
+export default function throttle (func, context, timeout) {
+  let args;
+  let isWaiting = false;
+  let isFirstCall = true;
 
-  return function() {
-    args = arguments
+  return function () {
+    args = arguments;
 
     if (isFirstCall) {
-      func.apply(context, ...args)
-      isFirstCall = false
+      func.apply(context, ...args);
+      isFirstCall = false;
     }
 
     if (!isWaiting) {
-      isWaiting = true
+      isWaiting = true;
 
-      setTimeout(function() {
-        func.apply(context, ...args)
-        isWaiting = false
-      }, timeout)
+      setTimeout(function () {
+        func.apply(context, ...args);
+        isWaiting = false;
+      }, timeout);
     }
-  }
+  };
 }

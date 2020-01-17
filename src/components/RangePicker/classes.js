@@ -16,4 +16,4 @@ export default {
   monthIndicator: 'rangepicker__month-indicator',
   dayOfWeek: 'rangepicker__day-of-week',
   dateGrid: 'rangepicker__date-grid'
-}
+};

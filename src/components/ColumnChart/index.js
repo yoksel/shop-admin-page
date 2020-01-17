@@ -5,118 +5,118 @@ import {
   formatTotal,
   getDateFromString,
   fetchJson
-} from '../../helpers/index.js'
-import cls from './classes.js'
-import templates from './templates.js'
+} from '../../helpers/index.js';
+import cls from './classes.js';
+import templates from './templates.js';
 
-import './styles.scss'
+import './styles.scss';
 
 export default class ColumnChart extends HTMLElement {
-  constructor() {
-    super()
+  constructor () {
+    super();
 
-    this.listMouseOver = this.listMouseOver.bind(this)
-    this.listMouseOut = this.listMouseOut.bind(this)
+    this.listMouseOver = this.listMouseOver.bind(this);
+    this.listMouseOut = this.listMouseOut.bind(this);
 
-    this.elem = document.createElement('div')
-    this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru'
+    this.elem = document.createElement('div');
+    this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
   }
 
-  async connectedCallback() {
-    const { type, isMoney, from, to } = this.dataset
+  async connectedCallback () {
+    const { type, isMoney, from, to } = this.dataset;
 
     this.dates = {
       from: getDateFromString(from),
       to: getDateFromString(to)
-    }
+    };
 
-    this.type = type
-    this.formatTotal = isMoney ? formatTotal : null
-    this.classList.add(cls.elem, `${cls.elem}--${type}`)
-    this.elem.classList.add(cls.content)
-    this.title = `Total ${type}`
-    this.url = this.getUrl()
+    this.type = type;
+    this.formatTotal = isMoney ? formatTotal : null;
+    this.classList.add(cls.elem, `${cls.elem}--${type}`);
+    this.elem.classList.add(cls.content);
+    this.title = `Total ${type}`;
+    this.url = this.getUrl();
 
-    await this.render()
-    this.append(this.elem)
+    await this.render();
+    this.append(this.elem);
 
     document.addEventListener('changeDate', async event => {
       if (!event.detail || !event.detail.dates) {
-        return
+        return;
       }
 
-      this.dates = event.detail.dates
-      this.url = this.getUrl()
-      this.elem.innerHTML = ''
-      await this.render()
-      this.append(this.elem)
-    })
+      this.dates = event.detail.dates;
+      this.url = this.getUrl();
+      this.elem.innerHTML = '';
+      await this.render();
+      this.append(this.elem);
+    });
   }
 
-  getUrl() {
-    return `${this.apiUrl}/api/dashboard/${this.type}?from=${this.dates.from}&to=${this.dates.to}`
+  getUrl () {
+    return `${this.apiUrl}/api/dashboard/${this.type}?from=${this.dates.from}&to=${this.dates.to}`;
   }
 
-  async getData() {
+  async getData () {
     try {
-      return await fetchJson(this.url)
+      return await fetchJson(this.url);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
-  async render() {
-    this.data = await this.getData()
+  async render () {
+    this.data = await this.getData();
 
     if (!this.data) {
-      this.elem.insertAdjacentHTML('beforeEnd', 'No data for this chart')
-      return
+      this.elem.insertAdjacentHTML('beforeEnd', 'No data for this chart');
+      return;
     }
 
-    this.values = Object.values(this.data)
+    this.values = Object.values(this.data);
 
     if (this.values.length === 0) {
-      this.values.push('No data')
+      this.values.push('No data');
     }
 
-    const headerStr = this.getHeaderStr()
+    const headerStr = this.getHeaderStr();
 
-    const listStr = this.getListStr()
+    const listStr = this.getListStr();
     this.elem.insertAdjacentHTML(
       'beforeEnd',
       headerStr + listStr + templates.toolTip
-    )
+    );
 
-    this.addActions()
+    this.addActions();
   }
 
-  getHeaderStr() {
-    this.total = this.values.reduce((prev, current) => prev + current, 0)
+  getHeaderStr () {
+    this.total = this.values.reduce((prev, current) => prev + current, 0);
 
     if (this.formatTotal) {
-      this.total = this.formatTotal(this.total)
+      this.total = this.formatTotal(this.total);
     }
 
     return fillTemplate({
       tmpl: templates.header,
       data: this
-    })
+    });
   }
 
-  getListStr() {
-    const max = Math.max(...this.values)
-    let chartStr = ''
+  getListStr () {
+    const max = Math.max(...this.values);
+    let chartStr = '';
 
     for (const key in this.data) {
-      const date = formatDate(key)
-      let value = this.data[key]
-      const height = `${(value / max) * 100}%`
+      const date = formatDate(key);
+      let value = this.data[key];
+      const height = `${(value / max) * 100}%`;
 
       if (this.formatTotal) {
-        value = this.formatTotal(value)
+        value = this.formatTotal(value);
       }
 
-      const tootipContent = `<small class="${cls.tooltipDate}">${date}</small><div class="${cls.tooltipQuantity}">${value}</div>`
+      const tootipContent = `<small class="${cls.tooltipDate}">${date}</small><div class="${cls.tooltipQuantity}">${value}</div>`;
 
       chartStr += fillTemplate({
         tmpl: templates.chartItem,
@@ -125,45 +125,45 @@ export default class ColumnChart extends HTMLElement {
           height,
           tootipContent: escapeHTML(tootipContent)
         }
-      })
+      });
     }
 
-    return `<ul class="${cls.list}">${chartStr}</ul>`
+    return `<ul class="${cls.list}">${chartStr}</ul>`;
   }
 
-  addActions() {
-    this.list = this.elem.querySelector(`.${cls.list}`)
-    this.tooltip = this.elem.querySelector(`.${cls.tooltip}`)
+  addActions () {
+    this.list = this.elem.querySelector(`.${cls.list}`);
+    this.tooltip = this.elem.querySelector(`.${cls.tooltip}`);
 
-    this.list.addEventListener('mouseover', this.listMouseOver)
-    this.list.addEventListener('mouseout', this.listMouseOut)
+    this.list.addEventListener('mouseover', this.listMouseOver);
+    this.list.addEventListener('mouseout', this.listMouseOut);
   }
 
-  listMouseOver() {
+  listMouseOver () {
     if (event.target.tagName !== 'LI') {
-      this.tooltip.dataset.visible = 0
-      this.list.classList.remove(cls.listFaded)
-      return
+      this.tooltip.dataset.visible = 0;
+      this.list.classList.remove(cls.listFaded);
+      return;
     }
 
-    this.elemCoords = this.elem.getBoundingClientRect()
+    this.elemCoords = this.elem.getBoundingClientRect();
     const coords = {
       x: event.clientX - this.elemCoords.x,
       y: event.clientY - this.elemCoords.y
-    }
+    };
 
-    this.tooltip.style = `transform: translate(${coords.x}px, ${coords.y}px)`
+    this.tooltip.style = `transform: translate(${coords.x}px, ${coords.y}px)`;
 
-    const { content } = event.target.dataset
-    this.tooltip.innerHTML = content
-    this.tooltip.dataset.visible = 1
-    this.list.classList.add(cls.listFaded)
+    const { content } = event.target.dataset;
+    this.tooltip.innerHTML = content;
+    this.tooltip.dataset.visible = 1;
+    this.list.classList.add(cls.listFaded);
   }
 
-  listMouseOut() {
+  listMouseOut () {
     if (event.target.tagName !== 'UL' || event.target.tagName !== 'LI') {
-      this.tooltip.dataset.visible = 0
-      this.list.classList.remove(cls.listFaded)
+      this.tooltip.dataset.visible = 0;
+      this.list.classList.remove(cls.listFaded);
     }
   }
 }

@@ -10,4 +10,4 @@ export default {
   tooltip: 'column-chart__tooltip',
   tooltipDate: 'column-chart__tooltip-date',
   tooltipQuantity: 'column-chart__tooltip-quantity'
-}
+};
