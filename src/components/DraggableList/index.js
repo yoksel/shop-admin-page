@@ -9,10 +9,9 @@ const cls = {
   item: 'draggable-list__item',
   dragging: 'draggable-list__item--dragging',
   itemTitle: 'draggable-list__item-title',
-  itemTitle: 'draggable-list__item-title',
   itemCounter: 'draggable-list__item-counter',
-  placeholder: 'draggable-list__item--placeholder',
-}
+  placeholder: 'draggable-list__item--placeholder'
+};
 
 export default class DraggableList extends HTMLElement {
   constructor () {
