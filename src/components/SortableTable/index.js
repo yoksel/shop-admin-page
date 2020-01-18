@@ -58,27 +58,24 @@ export default class SortableTable extends HTMLElement {
     this.isLoading = true;
     this.table.dataset.loading = 1;
 
-    return new Promise((resolve, reject) => {
-      try {
-        const tableData = fetchJson(this.fetchUrl);
+    try {
+      const tableData = await fetchJson(this.fetchUrl);
 
-        this.isLoading = false;
-        this.table.dataset.loading = 0;
+      this.isLoading = false;
+      this.table.dataset.loading = 0;
 
-        resolve(tableData);
-      } catch (error) {
-        // Show error message to user
-        const message = new Message({ error });
-        this.table.dataset.loading = 0;
+      return tableData;
+    } catch (error) {
+      // Show error message to user
+      const message = new Message({ error });
+      this.table.dataset.loading = 0;
 
-        this.elem = message.elem;
-        this.tBody.insertAdjacentHTML(
-          'beforeEnd',
-          `<tr class="${cls.row}"><td class="${cls.cellError}">${message.elem.outerHTML}</tr>`
-        );
-        reject(error.message);
-      }
-    });
+      this.elem = message.elem;
+      this.tBody.insertAdjacentHTML(
+        'beforeEnd',
+        `<tr class="${cls.row}"><td class="${cls.cellError}">${message.elem.outerHTML}</tr>`
+      );
+    }
   }
 
   initTable () {
