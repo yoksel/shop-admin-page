@@ -60,8 +60,20 @@ A:hover {
 
 BUTTON,
 INPUT,
-TEXTAREA {
+TEXTAREA,
+SELECT {
+  display: block;
+  padding: .5rem;
+  background: none;
+  border-radius: var(--radius);
   font: inherit;
+}
+
+INPUT,
+TEXTAREA,
+SELECT {
+  width: 100%;
+  border: 1px solid var(--grey-light);
 }
 
 .page-layout {
