@@ -4,7 +4,7 @@ const notifContainer = document.createElement('div');
 notifContainer.classList.add('notifications');
 document.body.append(notifContainer);
 
-const notifications = [];
+let notifications = [];
 
 export default async function notify (message, type) {
   const notification = new Notification({

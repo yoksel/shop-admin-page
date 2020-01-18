@@ -41,18 +41,18 @@ export default class Notification {
     });
   }
 
-  getDuration() {
-    if(this.type === 'error') {
+  getDuration () {
+    if (this.type === 'error') {
       return 5 * second;
     }
 
     return 3 * second;
   }
 
-  getClasses() {
+  getClasses () {
     const classes = [cls.elem];
 
-    if(this.type && cls[this.type]) {
+    if (this.type && cls[this.type]) {
       classes.push(cls[this.type]);
     }
 
