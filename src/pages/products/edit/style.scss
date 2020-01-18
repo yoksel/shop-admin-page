@@ -1,0 +1,44 @@
+.product-form {
+  margin-bottom: 2rem;
+
+  IMG {
+    max-width: 100%;
+  }
+}
+
+.product-form__list,
+.product-form__footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+}
+
+.product-form__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.product-form__item {
+  grid-column: 1 / span 2;
+
+  &--full {
+    grid-column: 1 / span 3;
+  }
+
+  &--tiny {
+    grid-column: 1 / span 1;
+  }
+
+  &--follow {
+    grid-column-start: auto;
+  }
+
+  & + & {
+    margin-top: 1rem;
+  }
+}
+
+.product-form__footer {
+  margin-top: 2rem;
+}
