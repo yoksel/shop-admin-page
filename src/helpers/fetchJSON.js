@@ -1,4 +1,5 @@
 // Inspired by https://gist.github.com/iliakan/dd6ad0dadb6630544d1187c4c94ccf40
+import notifier from '../lib/notifier.js';
 
 // console.clear();
 export default async function fetchJSON (url) {
@@ -50,3 +51,10 @@ class FetchError extends Error {
     this.body = body;
   }
 }
+
+// handle uncaught failed fetch through
+window.addEventListener('unhandledrejection', event => {
+  if (event.reason instanceof FetchError) {
+    notifier(event.reason.message, 'error');
+  }
+});
