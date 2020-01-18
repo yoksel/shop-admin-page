@@ -6,7 +6,7 @@ import cls from './classes.js';
 export default {
   images: {
     title: 'Image',
-    render ({images}) {
+    render ({ images }) {
       if (!images || !images[0].url) {
         return '';
       }
@@ -20,7 +20,7 @@ export default {
   },
   title: {
     title: 'Name',
-    render ({title, id}) {
+    render ({ title, id }) {
       return `
       ${title}
       <a class="${cls.link}" href="/products/${id}"></a>
@@ -32,7 +32,7 @@ export default {
   },
   subcategory: {
     title: 'Category',
-    render ({subcategory}) {
+    render ({ subcategory }) {
       const category = subcategory.category;
       return `<span title="${category.title}/${subcategory.title}">${subcategory.title}</span>`;
     },
@@ -45,7 +45,7 @@ export default {
   },
   quantity: {
     title: 'Quantity',
-    render ({quantity}) {
+    render ({ quantity }) {
       return quantity;
     },
     compare (a, b) {
@@ -54,7 +54,7 @@ export default {
   },
   price: {
     title: 'Price',
-    render ({price}) {
+    render ({ price }) {
       return formatTotal(price);
     },
     compare (a, b) {
@@ -63,7 +63,7 @@ export default {
   },
   status: {
     title: 'Status',
-    render ({status}) {
+    render ({ status }) {
       return statusText[status];
     },
     compare (a, b) {
