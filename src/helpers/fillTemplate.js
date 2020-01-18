@@ -4,7 +4,7 @@ export default function fillTemplate ({ tmpl, data }) {
   }
 
   return tmpl.replace(/{([^"]{1,})}/g, (match, str) => {
-    if (data[str]) {
+    if (data[str] !== undefined) {
       return data[str];
     }
     return '';
