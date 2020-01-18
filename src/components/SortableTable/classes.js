@@ -9,5 +9,6 @@ export default {
   cellSorter: 'sortable-table__cell--sorter',
   img: 'sortable-table__image',
   imgWrapper: 'sortable-table__image-wrapper',
-  preview: 'sortable-table__preview'
+  preview: 'sortable-table__preview',
+  link: 'sortable-table__link'
 };

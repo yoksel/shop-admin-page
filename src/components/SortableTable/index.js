@@ -266,7 +266,7 @@ export default class SortableTable extends HTMLElement {
           `${cls.cell}--${statusText[status].toLowerCase()}`
         ];
         const renderField = fields[field].render;
-        const renderedContent = renderField(row[field]);
+        const renderedContent = renderField(row);
 
         if (renderedContent) {
           rowContent += `<td class="${tdClasses.join(

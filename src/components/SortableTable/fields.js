@@ -6,11 +6,11 @@ import cls from './classes.js';
 export default {
   images: {
     title: 'Image',
-    render (list) {
-      if (!list || !list[0].url) {
+    render ({images}) {
+      if (!images || !images[0].url) {
         return '';
       }
-      const src = list[0].url;
+      const src = images[0].url;
       return `<div class="${cls.imgWrapper}">
       <img src="${src}" class="${cls.img}">
       <span style="background-image: url(${src})" class="${cls.preview}"><span>
@@ -20,8 +20,11 @@ export default {
   },
   title: {
     title: 'Name',
-    render (text) {
-      return text;
+    render ({title, id}) {
+      return `
+      ${title}
+      <a class="${cls.link}" href="/products/${id}"></a>
+      `;
     },
     compare (a, b) {
       return a.title.localeCompare(b.title);
@@ -29,8 +32,7 @@ export default {
   },
   subcategory: {
     title: 'Category',
-    render (categoryData) {
-      const subcategory = categoryData;
+    render ({subcategory}) {
       const category = subcategory.category;
       return `<span title="${category.title}/${subcategory.title}">${subcategory.title}</span>`;
     },
@@ -43,8 +45,8 @@ export default {
   },
   quantity: {
     title: 'Quantity',
-    render (text) {
-      return text;
+    render ({quantity}) {
+      return quantity;
     },
     compare (a, b) {
       return a.quantity - b.quantity;
@@ -52,7 +54,7 @@ export default {
   },
   price: {
     title: 'Price',
-    render (price) {
+    render ({price}) {
       return formatTotal(price);
     },
     compare (a, b) {
@@ -61,7 +63,7 @@ export default {
   },
   status: {
     title: 'Status',
-    render (status) {
+    render ({status}) {
       return statusText[status];
     },
     compare (a, b) {

@@ -12,6 +12,7 @@
 }
 
 .sortable-table__row {
+  position: relative;
   display: grid;
   grid: auto-flow / 12% 38% 20% 10% 10% 10%;
   text-decoration: none;
@@ -128,4 +129,12 @@
   width: 300%;
   height: 300%;
   opacity: 1;
+}
+
+.sortable-table__link {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
