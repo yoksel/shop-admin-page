@@ -123,17 +123,25 @@ export default class SortableTable extends HTMLElement {
 
   getFetchUrl () {
     const params = {
-      from: this.dates.from,
-      to: this.dates.to,
       start: this.page.current * this.page.items,
       end: (this.page.current + 1) * this.page.items,
       sort: this.order.field,
       order: getDirectionText(this.sorting.isAsc)
     };
 
+    if (this.dates && this.dates.from) {
+      params.from = this.dates.from;
+      params.to = this.dates.to;
+    }
+
     let paramsStr = '';
     for (const key in params) {
-      paramsStr += `&_${key}=${params[key]}`;
+      let prefix = '_';
+      if (key === 'from' || key === 'to') {
+        prefix = '';
+      }
+
+      paramsStr += `&${prefix}${key}=${params[key]}`;
     }
     return this.url + paramsStr;
   }
