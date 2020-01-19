@@ -10,5 +10,8 @@ export default {
   img: 'sortable-table__image',
   imgWrapper: 'sortable-table__image-wrapper',
   preview: 'sortable-table__preview',
-  link: 'sortable-table__link'
+  link: 'sortable-table__link',
+  category: 'sortable-table__category',
+  tooltipCategory: 'sortable-table__tooltip-category',
+  tooltipSubcategory: 'sortable-table__tooltip-subcategory'
 };

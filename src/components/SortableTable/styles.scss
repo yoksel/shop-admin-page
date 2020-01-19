@@ -138,3 +138,12 @@
   bottom: 0;
   left: 0;
 }
+
+.sortable-table__category {
+  position: relative;
+  cursor: pointer;
+}
+
+.sortable-table__tooltip-category {
+  color: var(--grey);
+}

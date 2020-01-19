@@ -1,4 +1,4 @@
-import { formatTotal } from '../../helpers/index.js';
+import { formatTotal, escapeHTML } from '../../helpers/index.js';
 import statusText from './statusText.js';
 import cls from './classes.js';
 
@@ -34,7 +34,8 @@ export default {
     title: 'Category',
     render ({ subcategory }) {
       const category = subcategory.category;
-      return `<span title="${category.title}/${subcategory.title}">${subcategory.title}</span>`;
+      const tootipContent = `<span class="${cls.tooltipCategory}">${category.title}</span>/<span class="${cls.tooltipSubcategory}">${subcategory.title}</span>`;
+      return `<span class="${cls.category}" data-tooltip-content="${escapeHTML(tootipContent)}">${subcategory.title}</span>`;
     },
     compare (a, b) {
       // Sorting by russian titles

@@ -1,3 +1,4 @@
+import Tooltips from '../Tooltips/index.js';
 import cls from './classes.js';
 import statusText from './statusText.js';
 import fields from './fields.js';
@@ -70,7 +71,6 @@ export default class SortableTable extends HTMLElement {
       const message = new Message({ error });
       this.table.dataset.loading = 0;
 
-      this.elem = message.elem;
       this.tBody.insertAdjacentHTML(
         'beforeEnd',
         `<tr class="${cls.row}"><td class="${cls.cellError}">${message.elem.outerHTML}</tr>`
@@ -223,6 +223,7 @@ export default class SortableTable extends HTMLElement {
   addTableEvents () {
     this.table.addEventListener('click', this);
     window.addEventListener('scroll', this.onBodyScrollThrottle);
+    this.tooltips = new Tooltips({ elem: this });
   }
 
   // Handles all events for table
