@@ -1,50 +1,40 @@
 .draggable-list {
-  display: block;
   position: relative;
-}
-
-.draggable-list__items {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
 }
 
 .draggable-list__item {
   display: flex;
   align-items: center;
-  padding: .8rem;
-  border: 1px solid var(--grey-light);
-  border-radius: var(--radius);
   cursor: grab;
 
-  & + & {
-    margin-top: .5rem;
+  &::before {
+    content: "";
+    display: block;
+    height: 1.4em;
+    width: 11px;
+    margin-right: 1rem;
+    background: url("./grab-icon.svg") 50% 50% no-repeat;
+    opacity: .5;
   }
+}
+
+.draggable-list__item--placeholder {
+  background: var(--grey-light) !important;
 
   &::before {
-    content: url("./grab-icon.svg");
-    display: block;
-    height: 18px;
-    margin-right: 1rem;
+    background: none;
   }
 }
 
-.draggable-list__item-placeholder::before {
-  content: none;
-}
-
-.draggable-list__item--dragging {
-  position: fixed;
-  width: 100%;
+.draggable-list__item--dragged {
+  position: absolute;
+  left: 0;
+  right: 0;
   background: var(--white);
-  box-shadow: 0 0 1rem rgba(0, 0, 0, .15);
-}
+  box-shadow: 0 0 1rem rgba(0, 0, 0, .35);
+  cursor: grabbing;
 
-.draggable-list__item-title {
-  margin-bottom: 0;
-}
-
-.draggable-list__item-counter {
-  margin-left: auto;
+  &::before {
+    opacity: 1;
+  }
 }

@@ -1,5 +1,3 @@
-import { fetchJson } from '../../helpers/index.js';
-
 import './styles.scss';
 import './grab-icon.svg';
 
@@ -7,27 +5,13 @@ const cls = {
   elem: 'draggable-list',
   items: 'draggable-list__items',
   item: 'draggable-list__item',
-  dragging: 'draggable-list__item--dragging',
-  itemTitle: 'draggable-list__item-title',
-  itemCounter: 'draggable-list__item-counter',
+  dragged: 'draggable-list__item--dragged',
   placeholder: 'draggable-list__item--placeholder'
 };
 
-export default class DraggableList extends HTMLElement {
+export default class DraggableList extends HTMLUListElement {
   constructor () {
     super();
-
-    this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
-
-    this.classList.add(cls.elem);
-    this.list = document.createElement('ul');
-    this.list.classList.add(cls.items);
-    this.placeholder = document.createElement('li');
-    this.placeholder.classList.add(
-      cls.item,
-      cls.placeholder
-    );
-    this.append(this.list);
 
     this.startDrag = this.startDrag.bind(this);
     this.stopDrag = this.stopDrag.bind(this);
@@ -35,74 +19,67 @@ export default class DraggableList extends HTMLElement {
   }
 
   async connectedCallback () {
-    const { url } = this.dataset;
-    this.url = this.apiUrl + url;
-    await this.render();
+    this.classList.add(cls.elem);
+    this.items = this.querySelectorAll('li');
+    this.placeholder = this.items[0].cloneNode(true);
+    this.placeholder.classList.add(cls.placeholder, cls.item);
+    this.placeholder.innerHTML = '';
 
+    this.addClassToItems();
     this.addEventListener('pointerdown', this.startDrag);
     this.addEventListener('pointerup', this.stopDrag);
   }
 
-  async getData () {
-    try {
-      return await fetchJson(this.url);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async render () {
-    this.data = await this.getData();
-
-    if (!this.data) {
-      this.list.insertAdjacentHTML('beforeEnd', 'No data for this list');
-      return;
-    }
-
-    const itemsStr = this.getItemsStr();
-    this.list.insertAdjacentHTML('beforeEnd', itemsStr);
-  }
-
-  startDrag () {
-    console.log('Start');
+  startDrag (event) {
     this.addEventListener('pointermove', this.move);
 
-    this.currentElem = event.target.closest(`.${cls.item}`);
-
+    this.currentElem = event.target.closest('li');
     this.currentElem.replaceWith(this.placeholder);
-    this.list.append(this.currentElem);
-
-    this.currentElem.classList.add(cls.dragging);
-  }
-
-  move (event) {
-    console.log('— Move');
-    console.log(event);
+    this.currentElem.classList.add(cls.dragged);
+    this.append(this.currentElem);
 
     const { top } = this.getBoundingClientRect();
-    const elemTop = event.clientX - top;
-    console.log('- event.clientX', event.clientX);
-    console.log('- top', top);
-    console.log('- elemTop', elemTop);
+    this.top = top;
+    this.elemHalf = this.currentElem.offsetHeight / 2;
+
+    const elemTop = event.clientY - this.top - this.elemHalf;
     this.currentElem.style.top = `${elemTop}px`;
   }
 
+  move (event) {
+    const elemTop = event.clientY - this.top - this.elemHalf;
+    this.currentElem.style.top = `${elemTop}px`;
+
+    // Check intersection
+    for (const item of this.items) {
+      if (item.classList.contains(cls.dragged)) {
+        continue;
+      }
+
+      const top = item.offsetTop;
+      const bottom = top + item.offsetHeight;
+      const middle = top + item.offsetHeight / 2;
+      const checkLine = elemTop + this.elemHalf;
+
+      if (checkLine > top && checkLine < bottom) {
+        if (checkLine <= middle) {
+          item.after(this.placeholder);
+        } else {
+          item.before(this.placeholder);
+        }
+        break;
+      }
+    }
+  }
+
   stopDrag () {
-    console.log('Stop');
+    this.placeholder.replaceWith(this.currentElem);
+    this.currentElem.classList.remove(cls.dragged);
+    this.currentElem.style.top = '';
     this.removeEventListener('pointermove', this.move);
   }
 
-  getItemsStr () {
-    const items = this.data.map(item => {
-      return `<li class="${cls.item}">
-          <h3 class="${cls.itemTitle}">${item.title}</h3>
-
-          <span class="${cls.itemCounter}">
-            ${item.count} items
-          </span>
-        </li>`;
-    });
-
-    return items.join('');
+  addClassToItems () {
+    this.items.forEach(item => item.classList.add(cls.item));
   }
 }
