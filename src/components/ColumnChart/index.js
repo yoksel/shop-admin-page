@@ -133,6 +133,9 @@ export default class ColumnChart extends HTMLElement {
   }
 
   addActions () {
-    this.tooltips = new Tooltips(this.elem);
+    this.tooltips = new Tooltips({
+      elem: this.elem,
+      dimSiblings: true
+    });
   }
 }
