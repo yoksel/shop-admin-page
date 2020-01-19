@@ -47,21 +47,17 @@ export default class {
           ></column-chart>
         </section>
 
-        <draggable-list
-          data-url="/api/rest/subcategories?_embed=subcategory.category"
-          ></draggable-list>
+        <section class="page-section">
+          <h2 class="page-section__title">Bestsellers</h2>
+
+        <sortable-table
+          data-url="/api/dashboard/bestsellers?_embed=subcategory.category",
+          data-is-dynamic="1"
+          data-fields-list="['images', 'title', 'subcategory', 'quantity', 'price', 'status']"
+          data-order-field='title',
+          data-order-direction="1"
+          ></sortable-table>
+        </section>
       </div>`);
   }
 }
-
-// <section class="page-section">
-//           <h2 class="page-section__title">Best sellers</h2>
-
-//           <sortable-table
-//             data-url="/api/dashboard/bestsellers?_embed=subcategory.category",
-//             data-is-dynamic="1"
-//             data-fields-list="['images', 'title', 'subcategory', 'quantity', 'price', 'status']"
-//             data-order-field='title',
-//             data-order-direction="1"
-//             ></sortable-table>
-//         </section>
