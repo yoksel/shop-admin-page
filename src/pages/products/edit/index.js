@@ -5,6 +5,7 @@ import fieldsOrder from './fieldsOrder.js';
 import cls from './classes.js';
 import { header } from './templates';
 
+import './icon-trash.svg';
 import './style.scss';
 
 export default class {
@@ -12,7 +13,7 @@ export default class {
     this.id = match[0].replace('products/', '');
 
     if (!match[0]) {
-      this.id = '3d-ochki-epson-elpgs03';
+      this.id = '3d-ochki-optoma-zd302';
     }
 
     this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
@@ -60,13 +61,13 @@ export default class {
     return createElement(`<div class="page-content">
       ${header}
 
-      <form action="" class="product-form">
-        <ul class="product-form__list">
+      <form action="" class="${cls.form}}">
+        <ul class="${cls.list}">
           ${inputs.join('\n')}
         </ul>
 
-        <footer class="product-form__footer">
-          <button class="product-form__submit">Save</button>
+        <footer class="${cls.footer}">
+          <button class="${cls.submit}">Save</button>
         </footer>
       </form>
     </div>`);

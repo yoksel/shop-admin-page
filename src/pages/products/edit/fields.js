@@ -1,20 +1,17 @@
 import { inputText, inputNumber, inputTextarea, inputSelect } from './templates.js';
 import statusText from './statusText.js';
 import { fillTemplate } from '../../../helpers/index.js';
-import cls from './classes.js';
+import { categoriesToFlatList, getOptions, getImgsListMarkup } from './helpers';
 
 // Rendering methods for product inputs
 export default {
   images: {
     render ({ images }) {
-      if (!images || !images[0].url) {
+      if (!images) {
         return '';
       }
-      const src = images[0].url;
-      return `List + upload || <div class="${cls.imgWrapper}">
-      <img src="${src}" class="${cls.img}">
-      <span style="background-image: url(${src})" class="${cls.preview}"><span>
-      <div>`;
+
+      return getImgsListMarkup(images);
     },
     compare: null
   },
@@ -114,30 +111,3 @@ export default {
     }
   }
 };
-
-function categoriesToFlatList (categories) {
-  const flatList = [];
-
-  for (const category of categories) {
-    for (const subcategory of category.subcategories) {
-      flatList.push({
-        value: subcategory.id,
-        text: `${category.title} > ${subcategory.title}`
-      });
-    }
-  }
-
-  return flatList;
-}
-
-function getOptions (list, selected) {
-  return list
-    .map((item, index) => {
-      const value = item.value || index;
-      const text = item.text || item;
-      const isSelected = value === selected ? 'selected' : '';
-
-      return `<option value="${value}" ${isSelected}>${text}</option>`;
-    })
-    .join('');
-}
