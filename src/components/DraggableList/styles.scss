@@ -18,8 +18,9 @@
   }
 }
 
-.draggable-list__item--placeholder {
-  background: var(--grey-light) !important;
+// Dirty specifity hack
+.draggable-list .draggable-list__item--placeholder {
+  background-color: var(--grey-light);
 
   &::before {
     background: none;
