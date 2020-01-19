@@ -1,19 +1,22 @@
+.tooltips-container {
+  position: relative;
+}
+
 .tooltip {
   position: absolute;
-  z-index: 1;
+  z-index: 3;
   left: 0;
   top: 0;
-  margin: .5rem 0 0 1rem;
+  margin: 1rem 0 0 1rem;
   padding: .5rem;
   background: #EEE;
-  box-shadow: 0 0 5px rgba(0, 0, 0, .25);
   border-radius: 3px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .25);
   line-height: 1;
   color: #555;
   transform: translate(0, 0);
   opacity: 0;
-  transition: .1s, .01s;
-  transition-property: opacity, transform;
+  transition: opacity .2s;
   pointer-events: none;
 }
 
@@ -26,6 +29,6 @@
   transition: opacity .2s;
 }
 
-.tooltips-container--faded [data-tooltip-content]:not(:hover) {
-  opacity: .5;
+.tooltips-container--dimmed [data-tooltip-content]:not(:hover) {
+  opacity: .4;
 }

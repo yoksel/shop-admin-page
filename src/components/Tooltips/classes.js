@@ -1,5 +1,5 @@
 export default {
   elem: 'tooltips-container',
-  faded: 'tooltips-container--faded',
+  dimmed: 'tooltips-container--dimmed',
   tooltip: 'tooltip'
 };
