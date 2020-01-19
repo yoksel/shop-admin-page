@@ -3,15 +3,10 @@ import { createElement } from '../../helpers/index.js';
 const from = new Date();
 from.setMonth(from.getMonth() - 1);
 const to = new Date();
-const dateOptions = {
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric'
-};
 
 const dates = {
-  from: from.toLocaleString('en-GB', dateOptions),
-  to: to.toLocaleString('en-GB', dateOptions)
+  from: from.toISOString(),
+  to: to.toISOString()
 };
 
 export default class {
@@ -52,10 +47,12 @@ export default class {
 
         <sortable-table
           data-url="/api/dashboard/bestsellers?_embed=subcategory.category",
-          data-is-dynamic="1"
+          data-is-dynamic="0"
           data-fields-list="['images', 'title', 'subcategory', 'quantity', 'price', 'status']"
           data-order-field='title',
           data-order-direction="1"
+          data-from="${dates.from}"
+          data-to="${dates.to}"
           ></sortable-table>
         </section>
       </div>`);

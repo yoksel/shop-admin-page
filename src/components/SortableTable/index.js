@@ -23,6 +23,8 @@ export default class SortableTable extends HTMLElement {
     };
 
     this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
+
+    this.changeDate = this.changeDate.bind(this);
   }
 
   async connectedCallback () {
@@ -31,8 +33,15 @@ export default class SortableTable extends HTMLElement {
       fieldsList,
       orderField,
       orderDirection,
-      isDynamic
+      isDynamic,
+      from,
+      to
     } = this.dataset;
+
+    this.dates = {
+      from,
+      to
+    };
 
     this.url = this.apiUrl + url;
     this.fieldsList = JSON.parse(fieldsList.replace(/'/g, '"'));
@@ -53,6 +62,8 @@ export default class SortableTable extends HTMLElement {
     this.onBodyScrollThrottle = throttle(this.onBodyScroll, this, 500);
 
     this.initTable();
+
+    document.addEventListener('changeDate', this.changeDate);
   }
 
   async loadData () {
@@ -112,6 +123,8 @@ export default class SortableTable extends HTMLElement {
 
   getFetchUrl () {
     const params = {
+      from: this.dates.from,
+      to: this.dates.to,
       start: this.page.current * this.page.items,
       end: (this.page.current + 1) * this.page.items,
       sort: this.order.field,
@@ -282,5 +295,16 @@ export default class SortableTable extends HTMLElement {
     if (this.pageYOffset) {
       window.scrollTo(0, this.pageYOffset);
     }
+  }
+
+  async changeDate (event) {
+    if (!event.detail || !event.detail.dates) {
+      return;
+    }
+
+    this.dates = event.detail.dates;
+    this.fetchUrl = this.getFetchUrl();
+    this.tBody.innerHTML = '';
+    this.fillTBody();
   }
 }

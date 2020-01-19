@@ -4,7 +4,6 @@ import {
   formatDate,
   escapeHTML,
   formatTotal,
-  getDateFromString,
   fetchJson
 } from '../../helpers/index.js';
 import cls from './classes.js';
@@ -18,14 +17,16 @@ export default class ColumnChart extends HTMLElement {
 
     this.elem = document.createElement('div');
     this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
+
+    this.changeDate = this.changeDate.bind(this);
   }
 
   async connectedCallback () {
     const { type, isMoney, from, to } = this.dataset;
 
     this.dates = {
-      from: getDateFromString(from),
-      to: getDateFromString(to)
+      from: new Date(from),
+      to: new Date(to)
     };
 
     this.type = type;
@@ -38,17 +39,7 @@ export default class ColumnChart extends HTMLElement {
     await this.render();
     this.append(this.elem);
 
-    document.addEventListener('changeDate', async event => {
-      if (!event.detail || !event.detail.dates) {
-        return;
-      }
-
-      this.dates = event.detail.dates;
-      this.url = this.getUrl();
-      this.elem.innerHTML = '';
-      await this.render();
-      this.append(this.elem);
-    });
+    document.addEventListener('changeDate', this.changeDate);
   }
 
   getUrl () {
@@ -137,5 +128,22 @@ export default class ColumnChart extends HTMLElement {
       elem: this.elem,
       dimSiblings: true
     });
+  }
+
+  async changeDate (event) {
+    if (!event.detail || !event.detail.dates) {
+      return;
+    }
+
+    const { from, to } = event.detail.dates;
+    this.dates = {
+      from: from,
+      to: to
+    };
+
+    this.url = this.getUrl();
+    this.elem.innerHTML = '';
+    await this.render();
+    this.append(this.elem);
   }
 }

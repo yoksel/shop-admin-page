@@ -1,7 +1,6 @@
 import {
   fillTemplate,
-  getWeekDays,
-  getDateFromString
+  getWeekDays
 } from '../../helpers/index.js';
 import templates from './templates.js';
 import cls from './classes.js';
@@ -27,8 +26,8 @@ export default class RangePicker extends HTMLElement {
     const { from, to } = this.dataset;
 
     this.dates = {
-      from: getDateFromString(from),
-      to: getDateFromString(to)
+      from: new Date(from),
+      to: new Date(to)
     };
 
     this.monthes = this.getDisplayedMonthes();
@@ -152,7 +151,7 @@ export default class RangePicker extends HTMLElement {
     this.newDates.push(new Date(date));
 
     this.newDates.sort((a, b) => {
-      return a.valueOf() - b.valueOf();
+      return a - b;
     });
     this.dates = {
       from: this.newDates[0],
@@ -162,7 +161,10 @@ export default class RangePicker extends HTMLElement {
     document.dispatchEvent(
       new CustomEvent('changeDate', {
         detail: {
-          dates: this.dates
+          dates: {
+            from: this.dates.from.toISOString(),
+            to: this.dates.to.toISOString()
+          }
         }
       })
     );
