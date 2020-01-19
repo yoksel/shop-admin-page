@@ -16,17 +16,17 @@ export default class DraggableList extends HTMLUListElement {
     this.startDrag = this.startDrag.bind(this);
     this.stopDrag = this.stopDrag.bind(this);
     this.move = this.move.bind(this);
+    this.setPlaceholderHeight = this.setPlaceholderHeight.bind(this);
   }
 
   async connectedCallback () {
     this.classList.add(cls.elem);
     this.items = this.querySelectorAll('li');
-    this.placeholder = this.items[0].cloneNode(true);
-    this.placeholder.classList.add(cls.placeholder, cls.item);
-    this.placeholder.innerHTML = '';
+    this.placeholder = this.createPlaceholder()
 
     this.addClassToItems();
     this.addEventListener('pointerdown', this.startDrag);
+    this.addEventListener('pointerdown', this.setPlaceholderHeight, {once: true});
   }
 
   startDrag (event) {
@@ -82,6 +82,20 @@ export default class DraggableList extends HTMLUListElement {
     this.currentElem.style.top = '';
     this.removeEventListener('pointermove', this.move);
     this.removeEventListener('pointerup', this.stopDrag);
+  }
+
+  createPlaceholder() {
+    const firstItem = this.items[0];
+    const placeholder = firstItem.cloneNode(true);
+    placeholder.classList.add(cls.placeholder, cls.item);
+    placeholder.innerHTML = '';
+
+    return placeholder;
+  }
+
+  setPlaceholderHeight() {
+    const firstItem = this.items[0];
+    this.placeholder.style.minHeight = `${firstItem.offsetHeight}px`;
   }
 
   addClassToItems () {
