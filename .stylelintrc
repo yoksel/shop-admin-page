@@ -20,7 +20,7 @@
     "function-url-quotes": "always",
     "font-family-name-quotes": "always-where-required",
     "comment-whitespace-inside": "always",
-    "comment-empty-line-before": "never",
+    "comment-empty-line-before": null,
     "at-rule-no-vendor-prefix": true,
     "selector-pseudo-element-colon-notation": "double",
     "selector-pseudo-class-parentheses-space-inside": "never",
