@@ -1,5 +1,5 @@
 import { createElement, fetchJson } from '../../../helpers/index.js';
-import Message from '../../../components/Message/index.js';
+import PageMessage from '../../../components/PageMessage/index.js';
 import fields from './fields.js';
 import fieldsOrder from './fieldsOrder.js';
 import cls from './classes.js';
@@ -81,7 +81,7 @@ export default class {
 
       return { productData, categories };
     } catch (error) {
-      const message = new Message({ error });
+      const message = new PageMessage({ error });
       return { errorMessage: message.elem };
     }
   }

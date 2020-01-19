@@ -4,7 +4,7 @@ import statusText from './statusText.js';
 import fields from './fields.js';
 import { fetchJson, throttle } from '../../helpers/index.js';
 import { getDirectionText } from './helpers.js';
-import Message from '../Message/index.js';
+import PageMessage from '../PageMessage/index.js';
 
 import './styles.scss';
 
@@ -79,7 +79,7 @@ export default class SortableTable extends HTMLElement {
       return tableData;
     } catch (error) {
       // Show error message to user
-      const message = new Message({ error });
+      const message = new PageMessage({ error });
       this.table.dataset.loading = 0;
 
       this.tBody.insertAdjacentHTML(

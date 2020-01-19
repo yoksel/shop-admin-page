@@ -1,6 +1,6 @@
 import './styles.scss';
 
-export default class Message {
+export default class PageMessage {
   constructor ({ title, text, callback, callbackText, error }) {
     this.title = title;
     this.text = text || 'Something went wrong';
@@ -17,17 +17,17 @@ export default class Message {
 
   createElement () {
     this.elem = document.createElement('div');
-    this.elem.classList.add('message');
+    this.elem.classList.add('page-message');
 
     if (this.error) {
-      this.elem.classList.add('message--error');
+      this.elem.classList.add('page-message--error');
     }
 
     this.content = `<h3>${this.title}</h3><p>${this.text}</p>`;
 
     if (this.error) {
-      this.content += `<div class="message__error">
-        <div class="message__error-text">
+      this.content += `<div class="page-message__error">
+        <div class="page-message__error-text">
           <strong>${this.error.name}</strong>: ${this.error.message}</div>
       </div>`;
     }

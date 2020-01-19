@@ -1,5 +1,5 @@
 import { createElement, fetchJson } from '../../helpers/index.js';
-import Message from '../../components/Message/index.js';
+import PageMessage from '../../components/PageMessage/index.js';
 
 import './styles.scss';
 
@@ -19,7 +19,6 @@ const cls = {
 export default class {
   constructor () {
     this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
-    // this.fetchUrl = `${this.apiUrl}/api/rest/subcategories?_embed=subcategory.category`;
     this.fetchUrl = `${this.apiUrl}/api/rest/categories?_sort=weight&_refs=subcategory`;
 
     this.listClick = this.listClick.bind(this);
@@ -27,16 +26,22 @@ export default class {
 
   async render () {
     const { categories, message } = await this.loadData();
+    const header = `<header class="page-content__header">
+        <h1 class="page-content__title">Dashboard/Categories</h1>
+      </header>`;
 
     if (message) {
-      return message;
+      return createElement(`<div class="page-content">
+        ${header}
+
+        ${message.elem.outerHTML}
+      </div>
+      `);
     }
 
     const list = this.createList(categories);
     this.elem = createElement(`<div class="page-content">
-      <header class="page-content__header">
-        <h1 class="page-content__title">Dashboard/Categories</h1>
-      </header>
+      ${header}
 
       <section class="page-section categories">
         <h2 class="page-section__title">Categories</h2>
@@ -58,7 +63,7 @@ export default class {
       return { categories };
     } catch (error) {
       // Show error message to user
-      const message = new Message({ error });
+      const message = new PageMessage({ error });
 
       return { message };
     }
