@@ -27,13 +27,14 @@ export default class DraggableList extends HTMLUListElement {
 
     this.addClassToItems();
     this.addEventListener('pointerdown', this.startDrag);
-    this.addEventListener('pointerup', this.stopDrag);
   }
 
   startDrag (event) {
-    this.addEventListener('pointermove', this.move);
+    this.currentElem = event.target.closest('.draggable-list__item');
+    if (!this.currentElem) {
+      return;
+    }
 
-    this.currentElem = event.target.closest('li');
     this.currentElem.replaceWith(this.placeholder);
     this.currentElem.classList.add(cls.dragged);
     this.append(this.currentElem);
@@ -44,6 +45,9 @@ export default class DraggableList extends HTMLUListElement {
 
     const elemTop = event.clientY - this.top - this.elemHalf;
     this.currentElem.style.top = `${elemTop}px`;
+
+    this.addEventListener('pointermove', this.move);
+    this.addEventListener('pointerup', this.stopDrag);
   }
 
   move (event) {
@@ -77,6 +81,7 @@ export default class DraggableList extends HTMLUListElement {
     this.currentElem.classList.remove(cls.dragged);
     this.currentElem.style.top = '';
     this.removeEventListener('pointermove', this.move);
+    this.removeEventListener('pointerup', this.stopDrag);
   }
 
   addClassToItems () {
