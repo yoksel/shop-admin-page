@@ -7,13 +7,10 @@ export const header = `<header class="${cls.header}">
 
 export const chartItem = `<li
   class="${cls.item}"
-  data-content="{tootipContent}"
+  data-tooltip-content="{tootipContent}"
   style="height: {height}"></li>`;
-
-export const toolTip = `<div class="${cls.tooltip}"></div>`;
 
 export default {
   header,
-  chartItem,
-  toolTip
+  chartItem
 };

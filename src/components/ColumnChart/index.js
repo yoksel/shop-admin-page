@@ -1,3 +1,4 @@
+import Tooltips from '../Tooltips/index.js';
 import {
   fillTemplate,
   formatDate,
@@ -14,9 +15,6 @@ import './styles.scss';
 export default class ColumnChart extends HTMLElement {
   constructor () {
     super();
-
-    this.listMouseOver = this.listMouseOver.bind(this);
-    this.listMouseOut = this.listMouseOut.bind(this);
 
     this.elem = document.createElement('div');
     this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
@@ -59,17 +57,19 @@ export default class ColumnChart extends HTMLElement {
 
   async getData () {
     try {
-      return await fetchJson(this.url);
+      const data = await fetchJson(this.url);
+      return { data };
     } catch (error) {
-      console.log(error);
+      return { error };
     }
   }
 
   async render () {
-    this.data = await this.getData();
+    const { data, error } = await this.getData();
+    this.data = data;
 
-    if (!this.data) {
-      this.elem.insertAdjacentHTML('beforeEnd', 'No data for this chart');
+    if (error) {
+      this.elem.insertAdjacentHTML('beforeEnd', `<div class="${cls.error}">${error}</div>`);
       return;
     }
 
@@ -84,7 +84,7 @@ export default class ColumnChart extends HTMLElement {
     const listStr = this.getListStr();
     this.elem.insertAdjacentHTML(
       'beforeEnd',
-      headerStr + listStr + templates.toolTip
+      headerStr + listStr
     );
 
     this.addActions();
@@ -110,7 +110,8 @@ export default class ColumnChart extends HTMLElement {
     for (const key in this.data) {
       const date = formatDate(key);
       let value = this.data[key];
-      const height = `${(value / max) * 100}%`;
+      const heightValue = ((value / max) * 100).toFixed(2);
+      const height = `${heightValue}%`;
 
       if (this.formatTotal) {
         value = this.formatTotal(value);
@@ -132,38 +133,6 @@ export default class ColumnChart extends HTMLElement {
   }
 
   addActions () {
-    this.list = this.elem.querySelector(`.${cls.list}`);
-    this.tooltip = this.elem.querySelector(`.${cls.tooltip}`);
-
-    this.list.addEventListener('mouseover', this.listMouseOver);
-    this.list.addEventListener('mouseout', this.listMouseOut);
-  }
-
-  listMouseOver () {
-    if (event.target.tagName !== 'LI') {
-      this.tooltip.dataset.visible = 0;
-      this.list.classList.remove(cls.listFaded);
-      return;
-    }
-
-    this.elemCoords = this.elem.getBoundingClientRect();
-    const coords = {
-      x: event.clientX - this.elemCoords.x,
-      y: event.clientY - this.elemCoords.y
-    };
-
-    this.tooltip.style = `transform: translate(${coords.x}px, ${coords.y}px)`;
-
-    const { content } = event.target.dataset;
-    this.tooltip.innerHTML = content;
-    this.tooltip.dataset.visible = 1;
-    this.list.classList.add(cls.listFaded);
-  }
-
-  listMouseOut () {
-    if (event.target.tagName !== 'UL' || event.target.tagName !== 'LI') {
-      this.tooltip.dataset.visible = 0;
-      this.list.classList.remove(cls.listFaded);
-    }
+    this.tooltips = new Tooltips(this.elem);
   }
 }

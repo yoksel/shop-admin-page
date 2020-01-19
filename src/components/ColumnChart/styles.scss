@@ -5,6 +5,7 @@
   flex-basis: calc((100% - 2rem) / 3);
   max-width: 300px;
   min-height: 150px;
+  max-height: 300px;
   margin: 0 0 .5rem 0;
   padding: 20px;
   box-sizing: border-box;
@@ -18,9 +19,11 @@
 }
 
 .column-chart__content {
+  position: relative;
   flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
+  max-width: 100%;
 }
 
 .column-chart__title {
@@ -53,32 +56,13 @@
   margin-left: 1px;
   background: var(--grey-light);
   cursor: pointer;
-  transition: opacity .1s;
 }
 
 .column-chart__item:first-child {
   margin-left: 0;
 }
 
-.column-chart__tooltip {
-  position: absolute;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  margin: .25rem .5rem 0 0;
-  padding: .5rem;
-  background: #EEE;
-  box-shadow: 0 0 5px rgba(0, 0, 0, .25);
-  border-radius: 3px;
-  line-height: 1;
-  color: #555;
-  transform: translate(0, 0);
-  opacity: 0;
-  transition: .1s;
-  transition-property: opacity, transform;
-  pointer-events: none;
-}
-
+// Tooltip content
 .column-chart__tooltip-date {
   font-size: .9em;
 }
@@ -86,10 +70,6 @@
 .column-chart__tooltip-quantity {
   margin-top: .25em;
   font-size: 1.1em;
-}
-
-.column-chart__tooltip[data-visible="1"] {
-  opacity: 1;
 }
 
 // Mods
@@ -117,6 +97,7 @@
   background: yellowgreen;
 }
 
-.column-chart__list--faded .column-chart__item:not(:hover) {
-  opacity: .5;
+.column-chart__error {
+  max-width: 100%;
+  overflow: auto;
 }
