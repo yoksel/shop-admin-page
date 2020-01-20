@@ -22,8 +22,59 @@
 }
 
 .page-aside {
-  min-width: 250px;
-  background: #EEE;
+  min-width: 300px;
+  background: var(--grey-extra-light);
+}
+
+.page-aside__title {
+  min-height: 3.2rem;
+  margin-bottom: 3rem;
+  line-height: 1;
+  color: var(--table-grey);
+
+  A {
+    text-decoration: none;
+  }
+}
+
+.page-aside__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.page-aside__item {
+  font-size: 1.2rem;
+
+  & + & {
+    margin-top: 1rem;
+  }
+}
+
+.page-aside__link {
+  text-decoration: none;
+
+  &::before {
+    margin-right: .45rem;
+  }
+
+  &--dashboard::before {
+    content: "📊";
+  }
+  &--products::before {
+    content: "💼";
+  }
+  &--categories::before {
+    content: "🗄";
+  }
+}
+
+.page-aside__link-text {
+  text-decoration: underline;
+
+  .page-aside__link:hover & {
+    text-decoration: none;
+  }
 }
 
 .page-footer {
@@ -38,6 +89,14 @@
 .page-content__header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.page-content__title {
+  margin-bottom: 0;
+  line-height: 3rem;
+  color: var(--grey);
 }
 
 .page-section {
@@ -51,4 +110,6 @@
 
 .page-section__title {
   flex-basis: 100%;
+  line-height: 3rem;
+  color: var(--grey);
 }

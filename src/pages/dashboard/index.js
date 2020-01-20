@@ -13,13 +13,13 @@ export default class {
   async render () {
     return createElement(`<div class="page-content">
       <header class="page-content__header">
-        <h1 class="page-content__title">Dashboard</h1>
+        <h2 class="page-content__title">Dashboard</h2>
 
         <range-picker
           data-from="${dates.from}"
           data-to="${dates.to}"
-        ></range-picker>
-      </header>
+          ></range-picker>
+        </header>
 
         <section class="page-section page-section--column-charts">
           <column-chart
@@ -43,7 +43,7 @@ export default class {
         </section>
 
         <section class="page-section">
-          <h2 class="page-section__title">Bestsellers</h2>
+          <h3 class="page-section__title">Bestsellers</h3>
 
         <sortable-table
           data-url="/api/dashboard/bestsellers?_embed=subcategory.category",

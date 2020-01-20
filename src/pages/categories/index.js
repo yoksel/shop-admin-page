@@ -1,20 +1,7 @@
 import { createElement, fetchJson } from '../../helpers/index.js';
 import PageMessage from '../../components/PageMessage/index.js';
-
+import cls from './classes.js';
 import './styles.scss';
-
-const cls = {
-  elem: 'categories',
-  list: 'categories__list',
-  listTop: 'categories__list--topcategories',
-  listSubcats: 'categories__list--subcategories',
-  item: 'categories__item',
-  itemTop: 'categories__item--topcategory',
-  itemSub: 'categories__item--subcategory',
-  itemOpen: 'categories__item--open',
-  toggler: 'categories__toggler',
-  counter: 'categories__counter'
-};
 
 export default class {
   constructor () {
@@ -26,23 +13,20 @@ export default class {
 
   async render () {
     const { categories, message } = await this.loadData();
-    const header = `<header class="page-content__header">
-        <h1 class="page-content__title">Dashboard/Categories</h1>
-      </header>`;
 
     if (message) {
       return createElement(`<div class="page-content">
-        ${header}
+        <section class="page-section categories">
+          <h2 class="page-section__title">Categories</h2>
 
-        ${message.elem.outerHTML}
+          ${message.elem.outerHTML}
+        </section>
       </div>
       `);
     }
 
     const list = this.createList(categories);
     this.elem = createElement(`<div class="page-content">
-      ${header}
-
       <section class="page-section categories">
         <h2 class="page-section__title">Categories</h2>
 
