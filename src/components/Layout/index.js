@@ -11,7 +11,7 @@ export default class Layout extends HTMLElement {
     return createElement(`<div class="page-container">
       <aside class="page-aside">
         <h1 class="page-aside__title">
-          <a href="/">Shop admin</a>
+          <a href="./">Shop admin</a>
         </h1>
 
         <nav class="page-aside__nav">
