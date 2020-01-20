@@ -13,13 +13,13 @@ export default class Layout extends HTMLElement {
         <nav>
           <ul>
             <li>
-              <a href="/">Dashboard</a>
+              <a href="./">Dashboard</a>
             </li>
             <li>
-              <a href="/products">Products</a>
+              <a href="./products">Products</a>
             </li>
             <li>
-              <a href="/categories">Categories</a>
+              <a href="./categories">Categories</a>
             </li>
           </ul>
         </nav>

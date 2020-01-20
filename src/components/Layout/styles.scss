@@ -5,13 +5,15 @@
 .page-container {
   display: flex;
   width: 100%;
+  max-width: 1360px;
+  margin: auto;
   min-height: 100vh;
 }
 
 .page-main,
 .page-aside,
 .page-footer {
-  padding: 1rem;
+  padding: 2rem;
   box-sizing: border-box;
 }
 

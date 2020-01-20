@@ -72,7 +72,7 @@ export default class Router {
 
     const href = link.getAttribute('href');
 
-    if (href && href.startsWith('/')) {
+    if (href && (href.startsWith('/') || href.startsWith('./'))) {
       event.preventDefault();
       this.navigate(href);
     }
@@ -81,6 +81,7 @@ export default class Router {
 
 function cleanPath (path) {
   return decodeURI(path)
+    .replace(/^\/shop-admin-page/, '') // dirty hack for gh-pages
     .replace(/^\/|\/$/, '')
     .replace(/\?.*$/, '')
     .replace(/#.*$/, '');

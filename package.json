@@ -1,5 +1,6 @@
 {
   "name": "shop-admin-page",
+  "homepage": "https://yoksel.github.io/shop-admin-page/",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -8,7 +9,7 @@
   },
   "scripts": {
     "test": "npm run js:lint && npm run css:lint",
-    "build": "webpack",
+    "build": "webpack --config prod.config.js",
     "start": "webpack-dev-server --open",
     "deploy": "npm run build && gh-pages -d dist",
     "lint": "eslint src",
