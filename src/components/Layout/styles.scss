@@ -61,9 +61,11 @@
   &--dashboard::before {
     content: "📊";
   }
+
   &--products::before {
     content: "💼";
   }
+
   &--categories::before {
     content: "🗄";
   }
