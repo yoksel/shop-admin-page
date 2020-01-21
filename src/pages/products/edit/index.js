@@ -76,10 +76,12 @@ export default class {
   async loadData () {
     // TODO: add loading indicator
     try {
-      const productData = await fetchJson(this.fetchProductUrl);
-      const categories = await fetchJson(this.fetchCategoriesUrl);
+      const data = await Promise.all([
+        fetchJson(this.fetchProductUrl),
+        fetchJson(this.fetchCategoriesUrl)
+      ]);
 
-      return { productData, categories };
+      return { productData: data[0], categories: data[1] };
     } catch (error) {
       const message = new PageMessage({ error });
       return { errorMessage: message.elem };
