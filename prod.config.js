@@ -1,18 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = () => {
-  const env = dotenv.config().parsed;
-  let envKeys = [];
-
-  if(env) {
-    envKeys = Object.keys(env).reduce((prev, next) => {
-      prev[`process.env.${next}`] = JSON.stringify(env[next]);
-      return prev;
-    }, {});
-  }
-
   return {
     mode: 'production',
     entry: './src/app.js',
@@ -26,7 +17,7 @@ module.exports = () => {
         {
           test: /\.scss$/,
           use: [
-            'style-loader',
+            MiniCssExtractPlugin.loader,
             'css-loader',
             'sass-loader',
           ]
@@ -49,7 +40,12 @@ module.exports = () => {
       port: 9000
     },
     plugins: [
-      new webpack.DefinePlugin(envKeys)
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // all options are optional
+        filename: 'styles.css',
+        ignoreOrder: false, // Enable to remove warnings about conflicting order
+      }),
     ]
   }
 };

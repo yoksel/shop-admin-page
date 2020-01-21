@@ -49,7 +49,7 @@ module.exports = () => {
       port: 9000
     },
     plugins: [
-      new webpack.DefinePlugin(envKeys)
+      new webpack.DefinePlugin(envKeys),
     ]
   }
 };
