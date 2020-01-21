@@ -23,7 +23,7 @@ export default {
     render ({ title, id }) {
       return `
       ${title}
-      <a class="${cls.link}" href="/products/${id}"></a>
+      <a class="${cls.link}" href="./products/${id}"></a>
       `;
     },
     compare (a, b) {

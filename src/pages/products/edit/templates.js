@@ -1,9 +1,9 @@
 import cls from './classes.js';
 
 export const header = `<header class="page-content__header">
-  <h1 class="page-content__title">
-  <a href="/products">Products</a>
-  /Edit Product</h1>
+  <h2 class="page-content__title">
+  <a href="./products">Products</a>
+  /Edit Product</h2>
 </header>`;
 
 export const inputText = `<label class="${cls.label}">
