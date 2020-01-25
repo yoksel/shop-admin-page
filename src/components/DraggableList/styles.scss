@@ -31,6 +31,8 @@
   position: absolute;
   left: 0;
   right: 0;
+  /* stylelint-disable-next-line declaration-no-important */
+  margin-top: 0 !important;
   background: var(--white);
   box-shadow: 0 0 1rem rgba(0, 0, 0, .35);
   cursor: grabbing;

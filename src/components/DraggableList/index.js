@@ -13,6 +13,8 @@ export default class DraggableList extends HTMLUListElement {
   constructor () {
     super();
 
+    this.current = {};
+
     this.startDrag = this.startDrag.bind(this);
     this.stopDrag = this.stopDrag.bind(this);
     this.move = this.move.bind(this);
@@ -25,34 +27,52 @@ export default class DraggableList extends HTMLUListElement {
     this.placeholder = this.createPlaceholder();
 
     this.addClassToItems();
+    this.disableDefaultDragstart();
     this.addEventListener('pointerdown', this.startDrag);
     this.addEventListener('pointerdown', this.setPlaceholderHeight, { once: true });
   }
 
   startDrag (event) {
-    this.currentElem = event.target.closest('.draggable-list__item');
-    if (!this.currentElem) {
+    this.current.elem = event.target.closest('.draggable-list__item');
+    if (!this.current.elem) {
       return;
     }
 
-    this.currentElem.replaceWith(this.placeholder);
-    this.currentElem.classList.add(cls.dragged);
-    this.append(this.currentElem);
+    event.preventDefault();
 
-    const { top } = this.getBoundingClientRect();
-    this.top = top;
-    this.elemHalf = this.currentElem.offsetHeight / 2;
+    this.current.height = this.current.elem.offsetHeight;
+    this.current.half = this.current.height / 2;
+    this.current.offset = this.getCurrentOffset(event);
+    this.current.scrollSteps = 0;
+    this.coords = this.getListCoords();
+    this.setCurrentItemTop(event);
 
-    const elemTop = event.clientY - this.top - this.elemHalf;
-    this.currentElem.style.top = `${elemTop}px`;
+    this.current.elem.replaceWith(this.placeholder);
+    this.current.elem.classList.add(cls.dragged);
+    this.append(this.current.elem);
 
     this.addEventListener('pointermove', this.move);
     this.addEventListener('pointerup', this.stopDrag);
+    document.addEventListener('pointerup', this.stopDrag);
+  }
+
+  getCurrentOffset (event) {
+    const { top } = this.current.elem.getBoundingClientRect();
+    return event.clientY - top;
+  }
+
+  getListCoords () {
+    return this.getBoundingClientRect();
   }
 
   move (event) {
-    const elemTop = event.clientY - this.top - this.elemHalf;
-    this.currentElem.style.top = `${elemTop}px`;
+    event.preventDefault();
+    this.setCurrentItemTop(event);
+
+    this.scrollOnMove(event);
+
+    const elemTop = event.clientY - this.coords.top - this.current.half;
+    const checkLine = elemTop + this.current.half;
 
     // Check intersection
     for (const item of this.items) {
@@ -63,7 +83,6 @@ export default class DraggableList extends HTMLUListElement {
       const top = item.offsetTop;
       const bottom = top + item.offsetHeight;
       const middle = top + item.offsetHeight / 2;
-      const checkLine = elemTop + this.elemHalf;
 
       if (checkLine > top && checkLine < bottom) {
         if (checkLine <= middle) {
@@ -76,10 +95,47 @@ export default class DraggableList extends HTMLUListElement {
     }
   }
 
+  setCurrentItemTop (event) {
+    this.coords = this.getListCoords();
+    let elemTop = event.clientY - this.coords.top - this.current.offset;
+    const min = -this.current.half;
+    const max = this.coords.height - this.current.half;
+
+    if (elemTop < min) {
+      elemTop = min;
+    } else if (elemTop > max) {
+      elemTop = max;
+    }
+    this.current.elem.style.top = `${elemTop}px`;
+  }
+
+  scrollOnMove (event) {
+    const { top, bottom } = this.current.elem.getBoundingClientRect();
+    const documentOverflow = {
+      bottom: bottom - document.documentElement.clientHeight,
+      top: document.documentElement.clientTop - top
+    };
+
+    let scrollSize = 0;
+    if (documentOverflow.bottom > 0) {
+      scrollSize = this.current.half;
+    } else if (documentOverflow.top > 0) {
+      scrollSize = -this.current.half;
+    }
+
+    if (!scrollSize) {
+      return;
+    }
+
+    window.scrollBy(0, scrollSize);
+    this.setCurrentItemTop(event);
+    this.current.offset = this.getCurrentOffset(event);
+  }
+
   stopDrag () {
-    this.placeholder.replaceWith(this.currentElem);
-    this.currentElem.classList.remove(cls.dragged);
-    this.currentElem.style.top = '';
+    this.placeholder.replaceWith(this.current.elem);
+    this.current.elem.classList.remove(cls.dragged);
+    this.current.elem.style.top = '';
     this.removeEventListener('pointermove', this.move);
     this.removeEventListener('pointerup', this.stopDrag);
   }
@@ -100,5 +156,11 @@ export default class DraggableList extends HTMLUListElement {
 
   addClassToItems () {
     this.items.forEach(item => item.classList.add(cls.item));
+  }
+
+  disableDefaultDragstart () {
+    this.items.forEach(item => {
+      item.ondragstart = () => false;
+    });
   }
 }
