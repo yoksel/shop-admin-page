@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = () => {
   const env = dotenv.config().parsed;
@@ -50,6 +51,11 @@ module.exports = () => {
     },
     plugins: [
       new webpack.DefinePlugin(envKeys),
+      new HtmlWebpackPlugin({
+        title: 'Shop admin page',
+        filename: 'index.html',
+        template: 'src/index-tmpl.html'
+      }),
     ]
   }
 };
