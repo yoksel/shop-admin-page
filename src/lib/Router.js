@@ -1,3 +1,5 @@
+// from https://github.com/js-tasks-ru/course-js-frontend/blob/master/lib/router.js
+
 import renderPage from './renderPage.js';
 
 export default class Router {
