@@ -31,7 +31,7 @@ export function getOptions (list, selected) {
     .join('');
 }
 
-export function getImgsListMarkup (images) {
+export function getImgsListMarkup (images = []) {
   const imagesItems = images
     .map(item => {
       return fillTemplate({
@@ -46,16 +46,22 @@ export function getImgsListMarkup (images) {
   `;
 }
 
-export function getHeaderStr(id) {
+export function getPageTitle (id) {
   let title = 'Edit Product';
 
-  if(!id) {
+  if (!id) {
     title = 'Create Product';
   }
 
+  return title;
+}
+
+export function getHeaderStr (id) {
+  const title = getPageTitle(id);
+
   const headerStr = fillTemplate({
     tmpl: header,
-    data: {title}
+    data: { title }
   });
 
   return headerStr;

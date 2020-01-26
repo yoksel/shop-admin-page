@@ -19,10 +19,6 @@ export default {
   },
   images: {
     render ({ images }) {
-      if (!images) {
-        return '';
-      }
-
       return getImgsListMarkup(images);
     }
   },

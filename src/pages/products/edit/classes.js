@@ -1,4 +1,8 @@
 export default {
+  pageContent: 'page-content',
+  pageContentCreate: 'page-content--create',
+  pageContentTitle: 'page-content__title',
+  pageContentTitleMain: 'page-content__title-maintext',
   form: 'product-form',
   list: 'product-form__list',
   item: 'product-form__item',

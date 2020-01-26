@@ -2,9 +2,6 @@ import cls from './classes.js';
 
 export default [
   {
-    name: 'id'
-  },
-  {
     name: 'title'
   },
   {

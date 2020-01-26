@@ -1,11 +1,10 @@
 import { createElement, fetchJson, fillTemplate } from '../../../helpers/index.js';
 import PageMessage from '../../../components/PageMessage/index.js';
 import fields from './fields.js';
-import fieldsOrder from './fieldsOrder.js';
 import cls from './classes.js';
-import { header, imgListItem } from './templates';
+import { imgListItem } from './templates';
 import notifier from '../../../lib/notifier.js';
-import {getHeaderStr, getInputsList} from './helpers.js';
+import { getPageTitle, getHeaderStr, getInputsList } from './helpers.js';
 
 import './icon-trash.svg';
 import './style.scss';
@@ -14,10 +13,12 @@ const CLIENT_ID = 'e2b5c366b2d23fb';
 
 export default class {
   constructor (match) {
-    this.id = match[0].replace('products/', '');
+    this.id = match[0]
+      .replace('products/', '')
+      .replace(/^add$/, '');
 
     if (!match[0]) {
-      this.id = '3d-ochki-optoma-zd302';
+      // this.id = '3d-ochki-optoma-zd302';
     }
 
     this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
@@ -31,7 +32,7 @@ export default class {
   }
 
   async render () {
-    const headerStr = getHeaderStr();
+    const headerStr = getHeaderStr(this.id);
 
     const { productData, categories, errorMessage } = await this.loadData();
 
@@ -45,13 +46,14 @@ export default class {
     }
 
     const product = productData[0];
-    const getIdInput = fields.id.render({id: this.id});
+    const getIdInput = fields.id.render({ id: this.id });
     const inputs = getInputsList({ product, categories });
 
     this.elem = createElement(`<div class="page-content">
       ${headerStr}
 
       <form class="${cls.form}">
+        ${getIdInput}
         <ul class="${cls.list}">
           ${inputs.join('\n')}
         </ul>
@@ -66,7 +68,12 @@ export default class {
     this.imgList = this.elem.querySelector(`.${cls.imgsList}`);
     this.submitBtn = this.elem.querySelector(`.${cls.submit}`);
     this.form = this.elem.querySelector(`.${cls.form}`);
-    this.idInput = this.elem.querySelector(`input[name="id"]`);
+    this.idInput = this.elem.querySelector('input[name="id"]');
+    this.pageContentTitleMain = this.elem.querySelector(`.${cls.pageContentTitleMain}`);
+
+    if (!this.id) {
+      this.elem.classList.add(cls.pageContentCreate);
+    }
 
     this.addEvents();
 
@@ -140,7 +147,7 @@ export default class {
         }
       });
     this.imgList.insertAdjacentHTML('beforeEnd', item);
-    notifier('Image was added', 'success');
+    notifier('Image was loaded');
   }
 
   deleteImage (event) {
@@ -162,8 +169,18 @@ export default class {
         body: JSON.stringify(data)
     };
 
-    await fetchJson(this.fetchSaveUrl, params);
-    notifier('Product saved', 'success');
+    const result = await fetchJson(this.fetchSaveUrl, params);
+
+    let notificationText = 'Product saved';
+
+    if (!data.id) {
+      notificationText = 'Product created';
+      this.idInput.value = result.id;
+      this.elem.classList.remove(cls.pageContentCreate);
+      this.pageContentTitleMain.innerHTML = getPageTitle(result.id);
+    }
+
+    notifier(notificationText, 'success');
   }
 
   collectFormData () {

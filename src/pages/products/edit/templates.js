@@ -1,11 +1,18 @@
 import cls from './classes.js';
 
 export const header = `<header class="page-content__header">
-  <h2 class="page-content__title">
+  <h2 class="${cls.pageContentTitle}">
+    <a
+      class="page-content__title-link"
+      href="./products">Products</a>
+    /
+    <span class="${cls.pageContentTitleMain}">{title}</span>
+  </h2>
+
   <a
-    class="page-content__title-link"
-    href="./products">Products</a>
-  /{title}</h2>
+    class="page-content__header-create control control--green"
+    href="./products/add">Add Product
+  </a>
 </header>`;
 
 export const inputHidden = `<input

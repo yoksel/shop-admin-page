@@ -2,6 +2,12 @@
   margin-bottom: 2rem;
 }
 
+.page-content__header-create {
+  .page-content--create & {
+    display: none;
+  }
+}
+
 .product-form__list,
 .product-form__footer {
   display: grid;
@@ -54,11 +60,26 @@
   list-style-type: none;
 }
 
+.product-form__images-list:empty {
+  border: 1px dashed var(--grey-light);
+  text-align: center;
+
+  &::before {
+    width: 100%;
+    content: "Use button below to add images here";
+    color: var(--grey);
+  }
+}
+
 .product-form__images-item {
+  background: var(--grey-extra-light);
+}
+
+.product-form__images-item,
+.product-form__images-list:empty {
   display: flex;
   align-items: center;
   padding: .5rem;
-  background: var(--grey-extra-light);
   border-radius: var(--radius);
 
   & + & {
@@ -130,4 +151,8 @@
 // Footer
 .product-form__footer {
   margin-top: 2rem;
+}
+
+.product-form__submit {
+  font-size: 1.3em;
 }
