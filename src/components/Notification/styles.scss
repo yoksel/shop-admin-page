@@ -5,7 +5,8 @@
   justify-content: flex-end;
   right: 1rem;
   bottom: 1rem;
-  width: 200px;
+  min-width: 200px;
+  max-width: 500px;
   max-height: 50vh;
 }
 /* Notification */
