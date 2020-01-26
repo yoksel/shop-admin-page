@@ -33,8 +33,8 @@ export default class DraggableList extends HTMLUListElement {
     this.addMutationObserver();
   }
 
-  initList() {
-    if(this.items.length === 0) {
+  initList () {
+    if (this.items.length === 0) {
       return;
     }
 
@@ -161,7 +161,7 @@ export default class DraggableList extends HTMLUListElement {
   }
 
   createPlaceholder () {
-    if(this.placeholder) {
+    if (this.placeholder) {
       return this.placeholder;
     }
 
