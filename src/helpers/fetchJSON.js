@@ -2,12 +2,12 @@
 import notifier from '../lib/notifier.js';
 
 // console.clear();
-export default async function fetchJSON (url) {
+export default async function fetchJSON (url, params) {
   let response;
 
   // Error while loading (bad url or connection)
   try {
-    response = await fetch(url);
+    response = await fetch(url, params);
   } catch (error) {
     throw new FetchError(response, null, `Network error for url ${url}`);
   }
