@@ -28,6 +28,10 @@
   &--error {
     background: var(--red);
   }
+
+  &--success {
+    background: var(--green);
+  }
 }
 
 .notification[data-state="hidden"] {

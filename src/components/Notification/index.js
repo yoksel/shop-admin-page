@@ -3,7 +3,8 @@ import './styles.scss';
 const cls = {
   elem: 'notification',
   warning: 'notification--warning',
-  error: 'notification--error'
+  error: 'notification--error',
+  success: 'notification--success'
 };
 
 const second = 1000;
@@ -43,7 +44,7 @@ export default class Notification {
 
   getDuration () {
     if (this.type === 'error') {
-      return 5 * second;
+      return 6 * second;
     }
 
     return 3 * second;
