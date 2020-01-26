@@ -106,11 +106,13 @@
 }
 
 .page-section {
-  display: flex;
-  flex-wrap: wrap;
-
   & + & {
     margin-top: 2rem;
+  }
+
+  &--column-charts {
+    display: flex;
+    flex-wrap: wrap;
   }
 }
 
