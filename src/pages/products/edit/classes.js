@@ -7,6 +7,8 @@ export default {
   itemFull: 'product-form__item--full',
   label: 'product-form__label',
   input: 'product-form__input',
+  inputUpload: 'product-form__upload',
+  inputUploadLoading: 'product-form__upload--loading',
   inputText: 'product-form__input--text',
   inputNumber: 'product-form__input--number',
   inputSelect: 'product-form__input--select',

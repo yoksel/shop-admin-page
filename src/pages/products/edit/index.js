@@ -1,12 +1,14 @@
-import { createElement, fetchJson } from '../../../helpers/index.js';
+import { createElement, fetchJson, fillTemplate } from '../../../helpers/index.js';
 import PageMessage from '../../../components/PageMessage/index.js';
 import fields from './fields.js';
 import fieldsOrder from './fieldsOrder.js';
 import cls from './classes.js';
-import { header } from './templates';
+import { header, imgListItem } from './templates';
 
 import './icon-trash.svg';
 import './style.scss';
+
+const CLIENT_ID = 'e2b5c366b2d23fb';
 
 export default class {
   constructor (match) {
@@ -19,6 +21,8 @@ export default class {
     this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
     this.fetchProductUrl = this.apiUrl + `/api/rest/products?id=${this.id}`;
     this.fetchCategoriesUrl = this.apiUrl + '/api/rest/categories?_sort=weight&_refs=subcategory';
+
+    this.uploadImage = this.uploadImage.bind(this);
   }
 
   async render () {
@@ -50,7 +54,10 @@ export default class {
       </form>
     </div>`);
 
+    this.imgUploadButton = this.elem.querySelector(`.${cls.inputUpload}`);
     this.imgList = this.elem.querySelector(`.${cls.imgsList}`);
+
+    this.addEvents();
 
     return this.elem;
   }
@@ -81,6 +88,73 @@ export default class {
     }
 
     return inputs;
+  }
+
+  addEvents () {
+    this.imgUploadButton.addEventListener('click', this.uploadImage);
+  }
+
+  async uploadImage () {
+    this.fileInput = this.fileInputCreate();
+    this.fileInput.click();
+    let imageData;
+
+    const runUpload = async () => {
+      this.imgUploadButton.classList.add(cls.inputUploadLoading);
+      this.imgUploadButton.disabled = true;
+
+      const file = this.fileInput.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('image', file);
+
+      try {
+        const result = await fetchJson('https://api.imgur.com/3/image', {
+          method: 'POST',
+          headers: {
+            Authorization: `Client-ID ${CLIENT_ID}`
+          },
+          body: formData
+        });
+
+        imageData = result.data;
+      } finally {
+        this.imgUploadButton.classList.remove(cls.inputUploadLoading);
+        this.imgUploadButton.disabled = false;
+        this.fileInput.remove();
+      }
+
+      this.addImageItem(imageData);
+    };
+
+    this.fileInput.addEventListener('change', runUpload);
+  }
+
+  fileInputCreate () {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    // must be in body for IE
+    document.body.append(fileInput);
+    fileInput.hidden = true;
+
+    return fileInput;
+  }
+
+  addImageItem ({ id, link, type }) {
+    const ext = type.split('/')[1];
+    const item = fillTemplate({
+        tmpl: imgListItem,
+        data: {
+          url: link,
+          source: `${id}.${ext}`
+        }
+      });
+    this.imgList.insertAdjacentHTML('beforeEnd', item);
   }
 
   async loadData () {

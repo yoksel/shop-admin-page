@@ -1,3 +1,5 @@
+import { fillTemplate } from '../../../helpers/index.js';
+import { imgListItem } from './templates.js';
 import cls from './classes.js';
 
 export function categoriesToFlatList (categories) {
@@ -30,16 +32,14 @@ export function getOptions (list, selected) {
 export function getImgsListMarkup (images) {
   const imagesItems = images
     .map(item => {
-      return `<li class="${cls.imgsItem}">
-        <div class="${cls.imgWrapper}">
-          <img src="${item.url}" class="${cls.img}">
-          <span style="background-image: url(${item.url})" class="${cls.preview}"><span>
-        </div>
-        <span class="${cls.imgSource}">${item.source}</span>
-        <button type="button" class="${cls.imgRemove}">Remove</button>
-      </li>`;
+      return fillTemplate({
+        tmpl: imgListItem,
+        data: item
+      });
     });
 
-  return ` + upload
-    <ul class="${cls.imgsList}" is="draggable-list">${imagesItems.join(' ')}</ul>`;
+  return `
+    <ul class="${cls.imgsList}" is="draggable-list">${imagesItems.join(' ')}</ul>
+    <button type="button" class="${cls.inputUpload}">Upload</button>
+  `;
 }

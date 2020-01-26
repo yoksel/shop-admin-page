@@ -43,3 +43,12 @@ export const inputSelect = `<label class="${cls.label}">
     {options}
   </select>
 </label>`;
+
+export const imgListItem = `<li class="${cls.imgsItem}">
+  <div class="${cls.imgWrapper}">
+    <img src="{url}" class="${cls.img}">
+    <span style="background-image: url({url})" class="${cls.preview}"><span>
+  </div>
+  <span class="${cls.imgSource}">{source}</span>
+  <button type="button" class="${cls.imgRemove}">Remove</button>
+</li>`;
