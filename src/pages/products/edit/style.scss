@@ -129,6 +129,10 @@
   opacity: 1;
 }
 
+.draggable-list__item--dragged .product-form__preview {
+  pointer-events: none;
+}
+
 .product-form__image-source {
   margin-left: 1rem;
 }
