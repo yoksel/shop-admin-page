@@ -25,6 +25,7 @@ export default class {
     this.fetchSaveUrl = this.apiUrl + '/api/rest/products';
 
     this.uploadImage = this.uploadImage.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
     this.submitForm = this.submitForm.bind(this);
   }
 
@@ -98,6 +99,7 @@ export default class {
   addEvents () {
     this.imgUploadButton.addEventListener('click', this.uploadImage);
     this.form.addEventListener('submit', this.submitForm);
+    this.imgList.addEventListener('click', this.deleteImage);
   }
 
   async uploadImage () {
@@ -161,6 +163,15 @@ export default class {
         }
       });
     this.imgList.insertAdjacentHTML('beforeEnd', item);
+  }
+
+  deleteImage (event) {
+    const item = event.target.closest(`.${cls.imgsItem}`);
+    if (!item) {
+      return;
+    }
+
+    item.remove();
   }
 
   async submitForm (event) {
