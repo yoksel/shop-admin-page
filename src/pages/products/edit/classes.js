@@ -8,7 +8,8 @@ export default {
   label: 'product-form__label',
   input: 'product-form__input',
   inputUpload: 'product-form__upload',
-  inputUploadLoading: 'product-form__upload--loading',
+  inputUploadColored: 'control control--blue',
+  inputUploadLoading: 'control--loading',
   inputText: 'product-form__input--text',
   inputNumber: 'product-form__input--number',
   inputSelect: 'product-form__input--select',
@@ -21,5 +22,6 @@ export default {
   imgRemove: 'product-form__image-remove',
   preview: 'product-form__preview',
   footer: 'product-form__footer',
-  submit: 'product-form__submit'
+  submit: 'product-form__submit',
+  submitColored: 'control control--dark-blue'
 };

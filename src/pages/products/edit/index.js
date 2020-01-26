@@ -53,7 +53,7 @@ export default class {
         </ul>
 
         <footer class="${cls.footer}">
-          <button class="${cls.submit}">Save</button>
+          <button class="${cls.submit} ${cls.submitColored}">Save</button>
         </footer>
       </form>
     </div>`);

@@ -40,7 +40,7 @@ export function getImgsListMarkup (images) {
 
   return `
     <ul class="${cls.imgsList}" is="draggable-list">${imagesItems.join(' ')}</ul>
-    <button type="button" class="${cls.inputUpload} ${cls.inputUploadBlue}">Upload</button>
+    <button type="button" class="${cls.inputUpload} ${cls.inputUploadColored}">Upload</button>
   `;
 }
 
