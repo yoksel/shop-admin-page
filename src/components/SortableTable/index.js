@@ -68,24 +68,24 @@ export default class SortableTable extends HTMLElement {
 
   async loadData () {
     this.isLoading = true;
-    this.table.dataset.loading = 1;
+    this.dataset.loading = 1;
 
     try {
       const tableData = await fetchJson(this.fetchUrl);
 
       this.isLoading = false;
-      this.table.dataset.loading = 0;
 
       return tableData;
     } catch (error) {
       // Show error message to user
       const message = new PageMessage({ error });
-      this.table.dataset.loading = 0;
 
       this.tBody.insertAdjacentHTML(
         'beforeEnd',
         `<tr class="${cls.row}"><td class="${cls.cellError}">${message.elem.outerHTML}</tr>`
       );
+    } finally {
+      this.dataset.loading = 0;
     }
   }
 
@@ -152,12 +152,13 @@ export default class SortableTable extends HTMLElement {
     this.table.classList.add(cls.table);
     this.tBody = document.createElement('tbody');
     this.table.append(this.tBody);
-    this.table.insertAdjacentHTML(
-      'beforeEnd',
-      `<tfoot><tr><td colspan="${this.fieldsList.length}"><div class="spinner"></div></td></tr></tfoot>`
-    );
 
     this.append(this.table);
+
+    this.insertAdjacentHTML(
+      'beforeEnd',
+      '<div class="spinner"></div>'
+    );
   }
 
   // Fill table header with content
