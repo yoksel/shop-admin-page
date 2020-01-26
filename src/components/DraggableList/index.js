@@ -30,6 +30,8 @@ export default class DraggableList extends HTMLUListElement {
     this.disableDefaultDragstart();
     this.addEventListener('pointerdown', this.startDrag);
     this.addEventListener('pointerdown', this.setPlaceholderHeight, { once: true });
+
+    this.addMutationObserver();
   }
 
   startDrag (event) {
@@ -156,6 +158,21 @@ export default class DraggableList extends HTMLUListElement {
 
   addClassToItems () {
     this.items.forEach(item => item.classList.add(cls.item));
+  }
+
+  addMutationObserver () {
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach(({type}) => {
+        if (type === 'childList') {
+          this.items = this.querySelectorAll('li');
+          this.addClassToItems();
+        }
+      });
+    });
+
+    mutationObserver.observe(this, {
+      childList: true
+    });
   }
 
   disableDefaultDragstart () {
