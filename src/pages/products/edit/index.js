@@ -163,6 +163,7 @@ export default class {
         }
       });
     this.imgList.insertAdjacentHTML('beforeEnd', item);
+    notifier('Image was added', 'success');
   }
 
   deleteImage (event) {
