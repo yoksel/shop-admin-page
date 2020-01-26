@@ -1,4 +1,5 @@
 import { createElement } from '../../helpers/index.js';
+const baseUrl = process.env.BASE_URL || '/';
 
 export default class {
   async render () {
@@ -9,7 +10,7 @@ export default class {
 
     <a
       class="page-content__header-create control control--green"
-      href="./products/add">Add Product
+      href="${baseUrl}products/add">Add Product
     </a>
   </header>
 

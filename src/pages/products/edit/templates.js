@@ -1,17 +1,18 @@
 import cls from './classes.js';
+const baseUrl = process.env.BASE_URL || '/';
 
 export const header = `<header class="page-content__header">
   <h2 class="${cls.pageContentTitle}">
     <a
       class="page-content__title-link"
-      href="./products">Products</a>
+      href="${baseUrl}products">Products</a>
     /
     <span class="${cls.pageContentTitleMain}">{title}</span>
   </h2>
 
   <a
     class="page-content__header-create control control--green"
-    href="./products/add">Add Product
+    href="${baseUrl}products/add">Add Product
   </a>
 </header>`;
 

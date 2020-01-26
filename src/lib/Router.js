@@ -49,7 +49,7 @@ export default class Router {
       this.page = await this.changePage(this.notFoundPagePath);
     }
 
-    // custom event here
+    // custom event here?
   }
 
   async changePage (path, match) {

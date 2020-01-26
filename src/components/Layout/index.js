@@ -1,17 +1,19 @@
 import { createElement } from '../../helpers/index.js';
 import './styles.scss';
 
+const baseUrl = process.env.BASE_URL || '/';
+
 export default class Layout extends HTMLElement {
   connectedCallback () {
-    this.append(this.render());
     this.classList.add('page');
+    this.append(this.render());
   }
 
   render () {
     return createElement(`<div class="page-container">
       <aside class="page-aside">
         <h1 class="page-aside__title">
-          <a href="./">Shop admin</a>
+          <a href="${baseUrl}">Shop admin</a>
         </h1>
 
         <nav class="page-aside__nav">
@@ -19,7 +21,7 @@ export default class Layout extends HTMLElement {
             <li class="page-aside__item">
               <a
                 class="page-aside__link page-aside__link--dashboard"
-                href="./">
+                href="${baseUrl}">
                 <span class="page-aside__link-text">
                   Dashboard
                 </span>
@@ -28,7 +30,7 @@ export default class Layout extends HTMLElement {
             <li class="page-aside__item">
               <a
                 class="page-aside__link page-aside__link--products"
-                href="./products">
+                href="${baseUrl}products">
                 <span class="page-aside__link-text">
                   Products
                 </span>
@@ -37,7 +39,7 @@ export default class Layout extends HTMLElement {
             <li class="page-aside__item">
               <a
                 class="page-aside__link page-aside__link--categories"
-                href="./categories">
+                href="${baseUrl}categories">
                 <span class="page-aside__link-text">
                   Categories
                 </span>
