@@ -81,11 +81,23 @@ SELECT {
   font: inherit;
 }
 
+BUTTON {
+  cursor: pointer;
+}
+
+BUTTON:disabled {
+  cursor: not-allowed;
+}
+
 INPUT,
 TEXTAREA,
 SELECT {
   width: 100%;
   border: 1px solid var(--grey-light);
+}
+
+[hidden] {
+  display: none;
 }
 
 .page-layout {
