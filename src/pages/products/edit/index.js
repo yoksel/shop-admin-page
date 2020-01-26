@@ -34,6 +34,28 @@ export default class {
     }
 
     const product = productData[0];
+    const inputs = this.getInputsList({ product, categories });
+
+    this.elem = createElement(`<div class="page-content">
+      ${header}
+
+      <form action="" class="${cls.form}}">
+        <ul class="${cls.list}">
+          ${inputs.join('\n')}
+        </ul>
+
+        <footer class="${cls.footer}">
+          <button class="${cls.submit}">Save</button>
+        </footer>
+      </form>
+    </div>`);
+
+    this.imgList = this.elem.querySelector(`.${cls.imgsList}`);
+
+    return this.elem;
+  }
+
+  getInputsList ({ product, categories }) {
     const inputs = [];
 
     for (const { name, mods } of fieldsOrder) {
@@ -58,19 +80,7 @@ export default class {
       }
     }
 
-    return createElement(`<div class="page-content">
-      ${header}
-
-      <form action="" class="${cls.form}}">
-        <ul class="${cls.list}">
-          ${inputs.join('\n')}
-        </ul>
-
-        <footer class="${cls.footer}">
-          <button class="${cls.submit}">Save</button>
-        </footer>
-      </form>
-    </div>`);
+    return inputs;
   }
 
   async loadData () {
