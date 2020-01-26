@@ -28,8 +28,8 @@ export default class DraggableList extends HTMLUListElement {
 
     this.addClassToItems();
     this.disableDefaultDragstart();
-    this.addEventListener('pointerdown', this.startDrag);
     this.addEventListener('pointerdown', this.setPlaceholderHeight, { once: true });
+    this.addEventListener('pointerdown', this.startDrag);
 
     this.addMutationObserver();
   }
