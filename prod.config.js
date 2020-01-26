@@ -5,6 +5,18 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = () => {
+  const env = dotenv.config({
+    path: './.public.prod.env'
+  }).parsed;
+  let envKeys = [];
+
+  if(env) {
+    envKeys = Object.keys(env).reduce((prev, next) => {
+      prev[`process.env.${next}`] = JSON.stringify(env[next]);
+      return prev;
+    }, {});
+  }
+
   return {
     mode: 'production',
     entry: './src/app.js',
@@ -31,16 +43,8 @@ module.exports = () => {
         },
       ]
     },
-    devtool: 'inline-source-map',
-    devServer: {
-      contentBase: './dist',
-    },
-    devServer: {
-      contentBase: path.join(__dirname, 'dist'),
-      compress: true,
-      port: 9000
-    },
     plugins: [
+      new webpack.DefinePlugin(envKeys),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // all options are optional

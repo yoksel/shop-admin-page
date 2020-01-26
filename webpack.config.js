@@ -4,7 +4,9 @@ const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = () => {
-  const env = dotenv.config().parsed;
+  const env = dotenv.config({
+    path: './.public.env'
+  }).parsed;
   let envKeys = [];
 
   if(env) {
@@ -43,8 +45,6 @@ module.exports = () => {
     devtool: 'inline-source-map',
     devServer: {
       contentBase: './dist',
-    },
-    devServer: {
       contentBase: path.join(__dirname, 'dist'),
       compress: true,
       port: 9000
