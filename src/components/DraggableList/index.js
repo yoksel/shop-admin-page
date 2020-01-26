@@ -35,6 +35,9 @@ export default class DraggableList extends HTMLUListElement {
   }
 
   startDrag (event) {
+    if (event.target.tagName === 'BUTTON') {
+      return;
+    }
     this.current.elem = event.target.closest('.draggable-list__item');
     if (!this.current.elem) {
       return;
