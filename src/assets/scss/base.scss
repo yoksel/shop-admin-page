@@ -73,7 +73,8 @@ A:hover {
 BUTTON,
 INPUT,
 TEXTAREA,
-SELECT {
+SELECT,
+.control {
   display: block;
   padding: .5rem;
   background: none;
@@ -87,6 +88,42 @@ BUTTON {
 
 BUTTON:disabled {
   cursor: not-allowed;
+}
+
+.control--blue {
+  background: var(--blue);
+  border: none;
+  color: #FFF;
+}
+
+.control--dark-blue {
+  background: var(--dark-blue);
+  border: none;
+  color: #FFF;
+}
+
+.control--loading {
+  background: greenyellow;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(0, 0, 0, .05),
+    rgba(0, 0, 0, .05) .5rem,
+    rgba(0, 0, 0, 0) 0,
+    rgba(0, 0, 0, 0) 1rem
+  );
+  background-position: 0 0;
+  text-shadow: 0 0 3px rgba(0, 0, 0, .75);
+  animation: bgposition .25s linear infinite;
+}
+
+@keyframes bgposition {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 1.5rem 0;
+  }
 }
 
 INPUT,

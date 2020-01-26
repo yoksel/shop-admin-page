@@ -125,33 +125,6 @@
   margin-top: 1.5rem;
   padding-left: 2rem;
   padding-right: 2rem;
-  background: var(--blue);
-  border: none;
-  color: #FFF;
-}
-
-.product-form__upload--loading {
-  background: greenyellow;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    rgba(0, 0, 0, .05),
-    rgba(0, 0, 0, .05) .5rem,
-    rgba(0, 0, 0, 0) 0,
-    rgba(0, 0, 0, 0) 1rem
-  );
-  background-position: 0 0;
-  text-shadow: 0 0 3px rgba(0, 0, 0, .75);
-  animation: bgposition .25s linear infinite;
-}
-
-@keyframes bgposition {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 1.5rem 0;
-  }
 }
 
 // Footer
