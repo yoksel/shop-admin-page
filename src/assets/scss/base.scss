@@ -79,6 +79,7 @@ SELECT,
   padding: .5rem;
   background: none;
   border-radius: var(--radius);
+  text-decoration: none;
   font: inherit;
 }
 
@@ -90,16 +91,37 @@ BUTTON:disabled {
   cursor: not-allowed;
 }
 
+.control--green {
+  background: var(--green);
+  border: none;
+
+  &,
+  &:visited,
+  &:hover {
+    color: #FFF;
+  }
+}
+
 .control--blue {
   background: var(--blue);
   border: none;
-  color: #FFF;
+
+  &,
+  &:visited,
+  &:hover {
+    color: #FFF;
+  }
 }
 
 .control--dark-blue {
   background: var(--dark-blue);
   border: none;
-  color: #FFF;
+
+  &,
+  &:visited,
+  &:hover {
+    color: #FFF;
+  }
 }
 
 .control--loading {
