@@ -4,6 +4,7 @@ import fields from './fields.js';
 import fieldsOrder from './fieldsOrder.js';
 import cls from './classes.js';
 import { header, imgListItem } from './templates';
+import notifier from '../../../lib/notifier.js';
 
 import './icon-trash.svg';
 import './style.scss';
@@ -21,8 +22,10 @@ export default class {
     this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
     this.fetchProductUrl = this.apiUrl + `/api/rest/products?id=${this.id}`;
     this.fetchCategoriesUrl = this.apiUrl + '/api/rest/categories?_sort=weight&_refs=subcategory';
+    this.fetchSaveUrl = this.apiUrl + '/api/rest/products';
 
     this.uploadImage = this.uploadImage.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   async render () {
@@ -43,7 +46,7 @@ export default class {
     this.elem = createElement(`<div class="page-content">
       ${header}
 
-      <form action="" class="${cls.form}}">
+      <form class="${cls.form}">
         <ul class="${cls.list}">
           ${inputs.join('\n')}
         </ul>
@@ -56,6 +59,8 @@ export default class {
 
     this.imgUploadButton = this.elem.querySelector(`.${cls.inputUpload}`);
     this.imgList = this.elem.querySelector(`.${cls.imgsList}`);
+    this.submitBtn = this.elem.querySelector(`.${cls.submit}`);
+    this.form = this.elem.querySelector(`.${cls.form}`);
 
     this.addEvents();
 
@@ -92,6 +97,7 @@ export default class {
 
   addEvents () {
     this.imgUploadButton.addEventListener('click', this.uploadImage);
+    this.form.addEventListener('submit', this.submitForm);
   }
 
   async uploadImage () {
@@ -155,6 +161,51 @@ export default class {
         }
       });
     this.imgList.insertAdjacentHTML('beforeEnd', item);
+  }
+
+  async submitForm (event) {
+    event.preventDefault();
+    const data = this.collectFormData();
+
+    const params = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+
+    await fetchJson(this.fetchSaveUrl, params);
+    notifier('Product saved', 'success');
+  }
+
+  collectFormData () {
+    const data = {};
+    const images = {};
+    const initialFormData = Array.from(new FormData(this.form));
+
+    for (const item of initialFormData) {
+      const key = item[0];
+      let value = item[1];
+
+      if (fields[key]) {
+        if (fields[key] && fields[key].formatForRequest) {
+          value = fields[key].formatForRequest(value);
+        }
+
+        data[key] = value;
+      } else if (key.includes('image-')) {
+        if (!images[key]) {
+          images[key] = {
+            url: value
+          };
+        } else {
+          images[key].source = value;
+        }
+      }
+    }
+
+    data.images = Object.values(images);
+
+    return data;
   }
 
   async loadData () {

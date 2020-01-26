@@ -6,6 +6,12 @@ export const header = `<header class="page-content__header">
   /Edit Product</h2>
 </header>`;
 
+export const inputHidden = `<input
+    type="hidden"
+    name="{id}"
+    value="{value}"/>
+`;
+
 export const inputText = `<label class="${cls.label}">
   {fieldName}
 
@@ -45,6 +51,8 @@ export const inputSelect = `<label class="${cls.label}">
 </label>`;
 
 export const imgListItem = `<li class="${cls.imgsItem}">
+  <input type="hidden" name="image-{source}" value="{url}"/>
+  <input type="hidden" name="image-{source}" value="{source}"/>
   <div class="${cls.imgWrapper}">
     <img src="{url}" class="${cls.img}">
     <span style="background-image: url({url})" class="${cls.preview}"><span>

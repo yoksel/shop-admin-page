@@ -43,3 +43,7 @@ export function getImgsListMarkup (images) {
     <button type="button" class="${cls.inputUpload}">Upload</button>
   `;
 }
+
+export function strToNum (str) {
+  return +str;
+}

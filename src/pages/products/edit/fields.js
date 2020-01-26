@@ -1,10 +1,22 @@
-import { inputText, inputNumber, inputTextarea, inputSelect } from './templates.js';
+import { inputHidden, inputText, inputNumber, inputTextarea, inputSelect } from './templates.js';
 import statusText from './statusText.js';
 import { fillTemplate } from '../../../helpers/index.js';
-import { categoriesToFlatList, getOptions, getImgsListMarkup } from './helpers';
+import { categoriesToFlatList, getOptions, getImgsListMarkup, strToNum } from './helpers';
 
 // Rendering methods for product inputs
 export default {
+  id: {
+    render ({ id }) {
+      const data = {
+        id: 'id',
+        value: id
+      };
+      return fillTemplate({
+        tmpl: inputHidden,
+        data
+      });
+    }
+  },
   images: {
     render ({ images }) {
       if (!images) {
@@ -12,8 +24,7 @@ export default {
       }
 
       return getImgsListMarkup(images);
-    },
-    compare: null
+    }
   },
   title: {
     render ({ title }) {
@@ -67,7 +78,8 @@ export default {
         tmpl: inputNumber,
         data
       });
-    }
+    },
+    formatForRequest: strToNum
   },
   price: {
     render ({ price }) {
@@ -80,7 +92,8 @@ export default {
         tmpl: inputNumber,
         data
       });
-    }
+    },
+    formatForRequest: strToNum
   },
   discount: {
     render ({ discount }) {
@@ -93,7 +106,8 @@ export default {
         tmpl: inputNumber,
         data
       });
-    }
+    },
+    formatForRequest: strToNum
   },
   status: {
     render ({ status }) {
@@ -108,6 +122,7 @@ export default {
         tmpl: inputSelect,
         data
       });
-    }
+    },
+    formatForRequest: strToNum
   }
 };
