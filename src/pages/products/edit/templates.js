@@ -2,8 +2,10 @@ import cls from './classes.js';
 
 export const header = `<header class="page-content__header">
   <h2 class="page-content__title">
-  <a href="./products">Products</a>
-  /Edit Product</h2>
+  <a
+    class="page-content__title-link"
+    href="./products">Products</a>
+  /{title}</h2>
 </header>`;
 
 export const inputHidden = `<input

@@ -1,5 +1,7 @@
 import { fillTemplate } from '../../../helpers/index.js';
-import { imgListItem } from './templates.js';
+import { header, imgListItem } from './templates.js';
+import fields from './fields.js';
+import fieldsOrder from './fieldsOrder.js';
 import cls from './classes.js';
 
 export function categoriesToFlatList (categories) {
@@ -42,6 +44,49 @@ export function getImgsListMarkup (images) {
     <ul class="${cls.imgsList}" is="draggable-list">${imagesItems.join(' ')}</ul>
     <button type="button" class="${cls.inputUpload} ${cls.inputUploadColored}">Upload</button>
   `;
+}
+
+export function getHeaderStr(id) {
+  let title = 'Edit Product';
+
+  if(!id) {
+    title = 'Create Product';
+  }
+
+  const headerStr = fillTemplate({
+    tmpl: header,
+    data: {title}
+  });
+
+  return headerStr;
+}
+
+export function getInputsList ({ product, categories }) {
+  const inputs = [];
+
+  for (const { name, mods } of fieldsOrder) {
+    if (fields[name]) {
+      let params = product || {};
+
+      if (name === 'subcategory') {
+        params = {
+          ...params,
+          categories
+        };
+      }
+
+      const input = fields[name].render(params);
+      let classes = [cls.item];
+
+      if (mods) {
+        classes = classes.concat(mods);
+      }
+
+      inputs.push(`<li class="${classes.join(' ')}">${input}</li>`);
+    }
+  }
+
+  return inputs;
 }
 
 export function strToNum (str) {

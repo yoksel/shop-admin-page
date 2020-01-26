@@ -5,6 +5,7 @@ import fieldsOrder from './fieldsOrder.js';
 import cls from './classes.js';
 import { header, imgListItem } from './templates';
 import notifier from '../../../lib/notifier.js';
+import {getHeaderStr, getInputsList} from './helpers.js';
 
 import './icon-trash.svg';
 import './style.scss';
@@ -30,11 +31,13 @@ export default class {
   }
 
   async render () {
+    const headerStr = getHeaderStr();
+
     const { productData, categories, errorMessage } = await this.loadData();
 
     if (errorMessage) {
       return createElement(`<div class="page-content">
-        ${header}
+        ${headerStr}
 
         ${errorMessage.outerHTML}
       </div>
@@ -42,10 +45,11 @@ export default class {
     }
 
     const product = productData[0];
-    const inputs = this.getInputsList({ product, categories });
+    const getIdInput = fields.id.render({id: this.id});
+    const inputs = getInputsList({ product, categories });
 
     this.elem = createElement(`<div class="page-content">
-      ${header}
+      ${headerStr}
 
       <form class="${cls.form}">
         <ul class="${cls.list}">
@@ -62,38 +66,11 @@ export default class {
     this.imgList = this.elem.querySelector(`.${cls.imgsList}`);
     this.submitBtn = this.elem.querySelector(`.${cls.submit}`);
     this.form = this.elem.querySelector(`.${cls.form}`);
+    this.idInput = this.elem.querySelector(`input[name="id"]`);
 
     this.addEvents();
 
     return this.elem;
-  }
-
-  getInputsList ({ product, categories }) {
-    const inputs = [];
-
-    for (const { name, mods } of fieldsOrder) {
-      if (fields[name]) {
-        let params = product;
-
-        if (name === 'subcategory') {
-          params = {
-            ...params,
-            categories
-          };
-        }
-
-        const input = fields[name].render(params);
-        let classes = [cls.item];
-
-        if (mods) {
-          classes = classes.concat(mods);
-        }
-
-        inputs.push(`<li class="${classes.join(' ')}">${input}</li>`);
-      }
-    }
-
-    return inputs;
   }
 
   addEvents () {
