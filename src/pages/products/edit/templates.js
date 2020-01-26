@@ -1,4 +1,5 @@
 import cls from './classes.js';
+
 const baseUrl = process.env.BASE_URL || '/';
 
 export const header = `<header class="page-content__header">

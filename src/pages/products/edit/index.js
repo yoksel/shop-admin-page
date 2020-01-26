@@ -10,6 +10,7 @@ import './icon-trash.svg';
 import './style.scss';
 
 const CLIENT_ID = 'e2b5c366b2d23fb';
+const baseUrl = process.env.BASE_URL || '/';
 
 export default class {
   constructor (match) {
@@ -178,6 +179,9 @@ export default class {
       this.idInput.value = result.id;
       this.elem.classList.remove(cls.pageContentCreate);
       this.pageContentTitleMain.innerHTML = getPageTitle(result.id);
+
+      const href = `${baseUrl}product/${result.id}`;
+      history.pushState(null, null, href);
     }
 
     notifier(notificationText, 'success');
