@@ -8,6 +8,8 @@ import PageMessage from '../PageMessage/index.js';
 
 import './styles.scss';
 
+const baseUrl = process.env.BASE_URL || '/';
+
 export default class SortableTable extends HTMLElement {
   constructor () {
     super();
@@ -82,7 +84,9 @@ export default class SortableTable extends HTMLElement {
 
       this.tBody.insertAdjacentHTML(
         'beforeEnd',
-        `<tr class="${cls.row}"><td class="${cls.cellError}">${message.elem.outerHTML}</tr>`
+        `<div class="${cls.row}">
+          <div class="${cls.cellError}">${message.elem.outerHTML}</div>
+        </div>`
       );
     } finally {
       this.dataset.loading = 0;
@@ -148,9 +152,10 @@ export default class SortableTable extends HTMLElement {
 
   createLayout () {
     this.classList.add(cls.elem);
-    this.table = document.createElement('table');
+    this.table = document.createElement('div');
     this.table.classList.add(cls.table);
-    this.tBody = document.createElement('tbody');
+    this.tBody = document.createElement('div');
+    this.tBody.classList.add(cls.tbody);
     this.table.append(this.tBody);
 
     this.append(this.table);
@@ -179,16 +184,16 @@ export default class SortableTable extends HTMLElement {
         const direction = getDirectionText(this.sorting.isAsc);
         data.sortDirection = `data-sort-direction="${direction}"`;
       }
-      headerContent += `<th class="${thClass}"
+      headerContent += `<div class="${thClass}"
         data-name="${field}"
         ${data.sorter}
         ${data.sortDirection}
-        >${fields[field].title}</th>`;
+        >${fields[field].title}</div>`;
     });
 
-    const theadStr = `<thead class="${cls.thead}"><tr class="${cls.header} ${cls.row}">
+    const theadStr = `<div class="${cls.thead}"><div class="${cls.header} ${cls.row}">
       ${headerContent}
-    </tr></thead>`;
+    </div></div>`;
 
     this.table.insertAdjacentHTML('afterBegin', theadStr);
 
@@ -289,15 +294,19 @@ export default class SortableTable extends HTMLElement {
         const renderedContent = renderField(row);
 
         if (renderedContent) {
-          rowContent += `<td class="${tdClasses.join(
-            ' '
-          )}">${renderedContent}</td>`;
+          rowContent += `<div class="${tdClasses.join(' ')}">
+            ${renderedContent}
+          </div>`;
         }
       });
 
       this.tBody.insertAdjacentHTML(
         'beforeEnd',
-        `<tr class="${cls.row}">${rowContent}</tr>`
+        `<a
+          class="${cls.link}"
+          href="${baseUrl}products/${row.id}">
+          <div class="${cls.row}">${rowContent}</div>
+        </a>`
       );
     });
 

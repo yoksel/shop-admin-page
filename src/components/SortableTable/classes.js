@@ -2,6 +2,7 @@ export default {
   elem: 'sortable-table',
   table: 'sortable-table__table',
   thead: 'sortable-table__thead',
+  tbody: 'sortable-table__tbody',
   header: 'sortable-table__header',
   row: 'sortable-table__row',
   cell: 'sortable-table__cell',

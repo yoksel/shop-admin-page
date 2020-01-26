@@ -2,8 +2,6 @@ import { formatTotal, escapeHTML } from '../../helpers/index.js';
 import statusText from './statusText.js';
 import cls from './classes.js';
 
-const baseUrl = process.env.BASE_URL || '/';
-
 // Info & sorting methods for table columns
 export default {
   images: {
@@ -16,7 +14,7 @@ export default {
       return `<div class="${cls.imgWrapper}">
       <img src="${src}" class="${cls.img}">
       <span style="background-image: url(${src})" class="${cls.preview}"><span>
-      <div>`;
+      </div>`;
     },
     compare: null
   },
@@ -25,7 +23,6 @@ export default {
     render ({ title, id }) {
       return `
       ${title}
-      <a class="${cls.link}" href="${baseUrl}products/${id}"></a>
       `;
     },
     compare (a, b) {
