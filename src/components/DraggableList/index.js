@@ -19,19 +19,30 @@ export default class DraggableList extends HTMLUListElement {
     this.stopDrag = this.stopDrag.bind(this);
     this.move = this.move.bind(this);
     this.setPlaceholderHeight = this.setPlaceholderHeight.bind(this);
+    this.isDragging = false;
   }
 
   async connectedCallback () {
     this.classList.add(cls.elem);
     this.items = this.querySelectorAll('li');
-    this.placeholder = this.createPlaceholder();
 
-    this.addClassToItems();
-    this.disableDefaultDragstart();
-    this.addEventListener('pointerdown', this.setPlaceholderHeight, { once: true });
+    this.initList();
+
     this.addEventListener('pointerdown', this.startDrag);
 
     this.addMutationObserver();
+  }
+
+  initList() {
+    if(this.items.length === 0) {
+      return;
+    }
+
+    this.addClassToItems();
+    this.disableDefaultDragstart();
+    this.placeholder = this.createPlaceholder();
+
+    this.addEventListener('pointerdown', this.setPlaceholderHeight, { once: true });
   }
 
   startDrag (event) {
@@ -44,6 +55,8 @@ export default class DraggableList extends HTMLUListElement {
     }
 
     event.preventDefault();
+
+    this.isDragging = true;
 
     this.current.height = this.current.elem.offsetHeight;
     this.current.half = this.current.height / 2;
@@ -139,6 +152,7 @@ export default class DraggableList extends HTMLUListElement {
   }
 
   stopDrag () {
+    this.isDragging = false;
     this.placeholder.replaceWith(this.current.elem);
     this.current.elem.classList.remove(cls.dragged);
     this.current.elem.style.top = '';
@@ -147,6 +161,10 @@ export default class DraggableList extends HTMLUListElement {
   }
 
   createPlaceholder () {
+    if(this.placeholder) {
+      return this.placeholder;
+    }
+
     const firstItem = this.items[0];
     const placeholder = firstItem.cloneNode(true);
     placeholder.classList.add(cls.placeholder, cls.item);
@@ -167,9 +185,9 @@ export default class DraggableList extends HTMLUListElement {
   addMutationObserver () {
     const mutationObserver = new MutationObserver((mutations) => {
       mutations.forEach(({ type }) => {
-        if (type === 'childList') {
+        if (type === 'childList' && !this.isDragging) {
           this.items = this.querySelectorAll('li');
-          this.addClassToItems();
+          this.initList();
         }
       });
     });
