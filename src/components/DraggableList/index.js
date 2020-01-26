@@ -112,16 +112,17 @@ export default class DraggableList extends HTMLUListElement {
   }
 
   scrollOnMove (event) {
-    const { top, bottom } = this.current.elem.getBoundingClientRect();
+    const documentHeight = document.documentElement.clientHeight;
+    const currentHalf = this.current.half;
     const documentOverflow = {
-      bottom: bottom - document.documentElement.clientHeight,
-      top: document.documentElement.clientTop - top
+      bottom: event.clientY > documentHeight - currentHalf,
+      top: event.clientY < currentHalf
     };
 
     let scrollSize = 0;
-    if (documentOverflow.bottom > 0) {
+    if (documentOverflow.bottom) {
       scrollSize = this.current.half;
-    } else if (documentOverflow.top > 0) {
+    } else if (documentOverflow.top) {
       scrollSize = -this.current.half;
     }
 
@@ -162,7 +163,7 @@ export default class DraggableList extends HTMLUListElement {
 
   addMutationObserver () {
     const mutationObserver = new MutationObserver((mutations) => {
-      mutations.forEach(({type}) => {
+      mutations.forEach(({ type }) => {
         if (type === 'childList') {
           this.items = this.querySelectorAll('li');
           this.addClassToItems();
