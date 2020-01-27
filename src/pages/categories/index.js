@@ -1,5 +1,6 @@
 import { createElement, fetchJson } from '../../helpers/index.js';
 import PageMessage from '../../components/PageMessage/index.js';
+import notifier from '../../lib/notifier.js';
 import cls from './classes.js';
 import './styles.scss';
 
@@ -7,6 +8,7 @@ export default class {
   constructor () {
     this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
     this.fetchUrl = `${this.apiUrl}/api/rest/categories?_sort=weight&_refs=subcategory`;
+    this.fetchSaveUrl = `${this.apiUrl}/api/rest/subcategories`;
 
     this.listClick = this.listClick.bind(this);
   }
@@ -82,14 +84,12 @@ export default class {
         counter = `<span class="${cls.counter}">${counterText}</span>`;
       }
 
-      // console.log(item)
-
       if (subCats) {
         title = ` <button class="${cls.toggler}">${item.title}</button>`;
         subCatsList = this.createList(subCats, true);
       }
 
-      itemsStr += `<li class="${itemClass}">
+      itemsStr += `<li class="${itemClass}" id="${item.id}">
         ${title}
         ${counter}
         ${subCatsList}
@@ -106,6 +106,8 @@ export default class {
   addEvents () {
     const list = this.elem.querySelector(`.${cls.listTop}`);
     list.addEventListener('click', this.listClick);
+
+    this.addMutationObservers();
   }
 
   listClick () {
@@ -125,5 +127,57 @@ export default class {
     }
 
     return `${num} ${variant}`;
+  }
+
+  async saveItemsPositions (listElem) {
+    const data = this.getDataFromList(listElem);
+
+    const params = {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    };
+
+    await fetchJson(this.fetchSaveUrl, params);
+
+    const notificationText = 'Categories order was saved';
+    notifier(notificationText, 'success');
+  }
+
+  getDataFromList (listElem) {
+    const items = listElem.querySelectorAll(`.${cls.item}`);
+    items.map = [].map;
+
+    const data = items.map((elem, index) => {
+      return {
+        id: elem.id,
+        weight: index
+      };
+    });
+
+    return data;
+  }
+
+  addMutationObservers () {
+    const subCatLists = this.elem.querySelectorAll(`.${cls.listSubcats}`);
+
+    const mutationObserver = new MutationObserver((mutations) => {
+      mutations.forEach((params) => {
+        const { type, target } = params;
+        const isDragging = target.dataset && +target.dataset.isDragging;
+        const addedNodes = params.addedNodes;
+
+        // Save categories order when dragging was finished
+        if (type === 'childList' && !isDragging && addedNodes.length) {
+          this.saveItemsPositions(target);
+        }
+      });
+    });
+
+    subCatLists.forEach(list => {
+      mutationObserver.observe(list, {
+        childList: true
+      });
+    });
   }
 }
