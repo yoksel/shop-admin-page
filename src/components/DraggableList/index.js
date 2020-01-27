@@ -5,6 +5,7 @@ const cls = {
   elem: 'draggable-list',
   items: 'draggable-list__items',
   item: 'draggable-list__item',
+  pressed: 'draggable-list__item--pressed',
   dragged: 'draggable-list__item--dragged',
   placeholder: 'draggable-list__item--placeholder'
 };
@@ -54,20 +55,19 @@ export default class DraggableList extends HTMLUListElement {
       return;
     }
 
-    event.preventDefault();
-
     this.isDragging = true;
 
+    event.preventDefault();
+    this.dataset.isDragging = 1;
     this.current.height = this.current.elem.offsetHeight;
     this.current.half = this.current.height / 2;
     this.current.offset = this.getCurrentOffset(event);
     this.current.scrollSteps = 0;
     this.coords = this.getListCoords();
     this.setCurrentItemTop(event);
+    this.current.elem.classList.add(cls.pressed);
 
-    this.current.elem.replaceWith(this.placeholder);
-    this.current.elem.classList.add(cls.dragged);
-    this.append(this.current.elem);
+    this.isJustStarted = true;
 
     this.addEventListener('pointermove', this.move);
     this.addEventListener('pointerup', this.stopDrag);
@@ -85,6 +85,16 @@ export default class DraggableList extends HTMLUListElement {
 
   move (event) {
     event.preventDefault();
+
+    // Run after click only if mouse was moved
+    // to prevent triggering observer
+    if (this.isJustStarted) {
+      this.current.elem.classList.add(cls.dragged);
+      this.current.elem.replaceWith(this.placeholder);
+      this.append(this.current.elem);
+      this.isJustStarted = false;
+    }
+
     this.setCurrentItemTop(event);
 
     this.scrollOnMove(event);
@@ -152,10 +162,12 @@ export default class DraggableList extends HTMLUListElement {
   }
 
   stopDrag () {
-    this.isDragging = false;
     this.placeholder.replaceWith(this.current.elem);
     this.current.elem.classList.remove(cls.dragged);
+    this.current.elem.classList.remove(cls.pressed);
     this.current.elem.style.top = '';
+    this.isDragging = false;
+    this.dataset.isDragging = 0;
     this.removeEventListener('pointermove', this.move);
     this.removeEventListener('pointerup', this.stopDrag);
   }
@@ -186,6 +198,7 @@ export default class DraggableList extends HTMLUListElement {
     const mutationObserver = new MutationObserver((mutations) => {
       mutations.forEach(({ type }) => {
         if (type === 'childList' && !this.isDragging) {
+          // If new item was added, update list
           this.items = this.querySelectorAll('li');
           this.initList();
         }
