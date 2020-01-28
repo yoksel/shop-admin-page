@@ -27,7 +27,12 @@ export default class Filter extends HTMLElement {
     this.fieldsList.forEach(field => {
       if (fields[field]) {
         const fieldMarkup = fields[field].render({});
-        this.form.append(createElement(fieldMarkup));
+        let fieldElem = fieldMarkup;
+
+        if (typeof fieldMarkup === 'string') {
+          fieldElem = createElement(fieldMarkup);
+        }
+        this.form.append(fieldElem);
       }
     });
   }

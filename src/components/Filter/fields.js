@@ -34,16 +34,19 @@ export default {
   },
   status: {
     render ({ status }) {
-      const optionsList = [
-        'Any',
-        ...Object.values(statusText)
+      const statuses = [
+        {
+          value: '',
+          text: 'Any'
+        },
+        ...statusText
       ];
 
       const data = {
         id: 'status',
         fieldName: 'Status',
         value: status,
-        options: getOptions(optionsList, 0)
+        options: getOptions(statuses, '')
       };
 
       return fillTemplate({

@@ -1,4 +1,10 @@
-export default {
-  0: 'Disabled',
-  1: 'Enabled'
-};
+export default [
+  {
+    text: 'Disabled',
+    value: 0
+  },
+  {
+    text: 'Enabled',
+    value: 1
+  }
+];

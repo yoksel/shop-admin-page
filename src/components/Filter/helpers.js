@@ -1,7 +1,7 @@
 export function getOptions (list, selected) {
   return list
     .map((item, index) => {
-      const value = item.value || index;
+      const value = item.value !== undefined ? item.value : index;
       const text = item.text || item;
       const isSelected = value === selected ? 'selected' : '';
 
