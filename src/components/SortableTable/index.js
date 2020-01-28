@@ -80,6 +80,8 @@ export default class SortableTable extends HTMLElement {
         return;
       }
       this.queryParams = JSON.parse(newValue);
+      this.page.current = 0;
+      this.page.isDataEnded = false;
       this.fetchUrl = this.getFetchUrl();
       this.tBody.innerHTML = '';
       this.fillTBody();
@@ -354,20 +356,16 @@ export default class SortableTable extends HTMLElement {
     for (const key in this.queryParams) {
       const value = this.queryParams[key];
 
-      if (key === 'status') {
-        console.log(value, isFinite(value));
-        if (!isFinite(value) || !statusText[value]) {
-          continue;
-        }
+      if (value === undefined) {
+        continue;
+      }
 
-        filteredParams[key] = value;
-      } else if (key === 'search') {
-        if (!value) {
-          continue;
+      if (fields[key] && fields[key].formatForQuery) {
+        const formatted = fields[key].formatForQuery({ key, value });
+        if (formatted) {
+          filteredParams[formatted.key] = formatted.value;
         }
-
-        filteredParams.title_like = value;
-      } else if (value !== undefined) {
+      } else {
         filteredParams[key] = value;
       }
     }

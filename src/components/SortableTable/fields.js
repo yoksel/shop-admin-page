@@ -68,6 +68,28 @@ export default {
     },
     compare (a, b) {
       return a.status - b.status;
+    },
+    formatForQuery ({ key, value }) {
+      if (!isFinite(value)) {
+        return;
+      }
+
+      return {
+        key,
+        value: +value
+      };
+    }
+  },
+  search: {
+    title: 'Search',
+    formatForQuery ({ key, value }) {
+      if (!value.trim()) {
+        return;
+      }
+      return {
+        key: 'title_like',
+        value: value.trim()
+      };
     }
   }
 };
