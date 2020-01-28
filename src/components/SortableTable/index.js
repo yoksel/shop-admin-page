@@ -293,7 +293,7 @@ export default class SortableTable extends HTMLElement {
         const renderField = fields[field].render;
         const renderedContent = renderField(row);
 
-        if (renderedContent) {
+        if (renderedContent !== undefined) {
           rowContent += `<div class="${tdClasses.join(' ')}">
             ${renderedContent}
           </div>`;

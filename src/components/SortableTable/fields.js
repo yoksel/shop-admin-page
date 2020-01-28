@@ -7,7 +7,7 @@ export default {
   images: {
     title: 'Image',
     render ({ images }) {
-      if (!images || !images[0].url) {
+      if (!images || !images[0]) {
         return '';
       }
       const src = images[0].url;
