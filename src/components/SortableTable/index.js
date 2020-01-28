@@ -35,6 +35,7 @@ export default class SortableTable extends HTMLElement {
       fieldsList,
       orderField,
       orderDirection,
+      queryParams,
       isDynamic,
       from,
       to
@@ -47,6 +48,7 @@ export default class SortableTable extends HTMLElement {
 
     this.url = this.apiUrl + url;
     this.fieldsList = JSON.parse(fieldsList.replace(/'/g, '"'));
+    this.queryParams = queryParams ? JSON.parse(queryParams) : {};
     this.isDynamic = +isDynamic;
     this.order = {
       field: orderField,
@@ -66,6 +68,22 @@ export default class SortableTable extends HTMLElement {
     this.initTable();
 
     document.addEventListener('changeDate', this.changeDate);
+  }
+
+  static get observedAttributes () {
+    return ['data-query-params'];
+  }
+
+  attributeChangedCallback (name, oldValue, newValue) {
+    if (name === 'data-query-params') {
+      if (!newValue || oldValue === null) {
+        return;
+      }
+      this.queryParams = JSON.parse(newValue);
+      this.fetchUrl = this.getFetchUrl();
+      this.tBody.innerHTML = '';
+      this.fillTBody();
+    }
   }
 
   async loadData () {
@@ -126,11 +144,15 @@ export default class SortableTable extends HTMLElement {
   }
 
   getFetchUrl () {
+    const noPrefix = new Set(['title_like', 'from', 'to', 'status']);
+
+    const filteredParams = this.filterQueryParams();
     const params = {
       start: this.page.current * this.page.items,
       end: (this.page.current + 1) * this.page.items,
       sort: this.order.field,
-      order: getDirectionText(this.sorting.isAsc)
+      order: getDirectionText(this.sorting.isAsc),
+      ...filteredParams
     };
 
     if (this.dates && this.dates.from) {
@@ -141,7 +163,8 @@ export default class SortableTable extends HTMLElement {
     let paramsStr = '';
     for (const key in params) {
       let prefix = '_';
-      if (key === 'from' || key === 'to') {
+
+      if (noPrefix.has(key)) {
         prefix = '';
       }
 
@@ -324,5 +347,33 @@ export default class SortableTable extends HTMLElement {
     this.fetchUrl = this.getFetchUrl();
     this.tBody.innerHTML = '';
     this.fillTBody();
+  }
+
+  filterQueryParams () {
+    const filteredParams = {};
+    for (const key in this.queryParams) {
+      const value = this.queryParams[key];
+
+      if (key === 'status') {
+        console.log(value, isFinite(value));
+        if (!isFinite(value) || !statusText[value]) {
+          continue;
+        }
+
+        filteredParams[key] = value;
+      } else if (key === 'search') {
+        if (!value) {
+          continue;
+        }
+
+        filteredParams.title_like = value;
+      } else if (value !== undefined) {
+        filteredParams[key] = value;
+      }
+    }
+
+    console.log(filteredParams);
+
+    return filteredParams;
   }
 }
