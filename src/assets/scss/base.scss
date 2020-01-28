@@ -83,6 +83,10 @@ SELECT,
   font: inherit;
 }
 
+SELECT {
+  height: 40px;
+}
+
 BUTTON {
   cursor: pointer;
 }
