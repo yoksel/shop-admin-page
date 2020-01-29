@@ -1,4 +1,4 @@
-import { inputText, inputSearch, inputSelect } from './templates.js';
+import { inputSearch, inputSelect, doubleRange } from './templates.js';
 import statusText from './statusText.js';
 import { fillTemplate } from '../../helpers/index.js';
 import { getOptions, strToNum } from './helpers';
@@ -20,15 +20,7 @@ export default {
   },
   price: {
     render ({ price }) {
-      const data = {
-        id: 'price',
-        fieldName: 'Price',
-        value: price
-      };
-      return fillTemplate({
-        tmpl: inputText,
-        data
-      });
+      return doubleRange;
     },
     formatForRequest: strToNum
   },

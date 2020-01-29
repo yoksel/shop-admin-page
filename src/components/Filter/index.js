@@ -1,4 +1,5 @@
 import { createElement } from '../../helpers/index.js';
+import DoubleRange from '../DoubleRange/index.js';
 
 import fields from './fields.js';
 import cls from './classes.js';
@@ -16,6 +17,9 @@ export default class Filter extends HTMLElement {
     this.classList.add(cls.elem);
     this.form = document.createElement('form');
     this.form.classList.add(cls.form);
+    this.list = document.createElement('ul');
+    this.list.classList.add(cls.list);
+    this.form.append(this.list);
     this.fieldsList = JSON.parse(fieldsList.replace(/'/g, '"'));
 
     this.append(this.form);
@@ -27,14 +31,18 @@ export default class Filter extends HTMLElement {
     this.fieldsList.forEach(field => {
       if (fields[field]) {
         const fieldMarkup = fields[field].render({});
-        let fieldElem = fieldMarkup;
+        const fieldItem = createElement(`<li class="${cls.item}">${fieldMarkup}</li>`);
 
-        if (typeof fieldMarkup === 'string') {
-          fieldElem = createElement(fieldMarkup);
-        }
-        this.form.append(fieldElem);
+        this.list.append(fieldItem);
       }
     });
+
+    const doubleRangeElem = this.form.querySelector('[data-elem="double-range"]');
+
+    if (doubleRangeElem) {
+      /* eslint-disable-next-line */
+      new DoubleRange(doubleRangeElem);
+    }
   }
 
   addEvents () {

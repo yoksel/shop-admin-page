@@ -9,5 +9,5 @@ export default {
   inputSearch: 'filter-form__input--search',
   inputNumber: 'filter-form__input--number',
   inputSelect: 'filter-form__input--select',
-  inputRange: 'filter-form__input--range'
+  range: 'filter-form__range'
 };
