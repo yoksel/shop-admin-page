@@ -1,55 +1,11 @@
-import { fillTemplate } from '../../helpers/index.js';
+import { fillTemplate, createElement } from '../../helpers/index.js';
+import tmpl from './template.js';
 
-import { inputMarkup } from './templates.js';
 import './styles.scss';
 
 export default class DoubleRange {
-  constructor (elem) {
-    this.elem = elem;
-
-    this.coords = {
-      x: 0,
-      min: null,
-      max: null
-    };
-
-    this.setThumbPosition = this.setThumbPosition.bind(this);
-    this.pointerDown = this.pointerDown.bind(this);
-    this.moveThumb = this.moveThumb.bind(this);
-    this.stopDrag = this.stopDrag.bind(this);
-    this.reset = this.reset.bind(this);
-
-    this.init();
-  }
-
-  reset () {
-    this.control.coords = this.control.elem.getBoundingClientRect();
-    this.thumbs.width = this.thumbs.from.elem.offsetWidth;
-    this.thumbs.maxLeft = this.control.elem.offsetWidth - this.thumbs.width;
-
-    this.coords.min = 0;
-    this.coords.max = this.thumbs.maxLeft;
-
-    this.setThumbPosition();
-  }
-
-  render () {
-    const data = {
-        min: 0,
-        max: 1000,
-        step: 0,
-        value_min: 20,
-        value_max: 500
-      };
-
-    return fillTemplate({
-      tmpl: inputMarkup,
-      data
-    });
-  }
-
-  init () {
-    this.render();
+  constructor (elemPlaceholder) {
+    this.render(elemPlaceholder);
 
     this.control = {
       elem: this.elem
@@ -86,13 +42,57 @@ export default class DoubleRange {
       to: this.control.elem.querySelector('.double-range__label-text--to')
     };
 
+    this.coords = {
+      x: 0,
+      min: null,
+      max: null
+    };
+
     // Assume both inputs have equal max values on start
     this.maxValue = this.inputs.to.max;
 
-    this.reset();
+    this.setThumbPosition = this.setThumbPosition.bind(this);
+    this.pointerDown = this.pointerDown.bind(this);
+    this.moveThumb = this.moveThumb.bind(this);
+    this.stopDrag = this.stopDrag.bind(this);
+    this.reset = this.reset.bind(this);
 
+    this.init();
+  }
+
+  render (elemPlaceholder) {
+    const placeHolderClass = elemPlaceholder.className;
+
+    const data = {
+      class: placeHolderClass,
+      ...elemPlaceholder.dataset
+    };
+
+    const markup = fillTemplate({
+      tmpl,
+      data
+    });
+
+    this.elem = createElement(markup);
+    elemPlaceholder.replaceWith(this.elem);
+  }
+
+  init () {
     this.disableDefaultDragstart();
     this.addEvents();
+
+    this.reset();
+  }
+
+  reset () {
+    this.control.coords = this.control.elem.getBoundingClientRect();
+    this.thumbs.width = this.thumbs.from.elem.offsetWidth;
+    this.thumbs.maxLeft = this.control.elem.offsetWidth - this.thumbs.width;
+
+    this.coords.min = 0;
+    this.coords.max = this.thumbs.maxLeft;
+
+    this.setThumbPosition();
   }
 
   disableDefaultDragstart () {
@@ -137,7 +137,6 @@ export default class DoubleRange {
       }
 
       // Set thumb position
-
       const value = reset ? input.defaultValue : input.value;
 
       let left = value / this.maxValue * (elemWidth - this.thumbs.width);

@@ -1,5 +1,5 @@
-export const inputMarkup = `
-<div class="double-range">
+export default `
+<div class="{class} double-range">
   <span
     class="double-range__line"
   ></span>
@@ -17,8 +17,8 @@ export const inputMarkup = `
       min="{min}"
       max="{max}"
       step="{step}"
-      value="{value_min}"
-      name="doube-range"
+      value="{valueMin}"
+      name="{nameMin}"
       data-key="from"
     >
     <span
@@ -42,8 +42,8 @@ export const inputMarkup = `
       min="{min}"
       max="{max}"
       step="{step}"
-      value="{value_max}"
-      name="doube-range"
+      value="{valueMax}"
+      name="{nameMax}"
       data-key="to"
     >
     <span
