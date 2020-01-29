@@ -336,7 +336,8 @@ export default class SortableTable extends HTMLElement {
     });
 
     if (this.pageYOffset) {
-      window.scrollTo(0, this.pageYOffset);
+      console.log(window)
+      window.scrollTo(window.scrollX, this.pageYOffset);
     }
   }
 
