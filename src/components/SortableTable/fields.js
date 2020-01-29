@@ -1,4 +1,6 @@
 import { formatTotal, escapeHTML } from '../../helpers/index.js';
+
+import { formatPriceForQuery } from './helpers.js';
 import statusText from './statusText.js';
 import cls from './classes.js';
 
@@ -70,7 +72,7 @@ export default {
       return a.status - b.status;
     },
     formatForQuery ({ key, value }) {
-      if (!isFinite(value)) {
+      if (!isFinite(value) || value === '') {
         return;
       }
 
@@ -91,5 +93,11 @@ export default {
         value: value.trim()
       };
     }
+  },
+  price_gte: {
+    formatForQuery: formatPriceForQuery
+  },
+  price_lte: {
+    formatForQuery: formatPriceForQuery
   }
 };

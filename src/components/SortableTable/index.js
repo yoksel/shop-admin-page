@@ -146,7 +146,13 @@ export default class SortableTable extends HTMLElement {
   }
 
   getFetchUrl () {
-    const noPrefix = new Set(['title_like', 'from', 'to', 'status']);
+    const noPrefix = new Set([
+      'title_like',
+      'price_lte',
+      'price_gte',
+      'from',
+      'to',
+      'status']);
 
     const filteredParams = this.filterQueryParams();
     const params = {
@@ -336,7 +342,6 @@ export default class SortableTable extends HTMLElement {
     });
 
     if (this.pageYOffset) {
-      console.log(window)
       window.scrollTo(window.scrollX, this.pageYOffset);
     }
   }
@@ -370,8 +375,6 @@ export default class SortableTable extends HTMLElement {
         filteredParams[key] = value;
       }
     }
-
-    console.log(filteredParams);
 
     return filteredParams;
   }
