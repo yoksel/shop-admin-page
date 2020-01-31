@@ -1,4 +1,4 @@
-import { createElement } from '../../helpers/index.js';
+import { createElement, throttle } from '../../helpers/index.js';
 import DoubleRange from '../DoubleRange/index.js';
 
 import fields from './fields.js';
@@ -21,6 +21,8 @@ export default class Filter extends HTMLElement {
     this.list.classList.add(cls.list);
     this.form.append(this.list);
     this.fieldsList = JSON.parse(fieldsList.replace(/'/g, '"'));
+
+    this.updateParamsThrottle = throttle(this.updateTargetQueryParams, this, 1000);
 
     this.append(this.form);
     this.addForm();
@@ -49,9 +51,7 @@ export default class Filter extends HTMLElement {
     this.inputs = this.querySelectorAll('input, select');
 
     this.inputs.forEach(input => {
-      input.addEventListener('input', () => {
-        this.updateTargetQueryParams();
-      });
+      input.addEventListener('input', this.updateParamsThrottle);
     });
   }
 
