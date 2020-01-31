@@ -4,12 +4,11 @@ export default function throttle (func, context, timeout) {
   let args;
   let isRunned = false;
   let savedArgs;
-  let isFirstCall = true;
 
-  function wrapper() {
+  function wrapper () {
     args = arguments;
 
-    if(isRunned) {
+    if (isRunned) {
       // Just save arguments
       savedArgs = args;
       return;
@@ -22,7 +21,6 @@ export default function throttle (func, context, timeout) {
       func.apply(context, savedArgs);
       isRunned = false;
     }, timeout);
-
   };
 
   return wrapper;
