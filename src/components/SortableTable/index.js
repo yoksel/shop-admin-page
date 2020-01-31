@@ -214,7 +214,7 @@ export default class SortableTable extends HTMLElement {
         const direction = getDirectionText(this.sorting.isAsc);
         data.sortDirection = `data-sort-direction="${direction}"`;
       }
-      headerContent += `<div class="${thClass}"
+      headerContent += `<div class="${thClass} ${thClass}--${field}"
         data-name="${field}"
         ${data.sorter}
         ${data.sortDirection}

@@ -16,7 +16,7 @@
 .sortable-table__row {
   position: relative;
   display: grid;
-  grid: auto-flow / 12% 38% 20% 10% 10% 10%;
+  grid: auto-flow / 20% 25% 20% 10% 10% 15%;
   text-decoration: none;
 }
 
@@ -52,7 +52,8 @@
 }
 
 .sortable-table__header .sortable-table__cell {
-  min-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
   color: var(--grey-light);
 }
 
@@ -62,7 +63,7 @@
 
 .sortable-table__cell--quantity,
 .sortable-table__cell--price {
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .sortable-table__cell--disabled {
