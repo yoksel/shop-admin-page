@@ -76,9 +76,12 @@ export default class SortableTable extends HTMLElement {
 
   attributeChangedCallback (name, oldValue, newValue) {
     if (name === 'data-query-params') {
-      if (!newValue || oldValue === null) {
+      if (!newValue ||
+          oldValue === null ||
+          newValue === oldValue) {
         return;
       }
+
       this.queryParams = JSON.parse(newValue);
       this.page.current = 0;
       this.page.isDataEnded = false;
