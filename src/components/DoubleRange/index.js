@@ -81,7 +81,11 @@ export default class DoubleRange {
     this.disableDefaultDragstart();
     this.addEvents();
 
-    this.reset();
+    // Dirty hack to fix wrong thumb position
+    // at first paint
+    setTimeout(() => {
+      this.reset();
+    }, 100);
   }
 
   reset () {
