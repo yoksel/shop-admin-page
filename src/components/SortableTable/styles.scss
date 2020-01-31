@@ -18,6 +18,10 @@
   display: grid;
   grid: auto-flow / 20% 25% 20% 10% 10% 15%;
   text-decoration: none;
+
+  @media (max-width: 800px) {
+    grid: auto-flow / 35% 35% 15% 15%;
+  }
 }
 
 .sortable-table__cell {
@@ -64,6 +68,13 @@
 .sortable-table__cell--quantity,
 .sortable-table__cell--price {
   justify-content: center;
+}
+
+.sortable-table__cell--images,
+.sortable-table__cell--status {
+  @media (max-width: 800px) {
+    display: none;
+  }
 }
 
 .sortable-table__cell--disabled {

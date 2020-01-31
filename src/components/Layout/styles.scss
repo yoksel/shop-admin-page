@@ -24,6 +24,16 @@
 .page-aside {
   min-width: 300px;
   background: var(--grey-extra-light);
+
+  @media (max-width: 1000px) {
+    position: sticky;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    min-width: 100px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
 .page-aside__title {
@@ -34,6 +44,10 @@
 
   A {
     text-decoration: none;
+  }
+
+  @media (max-width: 1000px) {
+    font-size: 1.25rem;
   }
 }
 
@@ -49,6 +63,10 @@
   & + & {
     margin-top: 1rem;
   }
+
+  @media (max-width: 1000px) {
+    text-align: center;
+  }
 }
 
 .page-aside__link {
@@ -56,6 +74,12 @@
 
   &::before {
     margin-right: .45rem;
+    cursor: pointer;
+
+    @media (max-width: 1000px) {
+      margin-right: 0;
+      font-size: 2.5rem;
+    }
   }
 
   &--dashboard::before {
@@ -76,6 +100,10 @@
 
   .page-aside__link:hover & {
     text-decoration: none;
+  }
+
+  @media (max-width: 1000px) {
+    display: none;
   }
 }
 
