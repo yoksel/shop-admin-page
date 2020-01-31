@@ -1,4 +1,6 @@
 import { formatTotal, escapeHTML } from '../../helpers/index.js';
+
+import { formatPriceForQuery } from './helpers.js';
 import statusText from './statusText.js';
 import cls from './classes.js';
 
@@ -68,6 +70,34 @@ export default {
     },
     compare (a, b) {
       return a.status - b.status;
+    },
+    formatForQuery ({ key, value }) {
+      if (!isFinite(value) || value === '') {
+        return;
+      }
+
+      return {
+        key,
+        value: +value
+      };
     }
+  },
+  search: {
+    title: 'Search',
+    formatForQuery ({ key, value }) {
+      if (!value.trim()) {
+        return;
+      }
+      return {
+        key: 'title_like',
+        value: value.trim()
+      };
+    }
+  },
+  price_gte: {
+    formatForQuery: formatPriceForQuery
+  },
+  price_lte: {
+    formatForQuery: formatPriceForQuery
   }
 };

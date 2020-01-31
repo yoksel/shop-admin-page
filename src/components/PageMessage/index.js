@@ -1,11 +1,9 @@
 import './styles.scss';
 
 export default class PageMessage {
-  constructor ({ title, text, callback, callbackText, error }) {
+  constructor ({ title, text, error }) {
     this.title = title;
     this.text = text || 'Something went wrong';
-    this.callback = callback;
-    this.callbackText = callbackText;
     this.error = error;
 
     if (!this.title && this.error) {

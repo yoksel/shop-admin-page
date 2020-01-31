@@ -14,8 +14,15 @@ export default class {
     </a>
   </header>
 
+  <table-filter
+    data-fields-list="['search', 'price', 'status']"
+    data-target-selector="#products-table"
+    ></table-filter>
+
   <sortable-table
+    id="products-table"
     data-url="/api/rest/products?_embed=subcategory.category",
+    data-query-params=''
     data-is-dynamic="1"
     data-fields-list="['images', 'title', 'subcategory', 'quantity', 'price', 'status']"
     data-order-field='title',

@@ -35,6 +35,7 @@ export default class SortableTable extends HTMLElement {
       fieldsList,
       orderField,
       orderDirection,
+      queryParams,
       isDynamic,
       from,
       to
@@ -47,6 +48,7 @@ export default class SortableTable extends HTMLElement {
 
     this.url = this.apiUrl + url;
     this.fieldsList = JSON.parse(fieldsList.replace(/'/g, '"'));
+    this.queryParams = queryParams ? JSON.parse(queryParams) : {};
     this.isDynamic = +isDynamic;
     this.order = {
       field: orderField,
@@ -68,26 +70,43 @@ export default class SortableTable extends HTMLElement {
     document.addEventListener('changeDate', this.changeDate);
   }
 
+  static get observedAttributes () {
+    return ['data-query-params'];
+  }
+
+  attributeChangedCallback (name, oldValue, newValue) {
+    if (name === 'data-query-params') {
+      if (!newValue || oldValue === null) {
+        return;
+      }
+      this.queryParams = JSON.parse(newValue);
+      this.page.current = 0;
+      this.page.isDataEnded = false;
+      this.fetchUrl = this.getFetchUrl();
+      this.tBody.innerHTML = '';
+      this.fillTBody();
+    }
+  }
+
   async loadData () {
     this.isLoading = true;
     this.dataset.loading = 1;
 
     try {
       const tableData = await fetchJson(this.fetchUrl);
-
       this.isLoading = false;
+
+      if (!tableData.length) {
+        this.addPageMessage({
+          title: 'Nothing found 🤷‍♀️',
+          text: 'Try to change search params'
+        });
+      }
 
       return tableData;
     } catch (error) {
       // Show error message to user
-      const message = new PageMessage({ error });
-
-      this.tBody.insertAdjacentHTML(
-        'beforeEnd',
-        `<div class="${cls.row}">
-          <div class="${cls.cellError}">${message.elem.outerHTML}</div>
-        </div>`
-      );
+      this.addPageMessage({ error });
     } finally {
       this.dataset.loading = 0;
     }
@@ -126,11 +145,21 @@ export default class SortableTable extends HTMLElement {
   }
 
   getFetchUrl () {
+    const noPrefix = new Set([
+      'title_like',
+      'price_lte',
+      'price_gte',
+      'from',
+      'to',
+      'status']);
+
+    const filteredParams = this.filterQueryParams();
     const params = {
       start: this.page.current * this.page.items,
       end: (this.page.current + 1) * this.page.items,
       sort: this.order.field,
-      order: getDirectionText(this.sorting.isAsc)
+      order: getDirectionText(this.sorting.isAsc),
+      ...filteredParams
     };
 
     if (this.dates && this.dates.from) {
@@ -141,7 +170,8 @@ export default class SortableTable extends HTMLElement {
     let paramsStr = '';
     for (const key in params) {
       let prefix = '_';
-      if (key === 'from' || key === 'to') {
+
+      if (noPrefix.has(key)) {
         prefix = '';
       }
 
@@ -184,7 +214,7 @@ export default class SortableTable extends HTMLElement {
         const direction = getDirectionText(this.sorting.isAsc);
         data.sortDirection = `data-sort-direction="${direction}"`;
       }
-      headerContent += `<div class="${thClass}"
+      headerContent += `<div class="${thClass} ${thClass}--${field}"
         data-name="${field}"
         ${data.sorter}
         ${data.sortDirection}
@@ -311,7 +341,7 @@ export default class SortableTable extends HTMLElement {
     });
 
     if (this.pageYOffset) {
-      window.scrollTo(0, this.pageYOffset);
+      window.scrollTo(window.scrollX, this.pageYOffset);
     }
   }
 
@@ -324,5 +354,38 @@ export default class SortableTable extends HTMLElement {
     this.fetchUrl = this.getFetchUrl();
     this.tBody.innerHTML = '';
     this.fillTBody();
+  }
+
+  filterQueryParams () {
+    const filteredParams = {};
+    for (const key in this.queryParams) {
+      const value = this.queryParams[key];
+
+      if (value === undefined) {
+        continue;
+      }
+
+      if (fields[key] && fields[key].formatForQuery) {
+        const formatted = fields[key].formatForQuery({ key, value });
+        if (formatted) {
+          filteredParams[formatted.key] = formatted.value;
+        }
+      } else {
+        filteredParams[key] = value;
+      }
+    }
+
+    return filteredParams;
+  }
+
+  addPageMessage (params) {
+    const message = new PageMessage(params);
+
+    this.tBody.insertAdjacentHTML(
+      'beforeEnd',
+      `<div class="${cls.row}">
+        <div class="${cls.cellMessage}">${message.elem.outerHTML}</div>
+      </div>`
+    );
   }
 }

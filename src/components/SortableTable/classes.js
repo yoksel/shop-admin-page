@@ -6,7 +6,7 @@ export default {
   header: 'sortable-table__header',
   row: 'sortable-table__row',
   cell: 'sortable-table__cell',
-  cellError: 'sortable-table__cell--error',
+  cellMessage: 'sortable-table__cell--message',
   cellSorter: 'sortable-table__cell--sorter',
   img: 'sortable-table__image',
   imgWrapper: 'sortable-table__image-wrapper',
