@@ -94,20 +94,19 @@ export default class SortableTable extends HTMLElement {
 
     try {
       const tableData = await fetchJson(this.fetchUrl);
-
       this.isLoading = false;
+
+      if (!tableData.length) {
+        this.addPageMessage({
+          title: 'Nothing found 🤷‍♀️',
+          text: 'Try to change search params'
+        });
+      }
 
       return tableData;
     } catch (error) {
       // Show error message to user
-      const message = new PageMessage({ error });
-
-      this.tBody.insertAdjacentHTML(
-        'beforeEnd',
-        `<div class="${cls.row}">
-          <div class="${cls.cellError}">${message.elem.outerHTML}</div>
-        </div>`
-      );
+      this.addPageMessage({ error });
     } finally {
       this.dataset.loading = 0;
     }
@@ -377,5 +376,16 @@ export default class SortableTable extends HTMLElement {
     }
 
     return filteredParams;
+  }
+
+  addPageMessage (params) {
+    const message = new PageMessage(params);
+
+    this.tBody.insertAdjacentHTML(
+      'beforeEnd',
+      `<div class="${cls.row}">
+        <div class="${cls.cellMessage}">${message.elem.outerHTML}</div>
+      </div>`
+    );
   }
 }
