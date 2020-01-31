@@ -25,8 +25,8 @@ export default class ColumnChart extends HTMLElement {
     const { type, isMoney, from, to } = this.dataset;
 
     this.dates = {
-      from: new Date(from),
-      to: new Date(to)
+      from: from,
+      to: to
     };
 
     this.type = type;
