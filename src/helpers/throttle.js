@@ -1,23 +1,29 @@
+// https://learn.javascript.ru/task/throttle
+
 export default function throttle (func, context, timeout) {
   let args;
-  let isWaiting = false;
+  let isRunned = false;
+  let savedArgs;
   let isFirstCall = true;
 
-  return function () {
+  function wrapper() {
     args = arguments;
 
-    if (isFirstCall) {
-      func.apply(context, ...args);
-      isFirstCall = false;
+    if(isRunned) {
+      // Just save arguments
+      savedArgs = args;
+      return;
     }
 
-    if (!isWaiting) {
-      isWaiting = true;
+    func.apply(context, args);
+    isRunned = true;
 
-      setTimeout(function () {
-        func.apply(context, ...args);
-        isWaiting = false;
-      }, timeout);
-    }
+    setTimeout(function () {
+      func.apply(context, savedArgs);
+      isRunned = false;
+    }, timeout);
+
   };
+
+  return wrapper;
 }

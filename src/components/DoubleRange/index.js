@@ -206,7 +206,8 @@ export default class DoubleRange {
 
     this.inputs[key].value = value;
     this.inputs[key].focus();
-    this.setThumbPosition({ inputKey: key });
+    const inputEvent = new Event('input');
+    this.inputs[key].dispatchEvent(inputEvent);
   }
 
   stopDrag () {

@@ -5,10 +5,6 @@ export default `
   ></span>
 
   <label class="double-range__label">
-    <span
-      class="
-        double-range__label-text
-        double-range__label-text--from"></span>
     <input
       class="
         double-range__input
@@ -27,13 +23,13 @@ export default `
         double-range__thumb--from"
       data-key="from"
     ></span>
-  </label>
-
-  <label class="double-range__label">
     <span
       class="
         double-range__label-text
-        double-range__label-text--to"></span>
+        double-range__label-text--from"></span>
+  </label>
+
+  <label class="double-range__label">
     <input
       class="
         double-range__input
@@ -52,6 +48,10 @@ export default `
         double-range__thumb--to"
       data-key="to"
     ></span>
+    <span
+      class="
+        double-range__label-text
+        double-range__label-text--to"></span>
   </label>
 </div>
 `;
