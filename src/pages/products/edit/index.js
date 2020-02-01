@@ -152,11 +152,13 @@ export default class {
   }
 
   deleteImage (event) {
-    const item = event.target.closest(`.${cls.imgsItem}`);
-    if (!item) {
+    const control = event.target.closest(`.${cls.imgRemove}`);
+
+    if (!control) {
       return;
     }
 
+    const item = event.target.closest(`.${cls.imgsItem}`);
     item.remove();
   }
 
