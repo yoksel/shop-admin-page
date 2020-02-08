@@ -170,6 +170,7 @@ export default class DraggableList extends HTMLUListElement {
     this.dataset.isDragging = 0;
     this.removeEventListener('pointermove', this.move);
     this.removeEventListener('pointerup', this.stopDrag);
+    document.removeEventListener('pointerup', this.stopDrag);
   }
 
   createPlaceholder () {

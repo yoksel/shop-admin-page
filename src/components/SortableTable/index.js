@@ -70,6 +70,10 @@ export default class SortableTable extends HTMLElement {
     document.addEventListener('changeDate', this.changeDate);
   }
 
+  disconnectedCallback() {
+    document.removeEventListener('changeDate', this.changeDate);
+  }
+
   static get observedAttributes () {
     return ['data-query-params'];
   }

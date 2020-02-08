@@ -177,6 +177,10 @@ export default class DoubleRange {
     });
   }
 
+  destroy () {
+    window.removeEventListener('resize', this.reset);
+  }
+
   pointerDown (event) {
     const key = event.target.dataset.key;
     if (!key) {

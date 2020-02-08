@@ -37,6 +37,10 @@ export default class RangePicker extends HTMLElement {
     document.addEventListener('changeDate', this.updateRange);
   }
 
+  disconnectedCallback() {
+    document.removeEventListener('changeDate', this.updateRange);
+  }
+
   getDisplayedMonthes () {
     const currentMonth = new Date(this.dates.from);
     let month = currentMonth.getMonth();

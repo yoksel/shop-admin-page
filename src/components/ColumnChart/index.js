@@ -42,6 +42,10 @@ export default class ColumnChart extends HTMLElement {
     document.addEventListener('changeDate', this.changeDate);
   }
 
+  disconnectedCallback() {
+    document.removeEventListener('changeDate', this.changeDate);
+  }
+
   getUrl () {
     return `${this.apiUrl}/api/dashboard/${this.type}?from=${this.dates.from}&to=${this.dates.to}`;
   }
