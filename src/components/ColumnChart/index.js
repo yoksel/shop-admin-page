@@ -42,7 +42,7 @@ export default class ColumnChart extends HTMLElement {
     document.addEventListener('changeDate', this.changeDate);
   }
 
-  disconnectedCallback() {
+  disconnectedCallback () {
     document.removeEventListener('changeDate', this.changeDate);
   }
 

@@ -37,7 +37,7 @@ export default class RangePicker extends HTMLElement {
     document.addEventListener('changeDate', this.updateRange);
   }
 
-  disconnectedCallback() {
+  disconnectedCallback () {
     document.removeEventListener('changeDate', this.updateRange);
   }
 

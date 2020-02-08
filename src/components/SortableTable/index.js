@@ -70,7 +70,7 @@ export default class SortableTable extends HTMLElement {
     document.addEventListener('changeDate', this.changeDate);
   }
 
-  disconnectedCallback() {
+  disconnectedCallback () {
     document.removeEventListener('changeDate', this.changeDate);
   }
 
