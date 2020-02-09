@@ -1,6 +1,5 @@
 export default {
   elem: 'column-chart',
-  content: 'column-chart__content',
   header: 'column-chart__header',
   title: 'column-chart__title',
   total: 'column-chart__total',

@@ -11,38 +11,31 @@ import templates from './templates.js';
 
 import './styles.scss';
 
-export default class ColumnChart extends HTMLElement {
-  constructor () {
-    super();
-
-    this.elem = document.createElement('div');
-    this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
-
-    this.changeDate = this.changeDate.bind(this);
-  }
-
-  async connectedCallback () {
-    const { type, isMoney, from, to } = this.dataset;
-
+export default class ColumnChart {
+  constructor (params = {}) {
+    const { type, isMoney, from, to } = params;
     this.dates = {
       from: from,
       to: to
     };
 
+    this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
+    this.elem = document.createElement('div');
+    this.elem.classList.add(cls.elem, `${cls.elem}--${type}`);
+
     this.type = type;
     this.formatTotal = isMoney ? formatTotal : null;
-    this.classList.add(cls.elem, `${cls.elem}--${type}`);
-    this.elem.classList.add(cls.content);
     this.title = `Total ${type}`;
     this.url = this.getUrl();
 
-    await this.render();
-    this.append(this.elem);
+    this.render();
+
+    this.changeDate = this.changeDate.bind(this);
 
     document.addEventListener('changeDate', this.changeDate);
   }
 
-  disconnectedCallback () {
+  destroy () {
     document.removeEventListener('changeDate', this.changeDate);
   }
 
@@ -148,6 +141,5 @@ export default class ColumnChart extends HTMLElement {
     this.url = this.getUrl();
     this.elem.innerHTML = '';
     await this.render();
-    this.append(this.elem);
   }
 }

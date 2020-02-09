@@ -1,5 +1,4 @@
 import renderLayout from './lib/renderLayout/index.js';
-import ColumnChart from './components/ColumnChart/index.js';
 import RangePicker from './components/RangePicker/index.js';
 import SortableTable from './components/SortableTable/index.js';
 import DraggableList from './components/DraggableList/index.js';
@@ -24,7 +23,6 @@ router
   .addListener();
 
 // Init custom elements
-window.customElements.define('column-chart', ColumnChart);
 window.customElements.define('range-picker', RangePicker);
 window.customElements.define('sortable-table', SortableTable);
 window.customElements.define('draggable-list', DraggableList, { extends: 'ul' });

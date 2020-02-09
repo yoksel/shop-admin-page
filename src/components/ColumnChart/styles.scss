@@ -1,5 +1,6 @@
 .column-chart {
   display: flex;
+  flex-wrap: wrap;
   position: relative;
   min-width: 180px;
   flex-basis: calc((100% - 2rem) / 3);
@@ -25,12 +26,8 @@
   margin-left: 1rem;
 }
 
-.column-chart__content {
-  position: relative;
+.column-chart__header {
   flex-grow: 1;
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 100%;
 }
 
 .column-chart__title {
