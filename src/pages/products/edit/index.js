@@ -1,9 +1,11 @@
-import { createElement, fetchJson, fillTemplate } from '../../../helpers/index.js';
 import PageMessage from '../../../components/PageMessage/index.js';
+import DraggableList from '../../../components/DraggableList/index.js';
+import { createElement, fetchJson, fillTemplate } from '../../../helpers/index.js';
+import notifier from '../../../lib/notifier.js';
+
 import fields from './fields.js';
 import cls from './classes.js';
 import { imgListItem } from './templates';
-import notifier from '../../../lib/notifier.js';
 import { getPageTitle, getHeaderStr, getInputsList } from './helpers.js';
 
 import './icon-trash.svg';
@@ -18,6 +20,7 @@ export default class {
       .replace('products/', '')
       .replace(/^add$/, '');
 
+    // For testing purposes
     if (!match[0]) {
       // this.id = '3d-ochki-optoma-zd302';
     }
@@ -85,6 +88,9 @@ export default class {
     this.imgUploadButton.addEventListener('click', this.uploadImage);
     this.form.addEventListener('submit', this.submitForm);
     this.imgList.addEventListener('click', this.deleteImage);
+
+    /* eslint-disable-next-line */
+    new DraggableList({ elem: this.imgList });
   }
 
   async uploadImage () {
