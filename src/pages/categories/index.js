@@ -1,6 +1,8 @@
 import { createElement, fetchJson } from '../../helpers/index.js';
-import PageMessage from '../../components/PageMessage/index.js';
 import notifier from '../../lib/notifier.js';
+import PageMessage from '../../components/PageMessage/index.js';
+import DraggableList from '../../components/DraggableList/index.js';
+
 import cls from './classes.js';
 import './styles.scss';
 
@@ -64,7 +66,7 @@ export default class {
     if (isSubcat) {
       listClass = cls.listSubcats;
       itemClass += ` ${cls.itemSub}`;
-      isDraggableAttr = 'is="draggable-list"';
+      isDraggableAttr = 'data-draggable="1"';
     } else {
       itemClass += ` ${cls.itemTop}`;
     }
@@ -106,6 +108,12 @@ export default class {
   addEvents () {
     const list = this.elem.querySelector(`.${cls.listTop}`);
     list.addEventListener('click', this.listClick);
+
+    const dragableLists = this.elem.querySelectorAll('[data-draggable="1"]');
+    dragableLists.forEach(elem => {
+      /* eslint-disable-next-line */
+      new DraggableList({ elem });
+    });
 
     this.addMutationObservers();
   }
