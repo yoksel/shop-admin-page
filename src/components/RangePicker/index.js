@@ -9,21 +9,18 @@ import './styles.scss';
 import './arrow-icon.svg';
 import './calendar-icon.svg';
 
-export default class RangePicker extends HTMLElement {
-  constructor () {
-    super();
+export default class RangePicker{
+  constructor (params) {
     this.togglePicker = this.togglePicker.bind(this);
     this.selectorOnClick = this.selectorOnClick.bind(this);
     this.bodyOnClick = this.bodyOnClick.bind(this);
     this.updateRange = this.updateRange.bind(this);
 
     this.isOpened = false;
-    this.elem = this;
+    this.elem = document.createElement('div');
     this.elem.classList.add('rangepicker');
-  }
 
-  async connectedCallback () {
-    const { from, to } = this.dataset;
+    const { from, to } = params;
 
     this.dates = {
       from: new Date(from),
@@ -37,7 +34,7 @@ export default class RangePicker extends HTMLElement {
     document.addEventListener('changeDate', this.updateRange);
   }
 
-  disconnectedCallback () {
+  destroy () {
     document.removeEventListener('changeDate', this.updateRange);
   }
 
