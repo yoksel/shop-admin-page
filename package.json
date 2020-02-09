@@ -8,7 +8,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "npm run js:lint && npm run css:lint",
+    "test": "npm run js:lint && npm run css:lint && jest",
     "build": "webpack --config prod.config.js",
     "start": "webpack-dev-server --open",
     "deploy": "npm run build && gh-pages -d dist",
@@ -16,13 +16,18 @@
     "js:lint": "eslint src",
     "js:fix": "eslint src --fix",
     "css:lint": "stylelint src/**/*.scss",
-    "css:fix": "stylelint src/**/*.scss --fix"
+    "css:fix": "stylelint src/**/*.scss --fix",
+    "jest": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
     "babel-eslint": "^10.0.3",
+    "babel-jest": "^25.1.0",
     "css-loader": "^3.4.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
