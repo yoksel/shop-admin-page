@@ -1,5 +1,5 @@
 export default function formatTotal (num) {
-  if(!isFinite(num) || num === '' ) {
+  if (!isFinite(num) || num === '') {
     return num;
   }
 
