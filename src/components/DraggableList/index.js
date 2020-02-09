@@ -10,26 +10,34 @@ const cls = {
   placeholder: 'draggable-list__item--placeholder'
 };
 
-export default class DraggableList extends HTMLUListElement {
-  constructor () {
-    super();
-
+export default class DraggableList {
+  constructor (params = {}) {
+    const { elem } = params;
+    this.elem = elem;
     this.current = {};
-
     this.startDrag = this.startDrag.bind(this);
     this.stopDrag = this.stopDrag.bind(this);
     this.move = this.move.bind(this);
     this.setPlaceholderHeight = this.setPlaceholderHeight.bind(this);
     this.isDragging = false;
+
+    this.elem.classList.add(cls.elem);
+    this.items = this.elem.querySelectorAll('li');
+
+    this.initList();
+
+    this.elem.addEventListener('pointerdown', this.startDrag);
+
+    this.addMutationObserver();
   }
 
   async connectedCallback () {
     this.classList.add(cls.elem);
-    this.items = this.querySelectorAll('li');
+    this.items = this.elem.querySelectorAll('li');
 
     this.initList();
 
-    this.addEventListener('pointerdown', this.startDrag);
+    this.elem.addEventListener('pointerdown', this.startDrag);
 
     this.addMutationObserver();
   }
@@ -43,7 +51,7 @@ export default class DraggableList extends HTMLUListElement {
     this.disableDefaultDragstart();
     this.placeholder = this.createPlaceholder();
 
-    this.addEventListener('pointerdown', this.setPlaceholderHeight, { once: true });
+    this.elem.addEventListener('pointerdown', this.setPlaceholderHeight, { once: true });
   }
 
   startDrag (event) {
@@ -58,7 +66,7 @@ export default class DraggableList extends HTMLUListElement {
     this.isDragging = true;
 
     event.preventDefault();
-    this.dataset.isDragging = 1;
+    this.elem.dataset.isDragging = 1;
     this.current.height = this.current.elem.offsetHeight;
     this.current.half = this.current.height / 2;
     this.current.offset = this.getCurrentOffset(event);
@@ -69,8 +77,8 @@ export default class DraggableList extends HTMLUListElement {
 
     this.isJustStarted = true;
 
-    this.addEventListener('pointermove', this.move);
-    this.addEventListener('pointerup', this.stopDrag);
+    this.elem.addEventListener('pointermove', this.move);
+    this.elem.addEventListener('pointerup', this.stopDrag);
     document.addEventListener('pointerup', this.stopDrag);
   }
 
@@ -80,7 +88,7 @@ export default class DraggableList extends HTMLUListElement {
   }
 
   getListCoords () {
-    return this.getBoundingClientRect();
+    return this.elem.getBoundingClientRect();
   }
 
   move (event) {
@@ -91,7 +99,7 @@ export default class DraggableList extends HTMLUListElement {
     if (this.isJustStarted) {
       this.current.elem.classList.add(cls.dragged);
       this.current.elem.replaceWith(this.placeholder);
-      this.append(this.current.elem);
+      this.elem.append(this.current.elem);
       this.isJustStarted = false;
     }
 
@@ -167,9 +175,9 @@ export default class DraggableList extends HTMLUListElement {
     this.current.elem.classList.remove(cls.pressed);
     this.current.elem.style.top = '';
     this.isDragging = false;
-    this.dataset.isDragging = 0;
-    this.removeEventListener('pointermove', this.move);
-    this.removeEventListener('pointerup', this.stopDrag);
+    this.elem.dataset.isDragging = 0;
+    this.elem.removeEventListener('pointermove', this.move);
+    this.elem.removeEventListener('pointerup', this.stopDrag);
     document.removeEventListener('pointerup', this.stopDrag);
   }
 
@@ -200,13 +208,13 @@ export default class DraggableList extends HTMLUListElement {
       mutations.forEach(({ type }) => {
         if (type === 'childList' && !this.isDragging) {
           // If new item was added, update list
-          this.items = this.querySelectorAll('li');
+          this.items = this.elem.querySelectorAll('li');
           this.initList();
         }
       });
     });
 
-    mutationObserver.observe(this, {
+    mutationObserver.observe(this.elem, {
       childList: true
     });
   }
