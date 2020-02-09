@@ -1,4 +1,7 @@
 import { createElement } from '../../helpers/index.js';
+import RangePicker from '../../components/RangePicker/index.js';
+import ColumnChart from '../../components/ColumnChart/index.js';
+import SortableTable from '../../components/SortableTable/index.js';
 
 const from = new Date();
 from.setMonth(from.getMonth() - 1);
@@ -10,51 +13,76 @@ const dates = {
 };
 
 export default class {
+  constructor () {
+    this.datePickerElem = this.getDatePicker();
+    this.chartsElems = this.getCharts();
+    this.tableElem = this.getTable();
+  }
+
   async render () {
-    return createElement(`<div class="page-content">
+    const page = createElement(`<div class="page-content">
       <header class="page-content__header">
         <h2 class="page-content__title">Dashboard</h2>
+      </header>
+    </div>`);
+    const headerContentElem = page.querySelector('.page-content__header');
 
-        <range-picker
-          data-from="${dates.from}"
-          data-to="${dates.to}"
-          ></range-picker>
-        </header>
+    const sectionCharts = createElement('<section class="page-section page-section--column-charts"></section>');
+    sectionCharts.append(...this.chartsElems);
 
-        <section class="page-section page-section--column-charts">
-          <column-chart
-            data-type="orders"
-            data-from="${dates.from}"
-            data-to="${dates.to}"
-          ></column-chart>
-
-          <column-chart
-            data-type="sales"
-            data-is-money="true"
-            data-from="${dates.from}"
-            data-to="${dates.to}"
-          ></column-chart>
-
-          <column-chart
-            data-type="customers"
-            data-from="${dates.from}"
-            data-to="${dates.to}"
-          ></column-chart>
-        </section>
-
-        <section class="page-section">
+    const sectionBestsellers = createElement(`<section class="page-section page-section--column-charts"><section class="page-section">
           <h3 class="page-section__title">Bestsellers</h3>
+      </section>`);
+    sectionBestsellers.append(this.tableElem);
 
-        <sortable-table
-          data-url="/api/dashboard/bestsellers?_embed=subcategory.category",
-          data-is-dynamic="0"
-          data-fields-list="['images', 'title', 'subcategory', 'quantity', 'price', 'status']"
-          data-order-field='title',
-          data-order-direction="1"
-          data-from="${dates.from}"
-          data-to="${dates.to}"
-          ></sortable-table>
-        </section>
-      </div>`);
+    headerContentElem.append(this.datePickerElem);
+    page.append(sectionCharts);
+    page.append(sectionBestsellers);
+
+    return page;
+  }
+
+  getDatePicker () {
+    const datePicker = new RangePicker({ ...dates });
+    return datePicker.elem;
+  }
+
+  getCharts () {
+    const chartsTypes = [
+      {
+        type: 'orders'
+      },
+      {
+        type: 'sales',
+        isMoney: true
+      },
+      {
+        type: 'customers'
+      }
+    ];
+    const chartsElems = chartsTypes
+      .map(params => {
+        const chart = new ColumnChart({
+          ...params,
+          ...dates
+        });
+
+        return chart.elem;
+      });
+
+    return chartsElems;
+  }
+
+  getTable () {
+    const table = new SortableTable({
+      url: '/api/dashboard/bestsellers?_embed=subcategory.category',
+      isDynamic: 0,
+      fieldsList: ['images', 'title', 'subcategory', 'quantity', 'price', 'status'],
+      orderField: 'title',
+      orderDirection: 1,
+      ...dates
+    });
+
+    return table.elem;
   }
 }
