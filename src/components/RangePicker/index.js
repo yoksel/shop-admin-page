@@ -9,7 +9,7 @@ import './styles.scss';
 import './arrow-icon.svg';
 import './calendar-icon.svg';
 
-export default class RangePicker{
+export default class RangePicker {
   constructor (params) {
     this.togglePicker = this.togglePicker.bind(this);
     this.selectorOnClick = this.selectorOnClick.bind(this);
