@@ -6,25 +6,26 @@ import cls from './classes.js';
 
 import './styles.scss';
 
-export default class Filter extends HTMLElement {
-  async connectedCallback () {
+export default class Filter {
+  constructor (params) {
     const {
       fieldsList,
-      targetSelector
-    } = this.dataset;
-    this.targetElem = document.querySelector(targetSelector);
+      targetElem
+    } = params;
 
-    this.classList.add(cls.elem);
+    this.elem = document.createElement('div');
+    this.elem.classList.add(cls.elem);
     this.form = document.createElement('form');
     this.form.classList.add(cls.form);
     this.list = document.createElement('ul');
     this.list.classList.add(cls.list);
     this.form.append(this.list);
-    this.fieldsList = JSON.parse(fieldsList.replace(/'/g, '"'));
+    this.fieldsList = fieldsList;
+    this.targetElem = targetElem;
 
     this.updateParamsThrottle = throttle(this.updateTargetQueryParams, this, 1000);
 
-    this.append(this.form);
+    this.elem.append(this.form);
     this.addForm();
     this.addEvents();
   }
@@ -48,7 +49,7 @@ export default class Filter extends HTMLElement {
   }
 
   addEvents () {
-    this.inputs = this.querySelectorAll('input, select');
+    this.inputs = this.elem.querySelectorAll('input, select');
 
     this.inputs.forEach(input => {
       input.addEventListener('input', this.updateParamsThrottle);
@@ -57,6 +58,8 @@ export default class Filter extends HTMLElement {
 
   updateTargetQueryParams () {
     const params = Object.fromEntries(new FormData(this.form));
-    this.targetElem.dataset.queryParams = JSON.stringify(params);
+    if (this.updateProps) {
+      this.updateProps(params);
+    }
   }
 }
