@@ -1,8 +1,8 @@
 export default function escapeHTML (string) {
   return string
-    .replace(/&/g, '&')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-    .replace(/</g, '<')
-    .replace(/>/g, '>');
+  .replace(/&/g, '&amp;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;');
 }
