@@ -10,9 +10,8 @@ import './styles.scss';
 
 const baseUrl = process.env.BASE_URL || '/';
 
-export default class SortableTable extends HTMLElement {
-  constructor () {
-    super();
+export default class SortableTable {
+  constructor (params = {}) {
     this.sorting = {
       current: null,
       isAsc: true
@@ -26,11 +25,8 @@ export default class SortableTable extends HTMLElement {
 
     this.apiUrl = process.env.API_URL || 'https://course-js.javascript.ru';
 
-    this.changeDate = this.changeDate.bind(this);
-  }
-
-  async connectedCallback () {
     const {
+      id,
       url,
       fieldsList,
       orderField,
@@ -39,17 +35,18 @@ export default class SortableTable extends HTMLElement {
       isDynamic,
       from,
       to
-    } = this.dataset;
+    } = params;
 
     this.dates = {
       from,
       to
     };
 
+    this.id = id;
     this.url = this.apiUrl + url;
-    this.fieldsList = JSON.parse(fieldsList.replace(/'/g, '"'));
-    this.queryParams = queryParams ? JSON.parse(queryParams) : {};
-    this.isDynamic = +isDynamic;
+    this.fieldsList = fieldsList;
+    this.queryParams = queryParams || {};
+    this.isDynamic = isDynamic;
     this.order = {
       field: orderField,
       direction: orderDirection
@@ -67,10 +64,13 @@ export default class SortableTable extends HTMLElement {
 
     this.initTable();
 
+    this.changeDate = this.changeDate.bind(this);
+    this.updateProps = this.updateProps.bind(this);
+
     document.addEventListener('changeDate', this.changeDate);
   }
 
-  disconnectedCallback () {
+  destroy () {
     document.removeEventListener('changeDate', this.changeDate);
   }
 
@@ -78,26 +78,18 @@ export default class SortableTable extends HTMLElement {
     return ['data-query-params'];
   }
 
-  attributeChangedCallback (name, oldValue, newValue) {
-    if (name === 'data-query-params') {
-      if (!newValue ||
-          oldValue === null ||
-          newValue === oldValue) {
-        return;
-      }
-
-      this.queryParams = JSON.parse(newValue);
-      this.page.current = 0;
-      this.page.isDataEnded = false;
-      this.fetchUrl = this.getFetchUrl();
-      this.tBody.innerHTML = '';
-      this.fillTBody();
-    }
+  updateProps (params) {
+    this.queryParams = params;
+    this.page.current = 0;
+    this.page.isDataEnded = false;
+    this.fetchUrl = this.getFetchUrl();
+    this.tBody.innerHTML = '';
+    this.fillTBody();
   }
 
   async loadData () {
     this.isLoading = true;
-    this.dataset.loading = 1;
+    this.elem.dataset.loading = 1;
 
     try {
       const tableData = await fetchJson(this.fetchUrl);
@@ -115,7 +107,7 @@ export default class SortableTable extends HTMLElement {
       // Show error message to user
       this.addPageMessage({ error });
     } finally {
-      this.dataset.loading = 0;
+      this.elem.dataset.loading = 0;
     }
   }
 
@@ -188,16 +180,22 @@ export default class SortableTable extends HTMLElement {
   }
 
   createLayout () {
-    this.classList.add(cls.elem);
+    this.elem = document.createElement('div');
+    this.elem.classList.add(cls.elem);
+
+    if (this.id) {
+      this.elem.id = this.id;
+    }
+
     this.table = document.createElement('div');
     this.table.classList.add(cls.table);
     this.tBody = document.createElement('div');
     this.tBody.classList.add(cls.tbody);
     this.table.append(this.tBody);
 
-    this.append(this.table);
+    this.elem.append(this.table);
 
-    this.insertAdjacentHTML(
+    this.elem.insertAdjacentHTML(
       'beforeEnd',
       '<div class="spinner"></div>'
     );
@@ -287,7 +285,7 @@ export default class SortableTable extends HTMLElement {
   addTableEvents () {
     this.table.addEventListener('click', this);
     window.addEventListener('scroll', this.onBodyScrollThrottle);
-    this.tooltips = new Tooltips({ elem: this });
+    this.tooltips = new Tooltips({ elem: this.elem });
   }
 
   // Handles all events for table
