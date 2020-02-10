@@ -2,7 +2,7 @@
 import notifier from '../lib/notifier.js';
 
 // console.clear();
-export default async function fetchJSON (url, params) {
+export default async function fetchJson (url, params) {
   let response;
 
   // Error while loading (bad url or connection)
